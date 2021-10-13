@@ -10,21 +10,19 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-public class IntroScreen extends BasicGameState 
+public class Pause extends BasicGameState 
 {	
 	int id;
 	
-	public boolean forward;
-	
-	public boolean menu;
-	
-	public boolean instruc;
+	private boolean unpause;
 	
 	
 	
-	IntroScreen(int id) 
+	Pause(int id) 
 	{
 		this.id = id;
+		
+		unpause = false;
 	}
 
 	
@@ -32,16 +30,15 @@ public class IntroScreen extends BasicGameState
 	{
 		// This code happens when you enter a game state for the *first time.*
 		gc.setShowFPS(true);
-		forward = false;
-		instruc = false;
-		menu = false;
+		
 	}
 
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException 
 	{
 		// Sets background to the specified RGB color
-		g.setBackground(new Color(0, 200, 200));
-		g.drawString("Press 'N' to Start!", 400, 500);
+		g.setBackground(new Color(200, 0, 200));
+		g.drawString("Press 'P' to return to the game!", 300, 300);
+	
 		
 
 	}
@@ -49,19 +46,10 @@ public class IntroScreen extends BasicGameState
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException
 	{	
 		// This is where you put your game's logic that executes each frame that isn't about drawing
-		if (forward) {
+		
+		if (unpause) {
 			sbg.enterState(1);
-			forward = false;
-		}
-		
-		if (instruc) {
-			sbg.enterState(5);
-			instruc = false;
-		}
-		
-		if (menu) {
-			sbg.enterState(3);
-			menu = false;
+			unpause = false;
 		}
 		
 	}
@@ -69,9 +57,7 @@ public class IntroScreen extends BasicGameState
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException 
 	{
 		// This code happens when you enter a gameState.  
-		forward = false;
-		instruc = false;
-		menu = false;
+		unpause = false;
 	}
 
 	public void leave(GameContainer gc, StateBasedGame sbg) 
@@ -81,16 +67,8 @@ public class IntroScreen extends BasicGameState
 	
 	public void keyPressed(int key, char c)
 	{
-//		if (key == Input.KEY_SPACE) {
-//			forward = true;
-//		}
-		
-		if (key == Input.KEY_I) {
-			instruc = true;
-		}
-		
-		if (key == Input.KEY_N) {
-			menu = true;
+		if (key == Input.KEY_P) {
+			unpause = true;
 		}
 		
 	}

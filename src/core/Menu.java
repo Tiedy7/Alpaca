@@ -10,21 +10,20 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-public class IntroScreen extends BasicGameState 
+public class Menu extends BasicGameState 
 {	
 	int id;
 	
-	public boolean forward;
+	private boolean back;
 	
-	public boolean menu;
+	private boolean forward;
 	
-	public boolean instruc;
-	
-	
-	
-	IntroScreen(int id) 
+	Menu(int id) 
 	{
 		this.id = id;
+		
+		back = false;
+		forward = false;
 	}
 
 	
@@ -32,16 +31,16 @@ public class IntroScreen extends BasicGameState
 	{
 		// This code happens when you enter a game state for the *first time.*
 		gc.setShowFPS(true);
-		forward = false;
-		instruc = false;
-		menu = false;
+		
 	}
 
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException 
 	{
 		// Sets background to the specified RGB color
-		g.setBackground(new Color(0, 200, 200));
-		g.drawString("Press 'N' to Start!", 400, 500);
+		g.setBackground(new Color(100, 50, 250));
+		g.drawString("Press 'N' to return to the Introduction Screen!", 300, 300);
+		g.drawString("Press 'SPACE' to enter the Game!", 300, 600);
+	
 		
 
 	}
@@ -49,29 +48,24 @@ public class IntroScreen extends BasicGameState
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException
 	{	
 		// This is where you put your game's logic that executes each frame that isn't about drawing
+		if (back) {
+			sbg.enterState(0);
+			back = false;
+		}
+		
 		if (forward) {
 			sbg.enterState(1);
 			forward = false;
 		}
 		
-		if (instruc) {
-			sbg.enterState(5);
-			instruc = false;
-		}
-		
-		if (menu) {
-			sbg.enterState(3);
-			menu = false;
-		}
 		
 	}
 
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException 
 	{
 		// This code happens when you enter a gameState.  
+		back = false;
 		forward = false;
-		instruc = false;
-		menu = false;
 	}
 
 	public void leave(GameContainer gc, StateBasedGame sbg) 
@@ -81,16 +75,12 @@ public class IntroScreen extends BasicGameState
 	
 	public void keyPressed(int key, char c)
 	{
-//		if (key == Input.KEY_SPACE) {
-//			forward = true;
-//		}
-		
-		if (key == Input.KEY_I) {
-			instruc = true;
+		if (key == Input.KEY_N) {
+			back = true;
 		}
 		
-		if (key == Input.KEY_N) {
-			menu = true;
+		if (key == Input.KEY_SPACE) {
+			forward = true;
 		}
 		
 	}
