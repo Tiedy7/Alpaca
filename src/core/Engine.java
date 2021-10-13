@@ -10,8 +10,8 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class Engine extends StateBasedGame 
 {
-	public final static int RESOLUTION_X = 1920; 	
-	public final static int RESOLUTION_Y = 1080; 
+	public final static int RESOLUTION_X = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+	public final static int RESOLUTION_Y = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 	public final static int FRAMES_PER_SECOND = 60;
 	
 
