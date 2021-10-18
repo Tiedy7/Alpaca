@@ -17,8 +17,17 @@ public class IntroScreen extends BasicGameState
 {	
 	int id;
 	
+	private Image sButton;
+	private Image bButton;
+	
 	public boolean forward;
 	public boolean instruc;
+	private boolean menu;
+	
+	private int sButtonX;
+	private int sButtonY;
+	
+	private boolean startClick;
 	
 	IntroScreen(int id) 
 	{
@@ -42,6 +51,11 @@ public class IntroScreen extends BasicGameState
 		gc.setShowFPS(true);
 		forward = false;
 		instruc = false;
+		menu = false;
+		sButtonX = 0;
+		sButtonY = 0;
+		startClick = false;
+		
 	}
 
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException 
@@ -51,11 +65,21 @@ public class IntroScreen extends BasicGameState
         g.setBackground(new Color(2, 2, 10));
 //		g.drawString("Press Space to Start!", 400, 500);
 		
-		Image title = new Image("res/introTitle.png");  
+		Image title = new Image("res/introTitle.png");
 		g.drawImage(title, Engine.RESOLUTION_X/8, (int)((Engine.RESOLUTION_Y)/7.2));
 		
-		Image font = new Image("res/introFont.png");  
-		g.drawImage(font, (int)((Engine.RESOLUTION_X)/3), (int)((Engine.RESOLUTION_Y)/1.2));
+//		Image font = new Image("res/introFont.png");  
+//		g.drawImage(font, (int)((Engine.RESOLUTION_X)/3), (int)((Engine.RESOLUTION_Y)/1.2));
+		
+		setImage("res/New Piskel.png");
+		sButton.setFilter(Image.FILTER_NEAREST);
+		sButtonX = ((sButton.getWidth()*Engine.RESOLUTION_X)/1920)*4;
+		sButtonY = ((sButton.getHeight()*Engine.RESOLUTION_Y)/1080)*4;
+		sButton.draw((float) ((Engine.RESOLUTION_X)/2)-(sButtonX/2), ((Engine.RESOLUTION_Y)/6)*5, sButtonX, sButtonY);
+		
+//		setImage("res/New Piskel (1).png");
+//		bButton.setFilter(Image.FILTER_NEAREST);
+//		bButton.draw((float) (Engine.RESOLUTION_X)/3, 0, (bButton.getWidth()*Engine.RESOLUTION_X)/1920, (bButton.getWidth()*Engine.RESOLUTION_Y)/1920);
 		
 	}
 	
@@ -78,6 +102,15 @@ public class IntroScreen extends BasicGameState
 			instruc = false;
 		}
 		
+		if (menu) {
+			sbg.enterState(3);
+			menu = false;
+		}
+		if (startClick) {
+			sbg.enterState(3);
+			startClick = false;
+		}
+		
 	}
 
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException 
@@ -85,6 +118,8 @@ public class IntroScreen extends BasicGameState
 		// This code happens when you enter a gameState.  
 		forward = false;
 		instruc = false;
+		menu = false;
+		startClick = false;
 	}
 
 	public void leave(GameContainer gc, StateBasedGame sbg) 
@@ -94,16 +129,44 @@ public class IntroScreen extends BasicGameState
 	
 	public void keyPressed(int key, char c)
 	{
-		if (key == Input.KEY_SPACE) {
-			forward = true;
-		}
+//		if (key == Input.KEY_SPACE) {
+//			forward = true;
+//		}
 		
 		if (key == Input.KEY_I) {
 			instruc = true;
 		}
 		
+		if (key == Input.KEY_N) {
+			menu = true;
+		}
+		
 	}
 	
+	public void mousePressed(int button, int x, int y)
+	{
+		if (button == Input.MOUSE_LEFT_BUTTON) {
+			if (x > ((Engine.RESOLUTION_X)/2)-(sButtonX/2) && x < ((Engine.RESOLUTION_X)/2) + (sButtonX/2) && y > ((Engine.RESOLUTION_Y)/6)*5 && y < (((Engine.RESOLUTION_Y)/6)*5) + sButtonY) {
+				
+				startClick = true;
+			}
+		}
+	}
+	
+	public void setImage(String filepath)
+	{
+		try
+		{
+			sButton = new Image(filepath);
+			bButton = new Image(filepath);
+			
+			
+		}
+		catch(SlickException e)		
+		{
+			System.out.println("Image not found!");
+		}
+	}
 	// Returns the ID code for this game state
 	public int getID() 
 	{
