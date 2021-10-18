@@ -1,6 +1,8 @@
 
 package core;
 
+import java.awt.Toolkit;
+
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -16,13 +18,13 @@ public class Engine extends StateBasedGame
 	
 
     public static final int introScreen = 0;
-//    public static final int levelselect = 1;
+
     public static final int game = 1;
-//    public static final int leaderboard = 3;
-//    public static final int instructions = 4;
-//    public static final int transition = 5;
-//    public static final int winScreen = 6;
-//    
+    public static final int skillTree = 2;
+    public static final int menu = 3;
+    public static final int pause = 4;
+    public static final int instructions = 5;
+  
     
 
 	public Engine(String name) 
@@ -31,24 +33,23 @@ public class Engine extends StateBasedGame
 		
 		
 		this.addState(new IntroScreen(introScreen));
-//		this.addState(new LevelSelect(levelselect));
 		this.addState(new Game(game));
-//		this.addState(new Leaderboard(leaderboard));
-//		this.addState(new Instructions(instructions));
-//		this.addState(new Transition(transition));
-//		this.addState(new WinGame(winScreen));
+		this.addState(new Pause(pause));
+		this.addState(new SkillTree(skillTree));
+		this.addState(new Instructions(instructions));
+		this.addState(new Menu(menu));
+		
 	}
 
 	public void initStatesList(GameContainer gc) throws SlickException 
 	{
 		this.getState(introScreen).init(gc, this);
-//		this.getState(levelselect).init(gc, this);
 		this.getState(game).init(gc, this);
-//		this.enterState(startGame);
-//		this.getState(leaderboard).init(gc,  this);
-//		this.getState(instructions).init(gc,  this);
-//		this.getState(transition).init(gc,  this);
-//		this.getState(winScreen).init(gc,  this);
+		this.getState(pause).init(gc,  this);
+		this.getState(skillTree).init(gc,  this);
+		this.getState(instructions).init(gc,  this);
+		this.getState(menu).init(gc,  this);
+
 	}
 
 	public static void main(String[] args) 
