@@ -2,6 +2,8 @@
 
 package core;
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -12,6 +14,10 @@ import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import actors.Actor;
+import actors.Platform;
+import actors.Player;
+
 public class Game extends BasicGameState 
 {	
 	int id;
@@ -19,25 +25,24 @@ public class Game extends BasicGameState
 	public boolean back;
 	
 	
-	private int x;
-	private int y;
-	private int xPos;
-	private int yPos;
+	private int x, xPos, y, yPos;
 	
 	private int time;
 	
-	private int walkLoop;
+	private int walkLoop, walkRowNum;
 	private boolean walkRow;
 	
-	private boolean forward;
-	private boolean pause;
-	private boolean skill;
+	private boolean forward, pause, skill;
 	
 	private Image walk = null;
-	
 	private SpriteSheet character = null;
 	
-	private int walkRowNum;
+	public static Functions function = new Functions();
+	public static ArrayList<Actor> actors;
+	public static ArrayList<Platform> platforms;
+	public static Player player;
+	
+	public static float playerXSpeed, playerYSpeed;
 	
 //	public static SpriteSheet character;
 	
@@ -69,6 +74,15 @@ public class Game extends BasicGameState
 		pause = false;
 		
 		skill = false;
+		
+		//INITIALIZING ARRAYLISTS
+		actors = new ArrayList<Actor>();
+		platforms = new ArrayList<Platform>();
+		player = new Player();
+		actors.add(player);
+		
+		//TEMPORARY FOR TESTING
+		platforms.add(new Platform(function.scaleX(200),function.scaleY(800),function.scaleX(1920-400),function.scaleY(200)));
 	}
 
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException 
@@ -85,7 +99,12 @@ public class Game extends BasicGameState
 		
 //		character.draw(500+xPos, 500+yPos, character.getWidth()*3, character.getHeight()*3);
 		
-
+		for(Actor a : actors) {
+			a.render(g);
+		}
+		for(Platform p : platforms) {
+			p.render(g);
+		}
 	}
 
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException
@@ -130,6 +149,10 @@ public class Game extends BasicGameState
 			skill = false;
 		}
 		
+		playerYSpeed = player.getPlayerVY();
+		for (Platform p : platforms) {
+			
+		}
 	}
 
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException 
