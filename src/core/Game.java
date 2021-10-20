@@ -42,7 +42,11 @@ public class Game extends BasicGameState
 	public static ArrayList<Platform> platforms;
 	public static Player player;
 	
+	public static float playerX, playerY, playerW, playerH;
+	
 	public static float playerXSpeed, playerYSpeed;
+	
+	public static float numJumps;
 	
 //	public static SpriteSheet character;
 	
@@ -80,6 +84,11 @@ public class Game extends BasicGameState
 		platforms = new ArrayList<Platform>();
 		player = new Player();
 		actors.add(player);
+		playerX = player.getX();
+		playerY = player.getY();
+		playerW = player.getW();
+		playerH = player.getH();
+		numJumps = 0;
 		
 		//TEMPORARY FOR TESTING
 		platforms.add(new Platform(function.scaleX(200),function.scaleY(800),function.scaleX(1920-400),function.scaleY(200)));
@@ -149,12 +158,29 @@ public class Game extends BasicGameState
 			skill = false;
 		}
 		
+		for (Actor a : actors) {
+			a.update();
+		}
+		
 		playerYSpeed = player.getPlayerVY();
+		
 		for (Platform p : platforms) {
-			
+			p.changeY(playerYSpeed);
+		}
+		
+		if (playerYSpeed > 0) {
+			for (Platform p : platforms) {
+				if (p.collidesDown(Game.playerY + Game.playerH)) {
+					for (Platform f : platforms) {
+						f.setChangeY(Game.playerY + Game.playerH - p.getY());
+					}
+					player.collideY();
+					numJumps = 0;
+				}
+			}
 		}
 	}
-
+	
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException 
 	{
 		// This code happens when you enter a gameState.  
@@ -171,6 +197,13 @@ public class Game extends BasicGameState
 
 	public void keyPressed(int key, char c)
 	{
+		if (key == Input.KEY_W) {
+			if (numJumps < 2) {
+				player.jump();
+				numJumps++;
+			}
+		}
+		
 		if (key == Input.KEY_S) {
 			back = true;
 		}
@@ -208,6 +241,4 @@ public class Game extends BasicGameState
 	{
 		return id;
 	}
-
-
 }
