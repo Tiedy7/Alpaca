@@ -1,6 +1,7 @@
 package core;
 
 import java.awt.Font;
+import java.util.ArrayList;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -13,6 +14,9 @@ import org.newdawn.slick.font.effects.GradientEffect;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+
+import visuals.Star;
+
 public class IntroScreen extends BasicGameState 
 {	
 	int id;
@@ -23,6 +27,8 @@ public class IntroScreen extends BasicGameState
 	public boolean forward;
 	public boolean instruc;
 	private boolean menu;
+	
+	public static ArrayList <Star> stars;
 	
 	private int sButtonX;
 	private int sButtonY;
@@ -52,9 +58,14 @@ public class IntroScreen extends BasicGameState
 		forward = false;
 		instruc = false;
 		menu = false;
+		stars = new ArrayList<Star>();
 		sButtonX = 0;
 		sButtonY = 0;
 		startClick = false;
+		
+		for(int i = 0; i < 200; i++) {
+			stars.add(new Star());
+		}
 		
 	}
 
@@ -64,18 +75,27 @@ public class IntroScreen extends BasicGameState
 //		Sets background to the specified RGB color
         g.setBackground(new Color(2, 2, 10));
 //		g.drawString("Press Space to Start!", 400, 500);
+        
+        for (Star s: stars) {
+			s.render(g);
+		}
 		
-		Image title = new Image("res/introTitle.png");
-		g.drawImage(title, Engine.RESOLUTION_X/8, (int)((Engine.RESOLUTION_Y)/7.2));
+        
+		
+		Image title = new Image("res/alpacaTitleIntro.png");
+		title.setFilter(Image.FILTER_NEAREST);
+		title.draw((float) (Game.function.scaleX(1920/2) - ((Game.function.scaleX(title.getWidth())))), ((Game.function.scaleY(1080/6))), Game.function.scaleX(title.getWidth())*2, Game.function.scaleY(title.getHeight())*2);
 		
 //		Image font = new Image("res/introFont.png");  
 //		g.drawImage(font, (int)((Engine.RESOLUTION_X)/3), (int)((Engine.RESOLUTION_Y)/1.2));
 		
-		setImage("res/New Piskel.png");
+		setImage("res/startButtonIntro.png");
 		sButton.setFilter(Image.FILTER_NEAREST);
-		sButtonX = ((sButton.getWidth()*Engine.RESOLUTION_X)/1920)*4;
-		sButtonY = ((sButton.getHeight()*Engine.RESOLUTION_Y)/1080)*4;
-		sButton.draw((float) ((Engine.RESOLUTION_X)/2)-(sButtonX/2), ((Engine.RESOLUTION_Y)/6)*5, sButtonX, sButtonY);
+		sButtonX = ((sButton.getWidth()*Engine.RESOLUTION_X)/1920)/3;
+		sButtonY = ((sButton.getHeight()*Engine.RESOLUTION_Y)/1080)/3;
+		sButton.draw((float) ((Engine.RESOLUTION_X)/2)-(sButtonX/2), ((Engine.RESOLUTION_Y)/4)*3, sButtonX, sButtonY);
+		
+		
 		
 //		setImage("res/New Piskel (1).png");
 //		bButton.setFilter(Image.FILTER_NEAREST);
@@ -111,6 +131,10 @@ public class IntroScreen extends BasicGameState
 			startClick = false;
 		}
 		
+		for (Star s: stars) {
+			s.update();
+			
+		}
 	}
 
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException 
@@ -146,7 +170,7 @@ public class IntroScreen extends BasicGameState
 	public void mousePressed(int button, int x, int y)
 	{
 		if (button == Input.MOUSE_LEFT_BUTTON) {
-			if (x > ((Engine.RESOLUTION_X)/2)-(sButtonX/2) && x < ((Engine.RESOLUTION_X)/2) + (sButtonX/2) && y > ((Engine.RESOLUTION_Y)/6)*5 && y < (((Engine.RESOLUTION_Y)/6)*5) + sButtonY) {
+			if (x > ((Engine.RESOLUTION_X)/2)-(sButtonX/2) && x < ((Engine.RESOLUTION_X)/2) + (sButtonX/2) && y > ((Engine.RESOLUTION_Y)/4)*3 && y < (((Engine.RESOLUTION_Y)/4)*3) + sButtonY) {
 				
 				startClick = true;
 			}
