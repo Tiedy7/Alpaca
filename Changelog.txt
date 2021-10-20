@@ -13,4 +13,5 @@ Date
 10/20/2021
   Josh:
     Meta: Deleted and reuploaded player image files.
+    Meta: Made this changelog.
     Notes: Please actually use naming conventions. I'm begging you.
