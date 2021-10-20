@@ -9,7 +9,9 @@ import core.Game;
 
 public class Player extends Actor {
 
-	private float w, h;
+	private float x, w, y, h;
+	
+	
 	private float ax, vx, ay, vy; //acceleration & velocity
 	
 	//COLOR JUST FOR TESTING
@@ -20,18 +22,36 @@ public class Player extends Actor {
 		//DEFAULT PLAYER SIZE (16 x 32)*4
 		w = 64;
 		h = 128;
+		x = Engine.RESOLUTION_X / 2 - (w / 2);
+		y = (2 * Engine.RESOLUTION_Y / 3) - (h);
 		
-		ay = Game.function.scaleY(10);
+		ay = Game.function.scaleY(1);
 	}
 	
 	public void render(Graphics g) {
 		//THIS IS TEMPORARY JUST FOR TESTING, REPLACE WITH ACTUAL GRAPHICS LATER
 		g.setColor(color);
-		g.fillRect((Engine.RESOLUTION_X / 2) - (w / 2), (2 * Engine.RESOLUTION_Y / 3) - (h / 2), (w / 2), (h / 2));
+		g.fillRect(x,y,w,h);
 	}
 	
 	public void update() {
 		vy += ay;
+	}
+	
+	public float getX() {
+		return x;
+	}
+	
+	public float getW() {
+		return w;
+	}
+	
+	public float getY() {
+		return y;
+	}
+	
+	public float getH() {
+		return h;
 	}
 	
 	public float getPlayerVX() {
@@ -48,5 +68,15 @@ public class Player extends Actor {
 	
 	public void updateH(float h) {
 		this.h = h;
+	}
+	
+	public void collideY() {
+		vy = 0;
+		ay = 0;
+	}
+	
+	public void jump() {
+		ay = Game.function.scaleX(1);
+		vy = Game.function.scaleX(-22);
 	}
 }
