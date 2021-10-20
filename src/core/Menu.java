@@ -2,9 +2,12 @@
 
 package core;
 
+
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
@@ -16,7 +19,13 @@ public class Menu extends BasicGameState
 	
 	private boolean back;
 	
+	private Image gameButton;
+	private Image backButton;
+	
 	private boolean forward;
+	
+	private boolean enterGame, goBack;
+	
 	
 	Menu(int id) 
 	{
@@ -24,6 +33,9 @@ public class Menu extends BasicGameState
 		
 		back = false;
 		forward = false;
+		
+		enterGame = false;
+		back = false;
 	}
 
 	
@@ -41,8 +53,15 @@ public class Menu extends BasicGameState
 		g.drawString("Press 'N' to return to the Introduction Screen!", 300, 300);
 		g.drawString("Press 'SPACE' to enter the Game!", 300, 600);
 	
-		
+		setImage("res/New Piskel (2).png");
+		gameButton.setFilter(Image.FILTER_NEAREST);
+		gameButton.draw((float) (Game.function.scaleX(1920/3) - ((Game.function.scaleX(gameButton.getWidth()*4)/2))), (Game.function.scaleY(1080/6)*5), Game.function.scaleX(gameButton.getWidth()*4), Game.function.scaleY(gameButton.getHeight()*4));
 
+		setImage("res/New Piskel (1).png");
+		backButton.setFilter(Image.FILTER_NEAREST);
+		backButton.draw((float) ((Game.function.scaleX(1920/3)*2) - ((Game.function.scaleX(backButton.getWidth()*4)/2))), (Game.function.scaleY(1080/6)*5), Game.function.scaleX(backButton.getWidth()*4), Game.function.scaleY(backButton.getHeight()*4));
+		
+		
 	}
 
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException
@@ -58,7 +77,15 @@ public class Menu extends BasicGameState
 			forward = false;
 		}
 		
+		if (goBack) {
+			sbg.enterState(0);
+			goBack = false;
+		}
 		
+		if (enterGame) {
+			sbg.enterState(1);
+			enterGame = false;
+		}
 	}
 
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException 
@@ -84,9 +111,36 @@ public class Menu extends BasicGameState
 		}
 		
 	}
-
-
 	
+	public void mousePressed(int button, int x, int y)
+	{
+		if (button == Input.MOUSE_LEFT_BUTTON) {
+			if (x > (Game.function.scaleX(1920/3)*2) - ((Game.function.scaleX(backButton.getWidth()*4)/2)) && x < (Game.function.scaleX(1920/3)*2) + ((Game.function.scaleX(backButton.getWidth()*4)/2)) && y > (Game.function.scaleY(1080/6)*5) && y < (Game.function.scaleY(1080/6)*5) +  Game.function.scaleY(backButton.getHeight()*4)){
+				
+				goBack = true;
+			}
+			
+			if (x > (Game.function.scaleX(1920/3) - ((Game.function.scaleX(gameButton.getWidth()*4)/2))) && x < (Game.function.scaleX(1920/3) + ((Game.function.scaleX(gameButton.getWidth()*4)/2))) && y > (Game.function.scaleY(1080/6)*5) && y < (Game.function.scaleY(1080/6)*5) +  Game.function.scaleY(gameButton.getHeight()*4)) {
+				enterGame = true;
+			}
+		}
+	}
+	
+
+	public void setImage(String filepath)
+	{
+		try
+		{
+			gameButton = new Image(filepath);
+			backButton = new Image(filepath);
+			
+			
+		}
+		catch(SlickException e)		
+		{
+			System.out.println("Image not found!");
+		}
+	}
 	
 	// Returns the ID code for this game state
 	public int getID() 
