@@ -18,6 +18,10 @@ public class Actor {
 		
 	}
 	
+	public void changeY(float playerYSpeed) {
+		y -= playerYSpeed;
+	}
+	
 	public void update() {
 		
 	}
