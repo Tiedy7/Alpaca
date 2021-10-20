@@ -7,7 +7,7 @@ Date
 Tags:
   Meta: Something like renaming or moving files, that doesn't change the actual game.
   Feature: Adding something new.
-  Balance: Changing an existing feature to make it work differently, but isn't a bugfix.
+  Update: Changing an existing feature to make it work differently, but isn't a bugfix.
   Bugfix: Fixing a bug.
   Notes: Not a change, but something that you want people to know.
 
@@ -16,3 +16,14 @@ Tags:
     Meta: Deleted and reuploaded player image files.
     Meta: Made this changelog.
     Notes: Please actually use naming conventions. I'm begging you.
+  Andrew:
+    Update: Edited Game.java, Platform.java, Actor.java, & Player.java
+  Ryan:
+    Update: Edited IntroScreen.java & Menu.java (Ryan)
+    Feature: Created package “visuals”; created Star.java (Ryan)
+  Esha:
+    ?
+
+---CHECKPOINT 1---
+
+Day
