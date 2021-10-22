@@ -26,4 +26,6 @@ Tags:
 
 ---CHECKPOINT 1---
 
-Day
+10/22/21
+  Andrew:
+    Update: Edited Game.java, Platform.java, & Player.java
