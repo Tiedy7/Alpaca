@@ -21,8 +21,11 @@ public class Menu extends BasicGameState
 	
 	private Image gameButton;
 	private Image backButton;
+	private Image instrucButton;
 	
 	private boolean forward;
+	
+	private boolean instructions;
 	
 	private boolean enterGame, goBack;
 	
@@ -44,14 +47,16 @@ public class Menu extends BasicGameState
 		// This code happens when you enter a game state for the *first time.*
 		gc.setShowFPS(true);
 		
+		instructions = false;
+		
 	}
 
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException 
 	{
 		// Sets background to the specified RGB color
 		g.setBackground(new Color(100, 50, 250));
-		g.drawString("Press 'N' to return to the Introduction Screen!", 300, 300);
-		g.drawString("Press 'SPACE' to enter the Game!", 300, 600);
+//		g.drawString("Press 'N' to return to the Introduction Screen!", 300, 300);
+//		g.drawString("Press 'SPACE' to enter the Game!", 300, 600);
 	
 		setImage("res/New Piskel (2).png");
 		gameButton.setFilter(Image.FILTER_NEAREST);
@@ -60,6 +65,10 @@ public class Menu extends BasicGameState
 		setImage("res/New Piskel (1).png");
 		backButton.setFilter(Image.FILTER_NEAREST);
 		backButton.draw((float) ((Game.function.scaleX(1920/3)*2) - ((Game.function.scaleX(backButton.getWidth()*4)/2))), (Game.function.scaleY(1080/6)*5), Game.function.scaleX(backButton.getWidth()*4), Game.function.scaleY(backButton.getHeight()*4));
+		
+		setImage("res/Instruc button fake.png");
+		instrucButton.setFilter(Image.FILTER_NEAREST);
+		instrucButton.draw((float) ((Game.function.scaleX(1920/8)*7) - ((Game.function.scaleX(instrucButton.getWidth()*4)/2))), (Game.function.scaleY(1080/4)), Game.function.scaleX(instrucButton.getWidth()*4), Game.function.scaleY(instrucButton.getHeight()*4));
 		
 		
 	}
@@ -86,6 +95,11 @@ public class Menu extends BasicGameState
 			sbg.enterState(1);
 			enterGame = false;
 		}
+		
+		if (instructions) {
+			sbg.enterState(5);
+			instructions = false;
+		}
 	}
 
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException 
@@ -110,6 +124,7 @@ public class Menu extends BasicGameState
 			forward = true;
 		}
 		
+		
 	}
 	
 	public void mousePressed(int button, int x, int y)
@@ -123,6 +138,10 @@ public class Menu extends BasicGameState
 			if (x > (Game.function.scaleX(1920/3) - ((Game.function.scaleX(gameButton.getWidth()*4)/2))) && x < (Game.function.scaleX(1920/3) + ((Game.function.scaleX(gameButton.getWidth()*4)/2))) && y > (Game.function.scaleY(1080/6)*5) && y < (Game.function.scaleY(1080/6)*5) +  Game.function.scaleY(gameButton.getHeight()*4)) {
 				enterGame = true;
 			}
+			
+			if (x > ((Game.function.scaleX(1920/8)*7) - ((Game.function.scaleX(instrucButton.getWidth()*4)/2))) && x < ((Game.function.scaleX(1920/8)*7) + ((Game.function.scaleX(instrucButton.getWidth()*4)/2))) && y > (Game.function.scaleY(1080/4)) && y < (Game.function.scaleY(1080/4)) + Game.function.scaleY(instrucButton.getHeight()*4)) {
+				instructions = true;
+			}
 		}
 	}
 	
@@ -133,7 +152,7 @@ public class Menu extends BasicGameState
 		{
 			gameButton = new Image(filepath);
 			backButton = new Image(filepath);
-			
+			instrucButton = new Image(filepath);
 			
 		}
 		catch(SlickException e)		
