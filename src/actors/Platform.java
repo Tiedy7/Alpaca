@@ -34,8 +34,8 @@ public class Platform {
 		y += amount;
 	}
 	
-	public boolean collidesDown(float yp) {
-		if (yp > y && yp < y + h) {
+	public boolean collidesDown(float yp, float xp, float xw) {
+		if (yp > y && yp < y + h && xp + xw > x && xp < x + w) {
 			return true;
 		}
 		return false;
