@@ -19,10 +19,10 @@ Tags:
   Andrew:
     Update: Edited Game.java, Platform.java, Actor.java, & Player.java
   Ryan:
-    Update: Edited IntroScreen.java & Menu.java (Ryan)
-    Feature: Created package “visuals”; created Star.java (Ryan)
+    Update: Edited IntroScreen.java & Menu.java
+    Feature: Created package “visuals”; created Star.java
   Esha:
-    ?
+    Update: Improved Opening Screen.
 
 ---CHECKPOINT 1---
 
