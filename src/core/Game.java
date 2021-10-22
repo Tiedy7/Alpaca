@@ -60,6 +60,7 @@ public class Game extends BasicGameState
 	{
 		// This code happens when you enter a game state for the *first time.*
 		gc.setShowFPS(true);
+		this.gc = gc;
 		x = 0;
 		y = 0;
 		xPos = 0;
@@ -122,9 +123,11 @@ public class Game extends BasicGameState
 		
 		for (Platform p : platforms) {
 			if (playerYSpeed > 0) {
-				if (p.collidesDown(playerY + playerH)) {
+				if (p.collidesDown(playerY + playerH, playerX, playerW)) {
 					player.collideY(p.getY());
 					numJumps = 0;
+				} else {
+					player.fall();
 				}
 			}
 		}
@@ -188,7 +191,7 @@ public class Game extends BasicGameState
 		
 		for (Platform p : platforms) {
 			if (playerYSpeed > 0) {
-				if (p.collidesDown(playerY + playerH)) {
+				if (p.collidesDown(playerY + playerH, playerX, playerW)) {
 					player.collideY(p.getY());
 					numJumps = 0;
 				}
@@ -237,10 +240,6 @@ public class Game extends BasicGameState
 				numJumps++;
 				playerYSpeed = player.getPlayerVY();
 			}
-		}
-		
-		if (key == Input.KEY_D) {
-			player.moveRight();
 		}
 		
 		if (key == Input.KEY_S) {
