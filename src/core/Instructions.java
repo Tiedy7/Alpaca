@@ -5,6 +5,7 @@ package core;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
@@ -16,7 +17,7 @@ public class Instructions extends BasicGameState
 	
 	private boolean back;
 	
-	
+	private Image backButton;
 	
 	Instructions(int id) 
 	{
@@ -37,9 +38,12 @@ public class Instructions extends BasicGameState
 	{
 		// Sets background to the specified RGB color
 		g.setBackground(new Color(0, 100, 200));
-		g.drawString("Press 'I' to return to the intro screen!", 300, 300);
+//		g.drawString("Press 'I' to return to the intro screen!", 300, 300);
 	
-		
+		setImage("res/New Piskel (1).png");
+		backButton.setFilter(Image.FILTER_NEAREST);
+		backButton.draw((float) ((Game.function.scaleX(1920/2)) - ((Game.function.scaleX(backButton.getWidth()*4)/2))), (Game.function.scaleY(1080/6)*5), Game.function.scaleX(backButton.getWidth()*4), Game.function.scaleY(backButton.getHeight()*4));
+
 
 	}
 
@@ -48,7 +52,7 @@ public class Instructions extends BasicGameState
 		// This is where you put your game's logic that executes each frame that isn't about drawing
 		
 		if (back) {
-			sbg.enterState(0);
+			sbg.enterState(3);
 			back = false;
 		}
 		
@@ -67,13 +71,38 @@ public class Instructions extends BasicGameState
 	
 	public void keyPressed(int key, char c)
 	{
-		if (key == Input.KEY_I) {
-			back = true;
-		}
+//		if (key == Input.KEY_I) {
+//			back = true;
+//		}
 		
 	}
+	
+	public void mousePressed(int button, int x, int y)
+	{
+		if (button == Input.MOUSE_LEFT_BUTTON) {
+			if (x > (Game.function.scaleX(1920/2)) - ((Game.function.scaleX(backButton.getWidth()*4)/2)) && x < (Game.function.scaleX(1920/3)*2) + ((Game.function.scaleX(backButton.getWidth()*4)/2)) && y > (Game.function.scaleY(1080/6)*5) && y < (Game.function.scaleY(1080/6)*5) +  Game.function.scaleY(backButton.getHeight()*4)){
+				
+				back = true;
+			}
+			
+			
+		}
+	}
 
-
+	public void setImage(String filepath)
+	{
+		try
+		{
+			
+			backButton = new Image(filepath);
+			
+			
+		}
+		catch(SlickException e)		
+		{
+			System.out.println("Image not found!");
+		}
+	}
 	
 	
 	// Returns the ID code for this game state
