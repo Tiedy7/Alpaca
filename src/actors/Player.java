@@ -26,6 +26,9 @@ public class Player extends Actor {
 		y = (2 * Engine.RESOLUTION_Y / 3) - (h);
 		
 		ay = Game.function.scaleY(1);
+		vy = 0;
+		vx = 0;
+		ax = 0;
 	}
 	
 	public void render(Graphics g) {
@@ -35,8 +38,20 @@ public class Player extends Actor {
 	}
 	
 	public void update() {
+		
+		if (Game.gc.getInput().isKeyDown(Game.gc.getInput().KEY_D)) {
+			vx = 13;
+		}
+		if (Game.gc.getInput().isKeyDown(Game.gc.getInput().KEY_A)) {
+			vx = -13;
+		}
 		vy += ay;
 		y += vy;
+		x += vx;
+		if (vx > 0) vx--;
+		if (vx < 0) vx++;
+		
+		
 	}
 	
 	public float getX() {
@@ -72,9 +87,13 @@ public class Player extends Actor {
 	}
 	
 	public void collideY(float newY) {
-		vy = 0;
+		vy = 1;
 		ay = 0;
 		y = newY - h;
+	}
+	
+	public void fall() {
+		ay = 1;
 	}
 	
 	public void jump() {
@@ -83,6 +102,6 @@ public class Player extends Actor {
 	}
 	
 	public void moveRight() {
-		
+		vx = Math.min(7, vx++);
 	}
 }
