@@ -13,16 +13,17 @@ public class Platform {
 	protected Color color = new Color((int)(Math.random()*255),(int)(Math.random()*255),(int)(Math.random())*255);
 	
 	public Platform(float x, float y, float w, float h) {
+		//X, Y, W, H VALUES MUST BE SCALED IN THE INITIALIZATION OF THE PLATFORM, NOT HERE!!!
 		this.x = x;
 		this.y = y;
 		this.w = w;
 		this.h = h;
 	}
 	
-	public void render(Graphics g) { 
+	public void render(Graphics g, float difX, float difY) { 
 		//THIS IS TEMPORARY JUST FOR TESTING, REPLACE WITH ACTUAL GRAPHICS LATER
 		g.setColor(color);
-		g.fillRect(x, y, w, h);
+		g.fillRect(x + difX, y + difY, w, h);
 	}
 	
 	public void changeY(float playerYSpeed) {
