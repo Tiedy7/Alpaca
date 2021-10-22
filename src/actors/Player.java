@@ -20,8 +20,8 @@ public class Player extends Actor {
 	
 	public Player() {
 		//DEFAULT PLAYER SIZE (16 x 32)*4
-		w = 64;
-		h = 128;
+		w = Game.function.scaleX(64);
+		h = Game.function.scaleY(128);
 		x = Engine.RESOLUTION_X / 2 - (w / 2);
 		y = (2 * Engine.RESOLUTION_Y / 3) - (h);
 		
@@ -31,11 +31,12 @@ public class Player extends Actor {
 	public void render(Graphics g) {
 		//THIS IS TEMPORARY JUST FOR TESTING, REPLACE WITH ACTUAL GRAPHICS LATER
 		g.setColor(color);
-		g.fillRect(x,y,w,h);
+		g.fillRect(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,w,h);
 	}
 	
 	public void update() {
 		vy += ay;
+		y += vy;
 	}
 	
 	public float getX() {
@@ -70,13 +71,18 @@ public class Player extends Actor {
 		this.h = h;
 	}
 	
-	public void collideY() {
+	public void collideY(float newY) {
 		vy = 0;
 		ay = 0;
+		y = newY - h;
 	}
 	
 	public void jump() {
 		ay = Game.function.scaleX(1);
 		vy = Game.function.scaleX(-22);
+	}
+	
+	public void moveRight() {
+		
 	}
 }
