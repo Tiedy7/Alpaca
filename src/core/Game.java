@@ -91,7 +91,7 @@ public class Game extends BasicGameState
 		numJumps = 0;
 		
 		//TEMPORARY FOR TESTING
-		platforms.add(new Platform(function.scaleX(200),function.scaleY(800),function.scaleX(1920-400),function.scaleY(200)));
+		platforms.add(new Platform(function.scaleX(200),function.scaleY(800),function.scaleX(1520),function.scaleY(200)));
 	}
 
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException 
@@ -108,11 +108,29 @@ public class Game extends BasicGameState
 		
 //		character.draw(500+xPos, 500+yPos, character.getWidth()*3, character.getHeight()*3);
 		
+		
+		
 		for(Actor a : actors) {
 			a.render(g);
 		}
+		
+		playerX = player.getX();
+		playerY = player.getY();
+		playerW = player.getW();
+		playerH = player.getH();
+		playerYSpeed = player.getPlayerVY();
+		
+		for (Platform p : platforms) {
+			if (playerYSpeed > 0) {
+				if (p.collidesDown(playerY + playerH)) {
+					player.collideY(p.getY());
+					numJumps = 0;
+				}
+			}
+		}
+		
 		for(Platform p : platforms) {
-			p.render(g);
+			p.render(g, Engine.RESOLUTION_X / 2 - (playerW / 2) - playerX, (2 * Engine.RESOLUTION_Y / 3) - playerH - playerY);
 		}
 	}
 
@@ -162,23 +180,39 @@ public class Game extends BasicGameState
 			a.update();
 		}
 		
+		playerX = player.getX();
+		playerY = player.getY();
+		playerW = player.getW();
+		playerH = player.getH();
 		playerYSpeed = player.getPlayerVY();
 		
 		for (Platform p : platforms) {
-			p.changeY(playerYSpeed);
-		}
-		
-		if (playerYSpeed > 0) {
-			for (Platform p : platforms) {
-				if (p.collidesDown(Game.playerY + Game.playerH)) {
-					for (Platform f : platforms) {
-						f.setChangeY(Game.playerY + Game.playerH - p.getY());
-					}
-					player.collideY();
+			if (playerYSpeed > 0) {
+				if (p.collidesDown(playerY + playerH)) {
+					player.collideY(p.getY());
 					numJumps = 0;
 				}
 			}
 		}
+		
+		//OLD CODE:***
+//		playerYSpeed = player.getPlayerVY();
+//		
+//		for (Platform p : platforms) {
+//			p.changeY(playerYSpeed);
+//		}
+//		
+//		if (playerYSpeed > 0) {
+//			for (Platform p : platforms) {
+//				if (p.collidesDown(Game.playerY + Game.playerH)) {
+//					for (Platform f : platforms) {
+//						f.setChangeY(Game.playerY + Game.playerH - p.getY());
+//					}
+//					player.collideY();
+//					numJumps = 0;
+//				}
+//			}
+//		}
 	}
 	
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException 
@@ -201,7 +235,12 @@ public class Game extends BasicGameState
 			if (numJumps < 2) {
 				player.jump();
 				numJumps++;
+				playerYSpeed = player.getPlayerVY();
 			}
+		}
+		
+		if (key == Input.KEY_D) {
+			player.moveRight();
 		}
 		
 		if (key == Input.KEY_S) {
