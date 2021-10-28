@@ -130,16 +130,16 @@ public class Menu extends BasicGameState
 	public void mousePressed(int button, int x, int y)
 	{
 		if (button == Input.MOUSE_LEFT_BUTTON) {
-			if (x > (Game.function.scaleX(1920/3)*2) - ((Game.function.scaleX(backButton.getWidth()*4)/2)) && x < (Game.function.scaleX(1920/3)*2) + ((Game.function.scaleX(backButton.getWidth()*4)/2)) && y > (Game.function.scaleY(1080/6)*5) && y < (Game.function.scaleY(1080/6)*5) +  Game.function.scaleY(backButton.getHeight()*4)){
+			if (x > (Game.function.scaleX(1920/3)*2) - ((Game.function.scaleX(backButton.getWidth()/3)/2)) && x < (Game.function.scaleX(1920/3)*2) + ((Game.function.scaleX(backButton.getWidth()/3)/2)) && y > (Game.function.scaleY(1080/6)*5) && y < (Game.function.scaleY(1080/6)*5) +  Game.function.scaleY(backButton.getHeight()/3)){
 				
 				goBack = true;
 			}
 			
-			if (x > (Game.function.scaleX(1920/3) - ((Game.function.scaleX(gameButton.getWidth()*4)/2))) && x < (Game.function.scaleX(1920/3) + ((Game.function.scaleX(gameButton.getWidth()*4)/2))) && y > (Game.function.scaleY(1080/6)*5) && y < (Game.function.scaleY(1080/6)*5) +  Game.function.scaleY(gameButton.getHeight()*4)) {
+			if (x > (Game.function.scaleX(1920/3) - ((Game.function.scaleX(gameButton.getWidth()/3)/2))) && x < (Game.function.scaleX(1920/3) + ((Game.function.scaleX(gameButton.getWidth()/3)/2))) && y > (Game.function.scaleY(1080/6)*5) && y < (Game.function.scaleY(1080/6)*5) +  Game.function.scaleY(gameButton.getHeight()/3)) {
 				enterGame = true;
 			}
 			
-			if (x > ((Game.function.scaleX(1920/8)*7) - ((Game.function.scaleX(instrucButton.getWidth()*4)/2))) && x < ((Game.function.scaleX(1920/8)*7) + ((Game.function.scaleX(instrucButton.getWidth()*4)/2))) && y > (Game.function.scaleY(1080/4)) && y < (Game.function.scaleY(1080/4)) + Game.function.scaleY(instrucButton.getHeight()*4)) {
+			if (x > ((Game.function.scaleX(1920/8)*7) - ((Game.function.scaleX(instrucButton.getWidth()/3)/2))) && x < ((Game.function.scaleX(1920/8)*7) + ((Game.function.scaleX(instrucButton.getWidth()/3)/2))) && y > (Game.function.scaleY(1080/4)) && y < (Game.function.scaleY(1080/4)) + Game.function.scaleY(instrucButton.getHeight()/3)) {
 				instructions = true;
 			}
 		}
