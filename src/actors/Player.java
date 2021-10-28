@@ -86,10 +86,21 @@ public class Player extends Actor {
 		this.h = h;
 	}
 	
-	public void collideY(float newY) {
+	public void collidesDown(float newY) {
 		vy = 1;
 		ay = 0;
 		y = newY - h;
+	}
+	
+	public void collidesUp(float newY) {
+		vy = 1;
+		ay = 1;
+		y = newY;
+	}
+	
+	public void collidesRight(float newX) {
+		vx = 0;
+		x = newX - h;
 	}
 	
 	public void fall() {
