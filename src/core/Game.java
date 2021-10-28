@@ -45,6 +45,7 @@ public class Game extends BasicGameState
 	public static float playerX, playerY, playerW, playerH;
 	
 	public static float playerXSpeed, playerYSpeed;
+	public static boolean playerCanFall;
 	
 	public static float numJumps;
 	
@@ -66,7 +67,7 @@ public class Game extends BasicGameState
 		xPos = 0;
 		yPos = 0;
 		back = false;
-		walk = new Image("res/Old/Walk Cycle (Part Arm).png");
+		walk = new Image("res/Walk Cycle (Part Arm).png");
 		character = new SpriteSheet(walk, 16, 32);
 		
 		walkLoop = 0;
@@ -101,11 +102,11 @@ public class Game extends BasicGameState
 		g.setBackground(new Color(10, 10, 50));
 		
 		
-//		setImage("res/Old/Walk Cycle (Part Arm).png");
-//		character.setFilter(Image.FILTER_NEAREST);
-//		character.startUse();
-//		character.getSubImage(1+walkLoop, 0+walkRowNum).drawEmbedded(200+xPos, 200, 64, 128);
-//		character.endUse();
+		setImage("res/Walk Cycle (Part Arm).png");
+		character.setFilter(Image.FILTER_NEAREST);
+		character.startUse();
+		character.getSubImage(1+walkLoop, 0+walkRowNum).drawEmbedded(200+xPos, 200, 64, 128);
+		character.endUse();
 		
 //		character.draw(500+xPos, 500+yPos, character.getWidth()*3, character.getHeight()*3);
 		
@@ -123,14 +124,28 @@ public class Game extends BasicGameState
 		
 		for (Platform p : platforms) {
 			if (playerYSpeed > 0) {
-				if (p.collidesDown(playerY + playerH, playerX, playerW)) {
-					player.collideY(p.getY());
+				
+				if (p.collidesY(playerY + playerH, playerX, playerW)) {
+					player.collidesDown(p.getY());
 					numJumps = 0;
-				} else {
-					player.fall();
+					playerCanFall = false;
 				}
 			}
+			if (playerYSpeed < 0) {
+				if (p.collidesY(playerY + playerH, playerX, playerW)) {
+					player.collidesUp(p.getY() + p.getH());
+					playerCanFall = true;
+				}
+			} else {
+				playerCanFall = true;
+			}
+			
+			
+			if (playerCanFall) {
+				player.fall();
+			}
 		}
+		
 		
 		for(Platform p : platforms) {
 			p.render(g, Engine.RESOLUTION_X / 2 - (playerW / 2) - playerX, (2 * Engine.RESOLUTION_Y / 3) - playerH - playerY);
@@ -191,10 +206,19 @@ public class Game extends BasicGameState
 		
 		for (Platform p : platforms) {
 			if (playerYSpeed > 0) {
-				if (p.collidesDown(playerY + playerH, playerX, playerW)) {
-					player.collideY(p.getY());
+				if (p.collidesY(playerY + playerH, playerX, playerW)) {
+					player.collidesDown(p.getY());
 					numJumps = 0;
+				} else {
+					
 				}
+			}
+			if (playerYSpeed < 0) {
+				if (p.collidesY(playerY, playerX, playerW)) {
+					player.collidesUp(p.getY() + p.getH());
+				}
+			} else {
+				
 			}
 		}
 		
