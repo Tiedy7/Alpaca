@@ -58,17 +58,17 @@ public class Menu extends BasicGameState
 //		g.drawString("Press 'N' to return to the Introduction Screen!", 300, 300);
 //		g.drawString("Press 'SPACE' to enter the Game!", 300, 600);
 	
-		setImage("res/Other Sprites/New Piskel (2).png");
+		setImage("res/enterWorld.png");
 		gameButton.setFilter(Image.FILTER_NEAREST);
-		gameButton.draw((float) (Game.function.scaleX(1920/3) - ((Game.function.scaleX(gameButton.getWidth()*4)/2))), (Game.function.scaleY(1080/6)*5), Game.function.scaleX(gameButton.getWidth()*4), Game.function.scaleY(gameButton.getHeight()*4));
+		gameButton.draw((float) (Game.function.scaleX(1920/3) - ((Game.function.scaleX(gameButton.getWidth()/3)/2))), (Game.function.scaleY(1080/6)*5), Game.function.scaleX(gameButton.getWidth()/3), Game.function.scaleY(gameButton.getHeight())/3);
 
-		setImage("res/Other Sprites/New Piskel (1).png");
+		setImage("res/back.png");
 		backButton.setFilter(Image.FILTER_NEAREST);
-		backButton.draw((float) ((Game.function.scaleX(1920/3)*2) - ((Game.function.scaleX(backButton.getWidth()*4)/2))), (Game.function.scaleY(1080/6)*5), Game.function.scaleX(backButton.getWidth()*4), Game.function.scaleY(backButton.getHeight()*4));
+		backButton.draw((float) ((Game.function.scaleX(1920/3)*2) - ((Game.function.scaleX(backButton.getWidth()/3)/2))), (Game.function.scaleY(1080/6)*5), Game.function.scaleX(backButton.getWidth()/3), Game.function.scaleY(backButton.getHeight())/3);
 		
-		setImage("res/Other Sprites/InstructButtonFake.png");
+		setImage("res/instructions.png");
 		instrucButton.setFilter(Image.FILTER_NEAREST);
-		instrucButton.draw((float) ((Game.function.scaleX(1920/8)*7) - ((Game.function.scaleX(instrucButton.getWidth()*4)/2))), (Game.function.scaleY(1080/4)), Game.function.scaleX(instrucButton.getWidth()*4), Game.function.scaleY(instrucButton.getHeight()*4));
+		instrucButton.draw((float) ((Game.function.scaleX(1920/8)*7) - ((Game.function.scaleX(instrucButton.getWidth()/3)/2))), (Game.function.scaleY(1080/4)), Game.function.scaleX(instrucButton.getWidth()/3), Game.function.scaleY(instrucButton.getHeight())/3);
 		
 		
 	}
