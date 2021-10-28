@@ -6,7 +6,6 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 
-
 import core.Engine;
 import core.Functions;
 import core.Game;
@@ -59,8 +58,8 @@ public class Player extends Actor {
 	
 	public void render(Graphics g) {
 		//THIS IS TEMPORARY JUST FOR TESTING, REPLACE WITH ACTUAL GRAPHICS LATER
-		g.setColor(color);
-		g.fillRect(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,w,h);
+//		g.setColor(color);
+//		g.fillRect(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,w,h);
 		
 		if (!Game.jumping) {
 			if (isRight) {
