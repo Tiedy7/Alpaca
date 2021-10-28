@@ -66,7 +66,7 @@ public class Game extends BasicGameState
 		xPos = 0;
 		yPos = 0;
 		back = false;
-		walk = new Image("res/Old/Walk Cycle (Part Arm).png");
+		walk = new Image("res/Walk Cycle (Part Arm).png");
 		character = new SpriteSheet(walk, 16, 32);
 		
 		walkLoop = 0;
@@ -101,11 +101,11 @@ public class Game extends BasicGameState
 		g.setBackground(new Color(10, 10, 50));
 		
 		
-		setImage("res/Old/Walk Cycle (Part Arm).png");
-		character.setFilter(Image.FILTER_NEAREST);
-		character.startUse();
-		character.getSubImage(1+walkLoop, 0+walkRowNum).drawEmbedded(200+xPos, 200, 64, 128);
-		character.endUse();
+//		setImage("res/Walk Cycle (Part Arm).png");
+//		character.setFilter(Image.FILTER_NEAREST);
+//		character.startUse();
+//		character.getSubImage(1+walkLoop, 0+walkRowNum).drawEmbedded(200+xPos, 200, 64, 128);
+//		character.endUse();
 		
 //		character.draw(500+xPos, 500+yPos, character.getWidth()*3, character.getHeight()*3);
 		
