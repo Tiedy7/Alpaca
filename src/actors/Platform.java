@@ -34,22 +34,14 @@ public class Platform {
 		y += amount;
 	}
 	
-	public boolean collidesDown(float yp, float xp, float xw) {
-		if (yp > y && yp < y + h && xp + xw > x && xp < x + w) {
+	public boolean collidesY(float yp, float xp, float wp) {
+		if (yp > y && yp < y + h && xp + wp > x && xp < x + w) {
 			return true;
 		}
 		return false;
 	}
 	
-	public boolean collidesUp(float y1) {
-		return false;
-	}
-	
-	public boolean collidesLeft(float x1) {
-		return false;
-	}
-	
-	public boolean collidesRight(float x2) {
+	public boolean collidesX(float yp, float xp, float hp) {		
 		return false;
 	}
 	
