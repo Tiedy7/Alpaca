@@ -34,6 +34,8 @@ public class Game extends BasicGameState
 	
 	private boolean forward, pause, skill;
 	
+	public static boolean jumping;
+	
 	private Image walk = null;
 	private SpriteSheet character = null;
 	
@@ -74,6 +76,8 @@ public class Game extends BasicGameState
 		time = 0;
 		
 		forward = false;
+		
+		jumping = false;
 		
 		walkRow = false;
 		walkRowNum = 0;
@@ -129,6 +133,7 @@ public class Game extends BasicGameState
 					player.collidesDown(p.getY());
 					numJumps = 0;
 					playerCanFall = false;
+					jumping = false;
 				}
 			}
 			if (playerYSpeed < 0) {
@@ -143,6 +148,7 @@ public class Game extends BasicGameState
 			
 			if (playerCanFall) {
 				player.fall();
+				jumping = true;
 			}
 		}
 		
@@ -209,6 +215,7 @@ public class Game extends BasicGameState
 				if (p.collidesY(playerY + playerH, playerX, playerW)) {
 					player.collidesDown(p.getY());
 					numJumps = 0;
+					jumping = false;
 				} else {
 					
 				}
