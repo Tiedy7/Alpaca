@@ -82,14 +82,14 @@ public class IntroScreen extends BasicGameState
 		
         
 		
-		Image title = new Image("res/alpacaTitleIntro.png");
+		Image title = new Image("res/Other Sprites/alpacaTitleIntro.png");
 		title.setFilter(Image.FILTER_NEAREST);
 		title.draw((float) (Game.function.scaleX(1920/2) - ((Game.function.scaleX(title.getWidth())))), ((Game.function.scaleY(1080/6))), Game.function.scaleX(title.getWidth())*2, Game.function.scaleY(title.getHeight())*2);
 		
 //		Image font = new Image("res/introFont.png");  
 //		g.drawImage(font, (int)((Engine.RESOLUTION_X)/3), (int)((Engine.RESOLUTION_Y)/1.2));
 		
-		setImage("res/startButtonIntro.png");
+		setImage("res/Other Sprites/startButtonIntro.png");
 		sButton.setFilter(Image.FILTER_NEAREST);
 		sButtonX = ((sButton.getWidth()*Engine.RESOLUTION_X)/1920)/3;
 		sButtonY = ((sButton.getHeight()*Engine.RESOLUTION_Y)/1080)/3;
