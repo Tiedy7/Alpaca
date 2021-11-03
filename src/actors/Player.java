@@ -181,10 +181,10 @@ public class Player extends Actor {
 		}
 		
 		if (Game.gc.getInput().isKeyDown(Game.gc.getInput().KEY_D)) {
-			vx = 13;
+			vx = 10;
 		}
 		if (Game.gc.getInput().isKeyDown(Game.gc.getInput().KEY_A)) {
-			vx = -13;
+			vx = -10;
 		}
 		vy += ay;
 		y += vy;
