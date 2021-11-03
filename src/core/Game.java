@@ -17,9 +17,6 @@ import org.newdawn.slick.state.StateBasedGame;
 import actors.Actor;
 import actors.Platform;
 import actors.Player;
-import actors.Enemy;
-import actors.GroundEnemy;
-import actors.DroneEnemy;
 
 public class Game extends BasicGameState 
 {	
@@ -46,8 +43,6 @@ public class Game extends BasicGameState
 	public static ArrayList<Actor> actors;
 	public static ArrayList<Platform> platforms;
 	public static Player player;
-	public static GroundEnemy groundEnemy1;
-	public static DroneEnemy droneEnemy1;
 	
 	public static float playerX, playerY, playerW, playerH;
 	
@@ -74,8 +69,6 @@ public class Game extends BasicGameState
 		xPos = 0;
 		yPos = 0;
 		back = false;
-		walk = new Image("res/Old/Walk Cycle (Part Arm).png");
-		character = new SpriteSheet(walk, 16, 32);
 		
 		walkLoop = 0;
 		time = 0;
@@ -103,10 +96,6 @@ public class Game extends BasicGameState
 		
 		//TEMPORARY FOR TESTING
 		platforms.add(new Platform(function.scaleX(200),function.scaleY(800),function.scaleX(1520),function.scaleY(200)));
-		groundEnemy1 = new GroundEnemy(100, 100);
-		actors.add(groundEnemy1);
-		droneEnemy1 = new DroneEnemy(100, 100);
-		actors.add(droneEnemy1);
 	}
 
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException 
@@ -128,39 +117,6 @@ public class Game extends BasicGameState
 		for(Actor a : actors) {
 			a.render(g);
 		}
-		
-		playerX = player.getX();
-		playerY = player.getY();
-		playerW = player.getW();
-		playerH = player.getH();
-		playerYSpeed = player.getPlayerVY();
-		
-		for (Platform p : platforms) {
-			if (playerYSpeed > 0) {
-				
-				if (p.collidesY(playerY + playerH, playerX, playerW)) {
-					player.collidesDown(p.getY());
-					numJumps = 0;
-					playerCanFall = false;
-					jumping = false;
-				}
-			}
-			if (playerYSpeed < 0) {
-				if (p.collidesY(playerY + playerH, playerX, playerW)) {
-					player.collidesUp(p.getY() + p.getH());
-					playerCanFall = true;
-				}
-			} else {
-				playerCanFall = true;
-			}
-			
-			
-			if (playerCanFall) {
-				player.fall();
-				jumping = true;
-			}
-		}
-		
 		
 		for(Platform p : platforms) {
 			p.render(g, Engine.RESOLUTION_X / 2 - (playerW / 2) - playerX, (2 * Engine.RESOLUTION_Y / 3) - playerH - playerY);
@@ -218,44 +174,11 @@ public class Game extends BasicGameState
 		playerW = player.getW();
 		playerH = player.getH();
 		playerYSpeed = player.getPlayerVY();
-		
-		for (Platform p : platforms) {
-			if (playerYSpeed > 0) {
-				if (p.collidesY(playerY + playerH, playerX, playerW)) {
-					player.collidesDown(p.getY());
-					numJumps = 0;
-					jumping = false;
-				} else {
-					
-				}
-			}
-			if (playerYSpeed < 0) {
-				if (p.collidesY(playerY, playerX, playerW)) {
-					player.collidesUp(p.getY() + p.getH());
-				}
-			} else {
-				
-			}
-		}
-		
-		//OLD CODE:***
-//		playerYSpeed = player.getPlayerVY();
-//		
-//		for (Platform p : platforms) {
-//			p.changeY(playerYSpeed);
-//		}
-//		
-//		if (playerYSpeed > 0) {
-//			for (Platform p : platforms) {
-//				if (p.collidesDown(Game.playerY + Game.playerH)) {
-//					for (Platform f : platforms) {
-//						f.setChangeY(Game.playerY + Game.playerH - p.getY());
-//					}
-//					player.collideY();
-//					numJumps = 0;
-//				}
-//			}
-//		}
+		playerXSpeed = player.getPlayerVX();
+	}
+	
+	public static void playerTouchesPlatform() {
+		numJumps = 0;
 	}
 	
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException 
@@ -271,7 +194,7 @@ public class Game extends BasicGameState
 	{
 		// This code happens when you leave a gameState. 
 	}
-
+	
 	public void keyPressed(int key, char c)
 	{
 		if (key == Input.KEY_W) {
