@@ -74,8 +74,8 @@ public class Game extends BasicGameState
 		xPos = 0;
 		yPos = 0;
 		back = false;
-		walk = new Image("res/Old/Walk Cycle (Part Arm).png");
-		character = new SpriteSheet(walk, 16, 32);
+
+
 		
 		walkLoop = 0;
 		time = 0;
@@ -103,6 +103,7 @@ public class Game extends BasicGameState
 		
 		//TEMPORARY FOR TESTING
 		platforms.add(new Platform(function.scaleX(200),function.scaleY(800),function.scaleX(1520),function.scaleY(200)));
+		
 		groundEnemy1 = new GroundEnemy(100, 100);
 		actors.add(groundEnemy1);
 		droneEnemy1 = new DroneEnemy(100, 100);
