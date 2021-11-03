@@ -59,70 +59,19 @@ public class GroundEnemy extends Enemy {
 //		g.setColor(color);
 //		g.fillRect(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,w,h);
 		
-		if (isRight) {
-			setImage("res/Enemy Sprites/enemyPlaceholder.png");
-			groundEnemy.setFilter(Image.FILTER_NEAREST);
-			groundEnemy.startUse();
-			groundEnemy.getSubImage(walkLoop, 0).drawEmbedded(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,w,h);
-			groundEnemy.endUse();
-		}
+
 		
-		if (isLeft) {
-			setImage("res/Enemy Sprites/enemyPlaceholder.png");
-			groundEnemy.setFilter(Image.FILTER_NEAREST);
-			groundEnemy.startUse();
-			groundEnemy.getSubImage(walkLoop, 0).drawEmbedded(Engine.RESOLUTION_X / 2 + (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,-w,h);
-			groundEnemy.endUse();
-		}
-		
-		if (isIdle) {
-			if (faceLeft) {
-				setImage("res/Enemy Sprites/enemyPlaceholder.png");
-				groundEnemy.setFilter(Image.FILTER_NEAREST);
-				groundEnemy.startUse();
-				groundEnemy.getSubImage(0, 0).drawEmbedded(Engine.RESOLUTION_X / 2 + (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,-w,h);
-				groundEnemy.endUse();
-			}
-			
-			if (faceRight) {
-				setImage("res/Enemy Sprites/enemyPlaceholder.png");
-				groundEnemy.setFilter(Image.FILTER_NEAREST);
-				groundEnemy.startUse();
-				groundEnemy.getSubImage(0, 0).drawEmbedded(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,w,h);
-				groundEnemy.endUse();
-			}
-				
-		}
+		setImage("res/Enemy Sprites/enemyPlaceholder.png");
+		groundEnemy.setFilter(Image.FILTER_NEAREST);
+		groundEnemy.startUse();
+		groundEnemy.getSubImage(0, 0).drawEmbedded(0,(2 * Engine.RESOLUTION_Y / 3) - h,w,h);
+		groundEnemy.endUse();
 	}
 	
 	public void update() {
 		
-		if (isRight) {
-			vx = 10;
-			isIdle = false;
-			isJump = false;
-			faceRight = true;
-			faceLeft = false;
-		}
-		if (isLeft) {
-			vx = -10;
-			isIdle = false;
-			isJump = false;
-			faceRight = false;
-			faceLeft = true;
-		}
 		
-		if (!isRight && !isLeft) {
-			isIdle = true;
-			isJump = false;
-		}
 		
-		if (isRight) {
-			vx = 13;
-		}
-		if (isLeft) {
-			vx = -13;
-		}
 		vy += ay;
 		y += vy;
 		x += vx;
@@ -148,43 +97,43 @@ public class GroundEnemy extends Enemy {
 		}
 	}
 		
-	public void updateW(float w) {
-		this.w = w;
-	}
-	
-	public void updateH(float h) {
-		this.h = h;
-	}
-	
-	public void collidesDown(float newY) {
-		vy = 1;
-		ay = 0;
-		y = newY - h;
-	}
-	
-	public void collidesUp(float newY) {
-		vy = 1;
-		ay = 1;
-		y = newY;
-	}
-	
-	public void collidesRight(float newX) {
-		vx = 0;
-		x = newX - h;
-	}
-	
-	public void fall() {
-		ay = 1;
-	}
-	
-	public void jump() {
-		ay = Game.function.scaleX(1);
-		vy = Game.function.scaleX(-22);
-	}
-	
-	public void moveRight() {
-		vx = Math.min(7, vx++);
-	}
+//	public void updateW(float w) {
+//		this.w = w;
+//	}
+//	
+//	public void updateH(float h) {
+//		this.h = h;
+//	}
+//	
+//	public void collidesDown(float newY) {
+//		vy = 1;
+//		ay = 0;
+//		y = newY - h;
+//	}
+//	
+//	public void collidesUp(float newY) {
+//		vy = 1;
+//		ay = 1;
+//		y = newY;
+//	}
+//	
+//	public void collidesRight(float newX) {
+//		vx = 0;
+//		x = newX - h;
+//	}
+//	
+//	public void fall() {
+//		ay = 1;
+//	}
+//	
+//	public void jump() {
+//		ay = Game.function.scaleX(1);
+//		vy = Game.function.scaleX(-22);
+//	}
+//	
+//	public void moveRight() {
+//		vx = Math.min(7, vx++);
+//	}
 	
 	public void setImage(String filepath)
 	{
