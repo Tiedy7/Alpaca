@@ -40,11 +40,10 @@ public class Instructions extends BasicGameState
 		g.setBackground(new Color(0, 100, 200));
 //		g.drawString("Press 'I' to return to the intro screen!", 300, 300);
 	
-		setImage("res/Other Sprites/New Piskel (1).png");
+		setImage("res/back3.png");
 		backButton.setFilter(Image.FILTER_NEAREST);
-		backButton.draw((float) ((Game.function.scaleX(1920/2)) - ((Game.function.scaleX(backButton.getWidth()*4)/2))), (Game.function.scaleY(1080/6)*5), Game.function.scaleX(backButton.getWidth()*4), Game.function.scaleY(backButton.getHeight()*4));
-
-
+		backButton.draw((float) ((Game.function.scaleX(1920/2)) - ((Game.function.scaleX(backButton.getWidth()/3)/2))), (Game.function.scaleY(1080/6)*5), Game.function.scaleX(backButton.getWidth()/3), Game.function.scaleY(backButton.getHeight())/3);
+		
 	}
 
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException
