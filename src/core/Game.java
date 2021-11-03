@@ -17,6 +17,9 @@ import org.newdawn.slick.state.StateBasedGame;
 import actors.Actor;
 import actors.Platform;
 import actors.Player;
+import actors.Enemy;
+import actors.GroundEnemy;
+import actors.DroneEnemy;
 
 public class Game extends BasicGameState 
 {	
@@ -43,6 +46,8 @@ public class Game extends BasicGameState
 	public static ArrayList<Actor> actors;
 	public static ArrayList<Platform> platforms;
 	public static Player player;
+	public static GroundEnemy groundEnemy1;
+	public static DroneEnemy droneEnemy1;
 	
 	public static float playerX, playerY, playerW, playerH;
 	
@@ -69,7 +74,7 @@ public class Game extends BasicGameState
 		xPos = 0;
 		yPos = 0;
 		back = false;
-		walk = new Image("res/Walk Cycle (Part Arm).png");
+		walk = new Image("res/Old/Walk Cycle (Part Arm).png");
 		character = new SpriteSheet(walk, 16, 32);
 		
 		walkLoop = 0;
@@ -98,6 +103,10 @@ public class Game extends BasicGameState
 		
 		//TEMPORARY FOR TESTING
 		platforms.add(new Platform(function.scaleX(200),function.scaleY(800),function.scaleX(1520),function.scaleY(200)));
+		groundEnemy1 = new GroundEnemy(100, 100);
+		actors.add(groundEnemy1);
+		droneEnemy1 = new DroneEnemy(100, 100);
+		actors.add(droneEnemy1);
 	}
 
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException 
