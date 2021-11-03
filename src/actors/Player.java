@@ -1,5 +1,7 @@
 package actors;
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -7,7 +9,6 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 
 import core.Engine;
-import core.Functions;
 import core.Game;
 
 public class Player extends Actor {
@@ -25,7 +26,7 @@ public class Player extends Actor {
 	private Image arms = null;
 	private SpriteSheet armCycle = null;
 	
-	private boolean isRight, isLeft, isJump, isIdle, faceRight, faceLeft;
+	private boolean isRight, isLeft, isJump, isIdle, faceRight, faceLeft, canMoveRight, canMoveLeft;
 	
 	private float ax, vx, ay, vy; //acceleration & velocity
 	
@@ -154,6 +155,8 @@ public class Player extends Actor {
 	
 	public void update() {
 		
+		
+		
 		if (Game.gc.getInput().isKeyDown(Game.gc.getInput().KEY_D)) {
 			vx = 10;
 			isRight = true;
@@ -186,12 +189,18 @@ public class Player extends Actor {
 		if (Game.gc.getInput().isKeyDown(Game.gc.getInput().KEY_A)) {
 			vx = -13;
 		}
+		
+		//UPDATING MOVEMENT
 		vy += ay;
-		y += vy;
-		x += vx;
+		
+		//COLLISIONS
+		checkCollisions(Game.platforms);
+		
 		if (vx > 0) vx--;
 		if (vx < 0) vx++;
 		
+		
+		//ANIMATION STUFF
 		if (time % 12 == 0) {
 			walkLoop++;
 			
@@ -209,6 +218,43 @@ public class Player extends Actor {
 		if (!walkRow) {
 			walkRowNum = 0;
 		}
+	}
+	
+	public void checkCollisions(ArrayList<Platform> platforms) {
+		float tempX = x + vx;
+		float tempY = y + vy;
+		boolean canFall = true;
+		for (Platform p : platforms) {
+			if (vx > 0) {
+				if (p.collidesRight(tempX,tempY,w,h)) {
+					vx = 0;
+					tempX = p.getX() - w;
+				}
+			}
+			if (vx < 0) {
+				if (p.collidesLeft(tempX, tempY, w, h)) {
+					vx = 0;
+					tempX = p.getX() + p.getW();
+				}
+			}
+			if (vy > 0) {
+				if (p.collidesDown(tempX, tempY, w, h)) {
+					vy = 0;
+					tempY = p.getY() - h;
+					Game.playerTouchesPlatform();
+					canFall = false;
+				}
+			}
+			if (vy < 0) {
+				if (p.collidesUp(tempX, tempY, w, h)) {
+					vy = 0;
+					tempY = p.getY() + p.getH();
+					ay = 1;
+				}
+			}
+		}
+		x = tempX;
+		y = tempY;
 	}
 	
 	public float getX() {
