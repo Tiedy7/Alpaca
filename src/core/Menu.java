@@ -10,8 +10,11 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+
+import visuals.Star;
 
 public class Menu extends BasicGameState 
 {	
@@ -22,6 +25,22 @@ public class Menu extends BasicGameState
 	private Image gameButton;
 	private Image backButton;
 	private Image instrucButton;
+	
+	private int walkLoop, walkRowNum, dwayneLoop, armLoop;
+	private boolean walkRow;
+	
+	private boolean dwayneTime1, dwayneTime2, dwayneTime3, dwayneTime4, superDwayne;
+	
+	
+	
+	private int time = 0;
+	private int armTime;
+	private Image walk = null;
+	private SpriteSheet character = null;
+	private Image arms = null;
+	private SpriteSheet armCycle = null;
+	
+	private SpriteSheet dwayne = null;
 	
 	private boolean forward;
 	
@@ -39,6 +58,13 @@ public class Menu extends BasicGameState
 		
 		enterGame = false;
 		back = false;
+		
+		dwayneTime1 = false;
+		dwayneTime2 = false;
+		dwayneTime3 = false;
+		dwayneTime4 = false;
+		superDwayne = false;
+		
 	}
 
 	
@@ -49,26 +75,60 @@ public class Menu extends BasicGameState
 		
 		instructions = false;
 		
+		walkRow = false;
+		walkRowNum = 0;
+		dwayneLoop = 0;
+		armTime = 0;
 	}
 
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException 
 	{
 		// Sets background to the specified RGB color
-		g.setBackground(new Color(100, 50, 250));
+		g.setBackground(new Color(0, 0, 0));
 //		g.drawString("Press 'N' to return to the Introduction Screen!", 300, 300);
 //		g.drawString("Press 'SPACE' to enter the Game!", 300, 600);
-	
-		setImage("res/enterWorld.png");
+		
+		for (Star s: IntroScreen.stars) {
+			s.render(g);
+		}
+		
+		
+		if (superDwayne) {
+			setImage("res/DWAYNE (5).png");
+			dwayne.setFilter(Image.FILTER_NEAREST);
+			dwayne.startUse();
+			dwayne.getSubImage(dwayneLoop, 0).drawEmbedded(Game.gc.getWidth()/5,0,Game.function.scaleX(1080),Game.function.scaleY(1080));
+			dwayne.endUse();
+		}
+		
+		if (!superDwayne) {
+		
+			setImage("res/Player Sprites/Walk Animation/walkCycleBody.png");
+			character.setFilter(Image.FILTER_NEAREST);
+			character.startUse();
+			character.getSubImage(walkLoop, 0).drawEmbedded(Engine.RESOLUTION_X / 5, (Engine.RESOLUTION_Y / 6), 4* Game.function.scaleX(64), 4*Game.function.scaleY(128));
+			character.endUse();
+			
+			setImage("res/Player Sprites/Attack Animation/attackSide.png");
+			armCycle.setFilter(Image.FILTER_NEAREST);
+			armCycle.startUse();
+			armCycle.getSubImage(armLoop, 0).drawEmbedded(Engine.RESOLUTION_X / 5,(Engine.RESOLUTION_Y / 6), 4 * Game.function.scaleX(128), 4*Game.function.scaleY(128));
+			armCycle.endUse();
+		}
+		
+		setImage("res/enterWorld3.png");
 		gameButton.setFilter(Image.FILTER_NEAREST);
 		gameButton.draw((float) (Game.function.scaleX(1920/3) - ((Game.function.scaleX(gameButton.getWidth()/3)/2))), (Game.function.scaleY(1080/6)*5), Game.function.scaleX(gameButton.getWidth()/3), Game.function.scaleY(gameButton.getHeight())/3);
 
-		setImage("res/back.png");
+		setImage("res/back3.png");
 		backButton.setFilter(Image.FILTER_NEAREST);
 		backButton.draw((float) ((Game.function.scaleX(1920/3)*2) - ((Game.function.scaleX(backButton.getWidth()/3)/2))), (Game.function.scaleY(1080/6)*5), Game.function.scaleX(backButton.getWidth()/3), Game.function.scaleY(backButton.getHeight())/3);
 		
-		setImage("res/instructions.png");
+		setImage("res/instructions3.png");
 		instrucButton.setFilter(Image.FILTER_NEAREST);
 		instrucButton.draw((float) ((Game.function.scaleX(1920/8)*7) - ((Game.function.scaleX(instrucButton.getWidth()/3)/2))), (Game.function.scaleY(1080/4)), Game.function.scaleX(instrucButton.getWidth()/3), Game.function.scaleY(instrucButton.getHeight())/3);
+		
+		
 		
 		
 	}
@@ -100,6 +160,35 @@ public class Menu extends BasicGameState
 			sbg.enterState(5);
 			instructions = false;
 		}
+		
+		for (Star s: IntroScreen.stars) {
+			s.update();
+			
+		}
+		
+		if (time % 12 == 0) {
+			walkLoop++;
+			dwayneLoop++;
+			
+		}
+		if (armTime % 5 == 0) {
+			armLoop++;
+		}
+		if (walkLoop >= 8) {
+			walkLoop = 0;
+			walkRow = !walkRow;
+		}
+		if (dwayneLoop >= 27) {
+			dwayneLoop = 0;
+		}
+		if (armLoop >= 8) {
+			armLoop = 0;
+		}
+		time++;
+		armTime++;
+		if (dwayneTime1 && dwayneTime2 && dwayneTime3 & dwayneTime4) {
+			superDwayne = true;
+		}
 	}
 
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException 
@@ -107,6 +196,7 @@ public class Menu extends BasicGameState
 		// This code happens when you enter a gameState.  
 		back = false;
 		forward = false;
+		superDwayne = false;
 	}
 
 	public void leave(GameContainer gc, StateBasedGame sbg) 
@@ -123,7 +213,25 @@ public class Menu extends BasicGameState
 		if (key == Input.KEY_SPACE) {
 			forward = true;
 		}
-		
+		if (key == Input.KEY_PERIOD) {
+			dwayneTime1 = !dwayneTime1;
+		}
+		if (key == Input.KEY_SLASH) {
+			dwayneTime2 = !dwayneTime2;
+		}
+		if (key == Input.KEY_COMMA) {
+			dwayneTime3 = !dwayneTime3;
+		}
+		if (key == Input.KEY_APOSTROPHE) {
+			dwayneTime4 = !dwayneTime4;
+		}
+		if (key == Input.KEY_SEMICOLON) {
+			dwayneTime1 = false;
+			dwayneTime2 = false;
+			dwayneTime3 = false;
+			dwayneTime4 = false;
+			superDwayne = false;
+		}
 		
 	}
 	
@@ -153,6 +261,9 @@ public class Menu extends BasicGameState
 			gameButton = new Image(filepath);
 			backButton = new Image(filepath);
 			instrucButton = new Image(filepath);
+			character = new SpriteSheet(filepath, 16, 32);
+			armCycle = new SpriteSheet(filepath, 32, 32);
+			dwayne = new SpriteSheet(filepath, 500, 500);
 			
 		}
 		catch(SlickException e)		
