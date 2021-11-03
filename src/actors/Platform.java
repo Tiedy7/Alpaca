@@ -21,7 +21,6 @@ public class Platform {
 	}
 	
 	public void render(Graphics g, float difX, float difY) { 
-		//THIS IS TEMPORARY JUST FOR TESTING, REPLACE WITH ACTUAL GRAPHICS LATER
 		g.setColor(color);
 		g.fillRect(x + difX, y + difY, w, h);
 	}
@@ -34,14 +33,31 @@ public class Platform {
 		y += amount;
 	}
 	
-	public boolean collidesY(float yp, float xp, float wp) {
-		if (yp > y && yp < y + h && xp + wp > x && xp < x + w) {
+	public boolean collidesRight(float px, float py, float pw, float ph) {
+		if (px < x && px + pw > x && px + pw < x + w && py < y + h && py + ph > y) {
 			return true;
 		}
 		return false;
 	}
 	
-	public boolean collidesX(float yp, float xp, float hp) {		
+	public boolean collidesLeft(float px, float py, float pw, float ph) {
+		if (px + pw > x + w && px > x && px < x + w && py < y + h && py + ph > y) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean collidesDown(float px, float py, float pw, float ph) {
+		if (py < y && py + ph > y && py + ph < y + h && px + pw > x && px < x + w) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean collidesUp(float px, float py, float pw, float ph) {
+		if (py + ph > y + h && py > y && py < y + h && px + pw > x && px < x + w) {
+			return true;
+		}
 		return false;
 	}
 	
