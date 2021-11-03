@@ -19,6 +19,8 @@ public class Instructions extends BasicGameState
 	
 	private Image backButton;
 	
+	private Image instructionImage;
+	
 	Instructions(int id) 
 	{
 		this.id = id;
@@ -40,9 +42,15 @@ public class Instructions extends BasicGameState
 		g.setBackground(new Color(0, 100, 200));
 //		g.drawString("Press 'I' to return to the intro screen!", 300, 300);
 	
+		setImage("res/DIRECTIONS (1).png");
+		instructionImage.setFilter(Image.FILTER_NEAREST);
+		instructionImage.draw(Game.function.scaleX(1920/2)-Game.function.scaleX(instructionImage.getWidth()/2), 0,Game.function.scaleX(instructionImage.getWidth()),(Game.function.scaleY(instructionImage.getHeight())));
+		
 		setImage("res/back3.png");
 		backButton.setFilter(Image.FILTER_NEAREST);
 		backButton.draw((float) ((Game.function.scaleX(1920/2)) - ((Game.function.scaleX(backButton.getWidth()/3)/2))), (Game.function.scaleY(1080/6)*5), Game.function.scaleX(backButton.getWidth()/3), Game.function.scaleY(backButton.getHeight())/3);
+		
+		
 		
 	}
 
@@ -94,7 +102,7 @@ public class Instructions extends BasicGameState
 		{
 			
 			backButton = new Image(filepath);
-			
+			instructionImage = new Image(filepath);
 			
 		}
 		catch(SlickException e)		
