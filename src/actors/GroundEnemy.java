@@ -72,8 +72,8 @@ public class GroundEnemy extends Enemy {
 	
 	public void update() {
 		
-		if (Game.playerX > x + w) vx = 1;
-		else if (Game.playerX + Game.playerW < x) vx = -1;
+		if (Game.playerX > x + w) vx = 3;
+		else if (Game.playerX + Game.playerW < x) vx = -3;
 		else vx = 0;
 		vx += ax;
 		vy += ay;
