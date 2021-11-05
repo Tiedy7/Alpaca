@@ -1,5 +1,7 @@
 package actors;
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -54,7 +56,7 @@ public class GroundEnemy extends Enemy {
 		isJump = false;
 	}
 	
-	public void render(Graphics g) {
+	public void render(Graphics g, float difX, float difY) {
 		//THIS IS TEMPORARY JUST FOR TESTING, REPLACE WITH ACTUAL GRAPHICS LATER
 //		g.setColor(color);
 //		g.fillRect(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,w,h);
@@ -64,23 +66,21 @@ public class GroundEnemy extends Enemy {
 		setImage("res/Enemy Sprites/enemyPlaceholder.png");
 		groundEnemy.setFilter(Image.FILTER_NEAREST);
 		groundEnemy.startUse();
-		groundEnemy.getSubImage(0, 0).drawEmbedded(0,(2 * Engine.RESOLUTION_Y / 3) - h,w,h);
+		groundEnemy.getSubImage(0, 0).drawEmbedded(x + difX, y + difY, w, h);
 		groundEnemy.endUse();
 	}
 	
 	public void update() {
 		
-		
-		
+		if (Game.playerX > x + w) vx = 1;
+		else if (Game.playerX + Game.playerW < x) vx = -1;
+		else vx = 0;
+		vx += ax;
 		vy += ay;
-		y += vy;
-		x += vx;
-		if (vx > 0) vx--;
-		if (vx < 0) vx++;
+		
 		
 		if (time % 12 == 0) {
-			walkLoop++;
-			
+			walkLoop++;	
 		}
 		if (walkLoop >= 8) {
 			walkLoop = 0;
@@ -95,6 +95,46 @@ public class GroundEnemy extends Enemy {
 		if (!walkRow) {
 			walkRowNum = 0;
 		}
+		
+		//COLLISIONS
+		checkCollisions(Game.platforms);
+	}
+	
+	protected void checkCollisions(ArrayList<Platform> platforms) {
+		float tempX = x + vx;
+		float tempY = y + vy;
+		boolean canFall = true;
+		for (Platform p : platforms) {
+			if (vx > 0) {
+				if (p.collidesRight(tempX,tempY,w,h)) {
+					vx = 0;
+					tempX = p.getX() - w;
+				}
+			}
+			if (vx < 0) {
+				if (p.collidesLeft(tempX, tempY, w, h)) {
+					vx = 0;
+					tempX = p.getX() + p.getW();
+				}
+			}
+			if (vy > 0) {
+				if (p.collidesDown(tempX, tempY, w, h)) {
+					vy = 0;
+					tempY = p.getY() - h;
+					Game.playerTouchesPlatform();
+					canFall = false;
+				}
+			}
+			if (vy < 0) {
+				if (p.collidesUp(tempX, tempY, w, h)) {
+					vy = 0;
+					tempY = p.getY() + p.getH();
+					ay = 1;
+				}
+			}
+		}
+		x = tempX;
+		y = tempY;
 	}
 		
 //	public void updateW(float w) {
