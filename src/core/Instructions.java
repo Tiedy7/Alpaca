@@ -42,9 +42,9 @@ public class Instructions extends BasicGameState
 		g.setBackground(new Color(0, 100, 200));
 //		g.drawString("Press 'I' to return to the intro screen!", 300, 300);
 	
-		setImage("res/DIRECTIONS (1).png");
-		instructionImage.setFilter(Image.FILTER_NEAREST);
-		instructionImage.draw(Game.function.scaleX(1920/2)-Game.function.scaleX(instructionImage.getWidth()/2), 0,Game.function.scaleX(instructionImage.getWidth()),(Game.function.scaleY(instructionImage.getHeight())));
+		Image directions = new Image("res/DIRECTIONS (1).png");
+		directions.setFilter(Image.FILTER_NEAREST);
+		directions.draw((float) ((Game.function.scaleX(1920/2)) - ((Game.function.scaleX(directions.getWidth()*4)/10))), 0, (Game.function.scaleX(directions.getWidth()*4)/5), (Game.function.scaleY(directions.getHeight()*4)/5));
 		
 		setImage("res/back3.png");
 		backButton.setFilter(Image.FILTER_NEAREST);
