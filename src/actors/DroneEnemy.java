@@ -29,11 +29,9 @@ public class DroneEnemy extends Enemy {
 	private float ax, vx, ay, vy; //acceleration & velocity
 	
 	//COLOR JUST FOR TESTING
-	protected Color color = new Color((int)(Math.random()*255),(int)(Math.random()*255),(int)(Math.random())*255);
 
 	
-	public DroneEnemy(int sx, int sy) {
-		//DEFAULT Enemy SIZE (16 x 16)*4
+	public DroneEnemy(float sx, float sy) {
 		this.w = Game.function.scaleX(64);
 		this.h = Game.function.scaleY(64);
 		this.x = sx;
@@ -55,7 +53,7 @@ public class DroneEnemy extends Enemy {
 		isJump = false;
 	}
 	
-	public void render(Graphics g) {
+	public void render(Graphics g, float difX, float difY) {
 		//THIS IS TEMPORARY JUST FOR TESTING, REPLACE WITH ACTUAL GRAPHICS LATER
 //		g.setColor(color);
 //		g.fillRect(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,w,h);
@@ -63,55 +61,56 @@ public class DroneEnemy extends Enemy {
 		setImage("res/Enemy Sprites/droneEnemy.png");
 		droneEnemy.setFilter(Image.FILTER_NEAREST);
 		droneEnemy.startUse();
-		droneEnemy.getSubImage(walkLoop, 0).drawEmbedded(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,w,h);
+		droneEnemy.getSubImage(walkLoop, 0).drawEmbedded(x + difX, y + difY, w, h);
 		droneEnemy.endUse();
 	}
 	
 	public void update() {
 		
-		if (Engine.RESOLUTION_X / 2 - (Game.function.scaleX(64) / 2)<x) {
-			vx = 5;
-			isIdle = false;
-			isJump = true;
-			faceRight = true;
-			faceLeft = false;
-		}
-		if (Engine.RESOLUTION_X / 2 - (Game.function.scaleX(64) / 2)>x) {
-			vx = -5;
-			isIdle = false;
-			isJump = true;
-			faceRight = true;
-			faceLeft = false;
-		}
+//		if (Engine.RESOLUTION_X / 2 - (Game.function.scaleX(64) / 2)<x) {
+//			vx = 5;
+//			isIdle = false;
+//			isJump = true;
+//			faceRight = true;
+//			faceLeft = false;
+//		}
+//		if (Engine.RESOLUTION_X / 2 - (Game.function.scaleX(64) / 2)>x) {
+//			vx = -5;
+//			isIdle = false;
+//			isJump = true;
+//			faceRight = true;
+//			faceLeft = false;
+//		}
+//		
+//		if (((2 * Engine.RESOLUTION_Y / 3) - (Game.function.scaleY(64)))<y) {
+//			vy = 5;
+//			isIdle = false;
+//			isJump = true;
+//		}
+//		
+//		if (((2 * Engine.RESOLUTION_Y / 3) - (Game.function.scaleY(64))>y)) {
+//			vy = -5;
+//			isIdle = false;
+//			isJump = true;
+//		}
+//		
+//		if (!isRight && !isLeft) {
+//			isIdle = true;
+//			isJump = true;
+//		}
+//		
+//		if (isRight) {
+//			vx = 5;
+//		}
+//		if (isLeft) {
+//			vx = -5;
+//		}
+//		vy += ay;
+//		y += vy;
+//		x += vx;
+//		if (vx > 0) vx--;
+//		if (vx < 0) vx++;
 		
-		if (((2 * Engine.RESOLUTION_Y / 3) - (Game.function.scaleY(64)))<y) {
-			vy = 5;
-			isIdle = false;
-			isJump = true;
-		}
-		
-		if (((2 * Engine.RESOLUTION_Y / 3) - (Game.function.scaleY(64))>y)) {
-			vy = -5;
-			isIdle = false;
-			isJump = true;
-		}
-		
-		if (!isRight && !isLeft) {
-			isIdle = true;
-			isJump = true;
-		}
-		
-		if (isRight) {
-			vx = 5;
-		}
-		if (isLeft) {
-			vx = -5;
-		}
-		vy += ay;
-		y += vy;
-		x += vx;
-		if (vx > 0) vx--;
-		if (vx < 0) vx++;
 		
 		if (time % 12 == 0) {
 			walkLoop++;
