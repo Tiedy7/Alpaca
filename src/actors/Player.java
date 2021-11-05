@@ -57,7 +57,7 @@ public class Player extends Actor {
 		isJump = false;
 	}
 	
-	public void render(Graphics g) {
+	public void render(Graphics g, float difX, float difY) {
 		//THIS IS TEMPORARY JUST FOR TESTING, REPLACE WITH ACTUAL GRAPHICS LATER
 //		g.setColor(color);
 //		g.fillRect(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,w,h);
@@ -158,7 +158,7 @@ public class Player extends Actor {
 		
 		
 		if (Game.gc.getInput().isKeyDown(Game.gc.getInput().KEY_D)) {
-			vx = 10;
+			vx = Game.function.scaleX(10);
 			isRight = true;
 			isLeft = false;
 			isIdle = false;
@@ -167,7 +167,7 @@ public class Player extends Actor {
 			faceLeft = false;
 		}
 		if (Game.gc.getInput().isKeyDown(Game.gc.getInput().KEY_A)) {
-			vx = -10;
+			vx = Game.function.scaleX(-10);
 			isLeft = true;
 			isRight = false;
 			isIdle = false;
@@ -184,10 +184,10 @@ public class Player extends Actor {
 		}
 		
 		if (Game.gc.getInput().isKeyDown(Game.gc.getInput().KEY_D)) {
-			vx = 13;
+			vx = Game.function.scaleX(13);
 		}
 		if (Game.gc.getInput().isKeyDown(Game.gc.getInput().KEY_A)) {
-			vx = -13;
+			vx = Game.function.scaleX(-13);
 		}
 		
 		//UPDATING MOVEMENT
@@ -198,6 +198,7 @@ public class Player extends Actor {
 		
 		if (vx > 0) vx--;
 		if (vx < 0) vx++;
+		if (Math.abs(vx) < 1) vx = 0;
 		
 		
 		//ANIMATION STUFF
@@ -316,7 +317,7 @@ public class Player extends Actor {
 	}
 	
 	public void moveRight() {
-		vx = Math.min(7, vx++);
+		vx = Math.min(Game.function.scaleX(7), vx++);
 	}
 	
 	public void setImage(String filepath)
