@@ -1,5 +1,7 @@
 package actors;
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -42,7 +44,7 @@ public class Enemy extends Actor {
 		
 	}
 	
-	public void render(Graphics g) {
+	public void render(Graphics g, float difX, float difY) {
 		
 	}
 	
