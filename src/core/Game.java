@@ -104,9 +104,9 @@ public class Game extends BasicGameState
 		//TEMPORARY FOR TESTING
 		platforms.add(new Platform(function.scaleX(200),function.scaleY(800),function.scaleX(1520),function.scaleY(200)));
 		
-		groundEnemy1 = new GroundEnemy(100, 100);
+		groundEnemy1 = new GroundEnemy(function.scaleX(300), function.scaleY(100));
 		actors.add(groundEnemy1);
-		droneEnemy1 = new DroneEnemy(100, 100);
+		droneEnemy1 = new DroneEnemy(function.scaleX(300), function.scaleY(100));
 		actors.add(droneEnemy1);
 		
 		platforms.add(new Platform(function.scaleX(1000),function.scaleY(500),function.scaleX(300),function.scaleY(300)));
@@ -129,7 +129,7 @@ public class Game extends BasicGameState
 		
 		
 		for(Actor a : actors) {
-			a.render(g);
+			a.render(g, Engine.RESOLUTION_X / 2 - (playerW / 2) - playerX, (2 * Engine.RESOLUTION_Y / 3) - playerH - playerY);
 		}
 			
 		for(Platform p : platforms) {
