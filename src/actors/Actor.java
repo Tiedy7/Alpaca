@@ -14,7 +14,7 @@ public class Actor {
 		
 	}
 	
-	public void render(Graphics g) {
+	public void render(Graphics g, float difX, float difY) {
 		
 	}
 	
