@@ -2,6 +2,8 @@
 
 package core;
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -10,6 +12,8 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+
+import visuals.Star;
 
 public class Instructions extends BasicGameState 
 {	
@@ -27,6 +31,8 @@ public class Instructions extends BasicGameState
 		
 		back = false;
 	}
+	
+	public static ArrayList <Star> stars;
 
 	
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException 
@@ -34,13 +40,23 @@ public class Instructions extends BasicGameState
 		// This code happens when you enter a game state for the *first time.*
 		gc.setShowFPS(true);
 		
+		stars = new ArrayList<Star>();
+		
+		for(int i = 0; i < 200; i++) {
+			stars.add(new Star());
+		}
+		
 	}
 
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException 
 	{
 		// Sets background to the specified RGB color
 		g.setBackground(new Color(0, 0, 0));
-//		g.drawString("Press 'I' to return to the intro screen!", 300, 300);
+
+		
+		for (Star s: stars) {
+			s.render(g);
+		}
 	
 		Image directions = new Image("res/DIRECTIONS (1).png");
 		directions.setFilter(Image.FILTER_NEAREST);
@@ -49,9 +65,7 @@ public class Instructions extends BasicGameState
 		setImage("res/back3.png");
 		backButton.setFilter(Image.FILTER_NEAREST);
 		backButton.draw((float) ((Game.function.scaleX(1920/2)) - ((Game.function.scaleX(backButton.getWidth()/3)/2))), (Game.function.scaleY(1080/6)*5), Game.function.scaleX(backButton.getWidth()/3), Game.function.scaleY(backButton.getHeight())/3);
-		
-		
-		
+	
 	}
 
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException
@@ -61,6 +75,11 @@ public class Instructions extends BasicGameState
 		if (back) {
 			sbg.enterState(3);
 			back = false;
+		}
+		
+		for (Star s: stars) {
+			s.update();
+			
 		}
 		
 	}
