@@ -31,8 +31,6 @@ public class Menu extends BasicGameState
 	
 	private boolean dwayneTime1, dwayneTime2, dwayneTime3, dwayneTime4, superDwayne;
 	
-	
-	
 	private int time = 0;
 	private int armTime;
 	private Image walk = null;
@@ -106,30 +104,27 @@ public class Menu extends BasicGameState
 			setImage("res/Player Sprites/Walk Animation/walkCycleBody.png");
 			character.setFilter(Image.FILTER_NEAREST);
 			character.startUse();
-			character.getSubImage(walkLoop, 0).drawEmbedded(Engine.RESOLUTION_X / 5, (Engine.RESOLUTION_Y / 6), 4* Game.function.scaleX(64), 4*Game.function.scaleY(128));
+			character.getSubImage(walkLoop, 0).drawEmbedded(Engine.RESOLUTION_X / 5, (Engine.RESOLUTION_Y / 4), 4* Game.function.scaleX(64), 4*Game.function.scaleY(128));
 			character.endUse();
 			
 			setImage("res/Player Sprites/Attack Animation/attackSide.png");
 			armCycle.setFilter(Image.FILTER_NEAREST);
 			armCycle.startUse();
-			armCycle.getSubImage(armLoop, 0).drawEmbedded(Engine.RESOLUTION_X / 5,(Engine.RESOLUTION_Y / 6), 4 * Game.function.scaleX(128), 4*Game.function.scaleY(128));
+			armCycle.getSubImage(armLoop, 0).drawEmbedded(Engine.RESOLUTION_X / 5,(Engine.RESOLUTION_Y / 4), 4 * Game.function.scaleX(128), 4*Game.function.scaleY(128));
 			armCycle.endUse();
 		}
 		
-		setImage("res/enterWorld3.png");
-		gameButton.setFilter(Image.FILTER_NEAREST);
-		gameButton.draw((float) (Game.function.scaleX(1920/3) - ((Game.function.scaleX(gameButton.getWidth()/3)/2))), (Game.function.scaleY(1080/6)*5), Game.function.scaleX(gameButton.getWidth()/3), Game.function.scaleY(gameButton.getHeight())/3);
-
 		setImage("res/back3.png");
 		backButton.setFilter(Image.FILTER_NEAREST);
-		backButton.draw((float) ((Game.function.scaleX(1920/3)*2) - ((Game.function.scaleX(backButton.getWidth()/3)/2))), (Game.function.scaleY(1080/6)*5), Game.function.scaleX(backButton.getWidth()/3), Game.function.scaleY(backButton.getHeight())/3);
+		backButton.draw((float) ((Game.function.scaleX(1920/5)*3) - ((Game.function.scaleX(backButton.getWidth()/3)/2))), (Game.function.scaleY(1080/6)*5), Game.function.scaleX(backButton.getWidth()/3), Game.function.scaleY(backButton.getHeight())/3);
+		
+		setImage("res/enterWorld3.png");
+		gameButton.setFilter(Image.FILTER_NEAREST);
+		gameButton.draw((float) ((Game.function.scaleX(1920/5)*2) - ((Game.function.scaleX(gameButton.getWidth()/3)/2))), (Game.function.scaleY(1080/6)*5), Game.function.scaleX(gameButton.getWidth()/3), Game.function.scaleY(gameButton.getHeight())/3);
 		
 		setImage("res/instructions3.png");
 		instrucButton.setFilter(Image.FILTER_NEAREST);
-		instrucButton.draw((float) ((Game.function.scaleX(1920/8)*7) - ((Game.function.scaleX(instrucButton.getWidth()/3)/2))), (Game.function.scaleY(1080/4)), Game.function.scaleX(instrucButton.getWidth()/3), Game.function.scaleY(instrucButton.getHeight())/3);
-		
-		
-		
+		instrucButton.draw((float) ((Game.function.scaleX(1920/5)*3) - ((Game.function.scaleX(instrucButton.getWidth()/3)/2))), (Game.function.scaleY(1080/6)*3), Game.function.scaleX(instrucButton.getWidth()/3), Game.function.scaleY(instrucButton.getHeight())/3);
 		
 	}
 
@@ -238,16 +233,16 @@ public class Menu extends BasicGameState
 	public void mousePressed(int button, int x, int y)
 	{
 		if (button == Input.MOUSE_LEFT_BUTTON) {
-			if (x > (Game.function.scaleX(1920/3)*2) - ((Game.function.scaleX(backButton.getWidth()/3)/2)) && x < (Game.function.scaleX(1920/3)*2) + ((Game.function.scaleX(backButton.getWidth()/3)/2)) && y > (Game.function.scaleY(1080/6)*5) && y < (Game.function.scaleY(1080/6)*5) +  Game.function.scaleY(backButton.getHeight()/3)){
+			if (x > (Game.function.scaleX(1920/5)*3) - ((Game.function.scaleX(backButton.getWidth()/3)/2)) && x < (Game.function.scaleX(1920/5)*3) + ((Game.function.scaleX(backButton.getWidth()/3)/2)) && y > (Game.function.scaleY(1080/6)*5) && y < (Game.function.scaleY(1080/6)*5) +  Game.function.scaleY(backButton.getHeight()/3)){
 				
 				goBack = true;
 			}
 			
-			if (x > (Game.function.scaleX(1920/3) - ((Game.function.scaleX(gameButton.getWidth()/3)/2))) && x < (Game.function.scaleX(1920/3) + ((Game.function.scaleX(gameButton.getWidth()/3)/2))) && y > (Game.function.scaleY(1080/6)*5) && y < (Game.function.scaleY(1080/6)*5) +  Game.function.scaleY(gameButton.getHeight()/3)) {
+			if (x > (Game.function.scaleX(1920/5)*2) - ((Game.function.scaleX(gameButton.getWidth()/3)/2)) && x < (Game.function.scaleX(1920/5)*2) + ((Game.function.scaleX(gameButton.getWidth()/3)/2)) && y > (Game.function.scaleY(1080/6)*5) && y < (Game.function.scaleY(1080/6)*5) +  Game.function.scaleY(gameButton.getHeight()/3)) {
 				enterGame = true;
 			}
 			
-			if (x > ((Game.function.scaleX(1920/8)*7) - ((Game.function.scaleX(instrucButton.getWidth()/3)/2))) && x < ((Game.function.scaleX(1920/8)*7) + ((Game.function.scaleX(instrucButton.getWidth()/3)/2))) && y > (Game.function.scaleY(1080/4)) && y < (Game.function.scaleY(1080/4)) + Game.function.scaleY(instrucButton.getHeight()/3)) {
+			if (x > ((Game.function.scaleX(1920/5)*3) - ((Game.function.scaleX(instrucButton.getWidth()/3)/2))) && x < ((Game.function.scaleX(1920/5)*3) + ((Game.function.scaleX(instrucButton.getWidth()/3)/2))) && y > (Game.function.scaleY(1080/6)*3) && y < (Game.function.scaleY(1080/6)*3) + Game.function.scaleY(instrucButton.getHeight()/3)) {
 				instructions = true;
 			}
 		}
