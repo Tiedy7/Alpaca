@@ -34,3 +34,12 @@ Tags:
   Josh:
     Feature: Added Drone Enemy Sprite
     Update: Added sorting of resources
+
+11/6/21
+  Esha
+    Instructions: Added stars 
+    Menu: Made prettier 
+    ReadME: Added names
+    Res: Updated images 
+    
+ ---CHECKPOINT 2---
