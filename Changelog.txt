@@ -40,8 +40,8 @@ Tags:
     Feature: Added stars to Instructions.java
     Feature: Updated Menu.java
     Meta: Updated images in res
-    Notes: Updated the ReadME file
-           Will constantly be updating  menu & intro screen, so you don't need to update this code for a bit, but I will still continue to update the code on here
-           Submitted zip file of ALPACA for Checkpoint 2 
+    Meta: Updated the README file
+    Notes: I will constantly be updating  Menu.java & IntroScreen.java, so don't update this code right away--I'll tell you when it's relatively finalized 
+    Note: Submitted zip file of ALPACA for Checkpoint 2 
     
  ---CHECKPOINT 2---
