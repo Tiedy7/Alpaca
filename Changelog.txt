@@ -37,9 +37,10 @@ Tags:
 
 11/6/21
   Esha
-    Instructions: Added stars 
-    Menu: Made prettier 
-    ReadME: Added names
-    Res: Updated images 
+    Feature: Added stars to instructions page
+    Feature: Updated menu
+    Meta: Updated images in res
+    Notes: Will constantly be updating  menu & intro screen, so you don't need to update this code for a bit, but I will sttil continue to update the code on here
+    Notes: Submitted zip file of ALPACA for Checkpoint 2 
     
  ---CHECKPOINT 2---
