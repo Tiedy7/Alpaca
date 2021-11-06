@@ -39,7 +39,7 @@ public class Instructions extends BasicGameState
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException 
 	{
 		// Sets background to the specified RGB color
-		g.setBackground(new Color(0, 100, 200));
+		g.setBackground(new Color(0, 0, 0));
 //		g.drawString("Press 'I' to return to the intro screen!", 300, 300);
 	
 		Image directions = new Image("res/DIRECTIONS (1).png");
