@@ -36,11 +36,12 @@ Tags:
     Update: Added sorting of resources
 
 11/6/21
-  Esha
-    Feature: Added stars to instructions page
-    Feature: Updated menu
+  Esha: 
+    Feature: Added stars to Instructions.java
+    Feature: Updated Menu.java
     Meta: Updated images in res
-    Notes: Will constantly be updating  menu & intro screen, so you don't need to update this code for a bit, but I will sttil continue to update the code on here
-    Notes: Submitted zip file of ALPACA for Checkpoint 2 
+    Notes: Updated the ReadME file
+           Will constantly be updating  menu & intro screen, so you don't need to update this code for a bit, but I will still continue to update the code on here
+           Submitted zip file of ALPACA for Checkpoint 2 
     
  ---CHECKPOINT 2---
