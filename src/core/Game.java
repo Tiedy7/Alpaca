@@ -232,8 +232,9 @@ public class Game extends BasicGameState
 	{
 		if (key == Input.KEY_W) {
 			if (numJumps < 2) {
-				player.jump();
 				numJumps++;
+				System.out.println("Num jumps: " + numJumps);
+				player.jump();
 				playerYSpeed = player.getPlayerVY();
 			}
 		}
