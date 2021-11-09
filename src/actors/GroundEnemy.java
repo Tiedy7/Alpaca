@@ -72,8 +72,8 @@ public class GroundEnemy extends Enemy {
 	
 	public void update() {
 		
-		if (Game.playerX > x + w) vx = 3;
-		else if (Game.playerX + Game.playerW < x) vx = -3;
+		if (Game.playerX > x + w / 2) vx = 1;
+		else if (Game.playerX + Game.playerW < x + w / 2) vx = -1;
 		else vx = 0;
 		vx += ax;
 		vy += ay;
@@ -121,7 +121,6 @@ public class GroundEnemy extends Enemy {
 				if (p.collidesDown(tempX, tempY, w, h)) {
 					vy = 0;
 					tempY = p.getY() - h;
-					Game.playerTouchesPlatform();
 					canFall = false;
 				}
 			}
