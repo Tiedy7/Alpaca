@@ -194,6 +194,7 @@ public class Player extends Actor {
 		vy += ay;
 		
 		//COLLISIONS
+		Game.jumping = true;
 		checkCollisions(Game.platforms);
 		
 		if (vx > 0) vx--;
@@ -243,6 +244,7 @@ public class Player extends Actor {
 					vy = 0;
 					tempY = p.getY() - h;
 					Game.playerTouchesPlatform();
+					Game.jumping = false;
 					canFall = false;
 				}
 			}
