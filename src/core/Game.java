@@ -44,6 +44,8 @@ public class Game extends BasicGameState
 	
 	private Image healthContainer, healthBar;
 	
+	public int healthValue;
+	
 	public static Functions function = new Functions();
 	public static ArrayList<Actor> actors;
 	public static ArrayList<Platform> platforms;
@@ -77,7 +79,7 @@ public class Game extends BasicGameState
 		yPos = 0;
 		back = false;
 
-
+		healthValue = 0;
 		
 		walkLoop = 0;
 		time = 0;
@@ -140,7 +142,7 @@ public class Game extends BasicGameState
 		
 		setImage("res/HealthBar.png");
 		healthBar.setFilter(Image.FILTER_NEAREST);
-		healthBar.draw((float) Game.function.scaleX(healthBar.getWidth()), Game.function.scaleY(healthBar.getHeight()*2) + (healthBar.getHeight()/2), Game.function.scaleX(64)*6, Game.function.scaleY(16)*2);
+		healthBar.draw((float) Game.function.scaleX(healthBar.getWidth()), Game.function.scaleY(healthBar.getHeight()*2) + (healthBar.getHeight()/2), (Game.function.scaleX(64)*6) - (healthValue * 64), Game.function.scaleY(16)*2);
 		
 		setImage("res/healthContainer.png");
 		healthContainer.setFilter(Image.FILTER_NEAREST);
@@ -270,6 +272,9 @@ public class Game extends BasicGameState
 			skill = true;
 		}
 		
+		if (key == Input.KEY_U) {
+			healthValue++;
+		}
 		
 	}
 
