@@ -103,13 +103,13 @@ public class Menu extends BasicGameState
 			setImage("res/Player Sprites/Walk Animation/walkCycleBody.png");
 			character.setFilter(Image.FILTER_NEAREST);
 			character.startUse();
-			character.getSubImage(walkLoop, 0).drawEmbedded(3 * (Engine.RESOLUTION_X / 5), (Engine.RESOLUTION_Y / 4), 4* Game.function.scaleX(94), 4*Game.function.scaleY(164));
+			character.getSubImage(walkLoop, 0).drawEmbedded(4 * (Engine.RESOLUTION_X / 8), (Engine.RESOLUTION_Y / 3), 4* Game.function.scaleX(64), 4*Game.function.scaleY(128));
 			character.endUse();
 			
 			setImage("res/Player Sprites/Attack Animation/attackSide.png");
 			armCycle.setFilter(Image.FILTER_NEAREST);
 			armCycle.startUse();
-			armCycle.getSubImage(armLoop, 0).drawEmbedded(3 * (Engine.RESOLUTION_X / 5),(Engine.RESOLUTION_Y / 4), 4 * Game.function.scaleX(158), 4*Game.function.scaleY(164));
+			armCycle.getSubImage(armLoop, 0).drawEmbedded(4 * (Engine.RESOLUTION_X / 8),(Engine.RESOLUTION_Y / 3), 4 * Game.function.scaleX(128), 4*Game.function.scaleY(128));
 			armCycle.endUse();
 		}
 		
