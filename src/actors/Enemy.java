@@ -37,6 +37,7 @@ public class Enemy extends Actor {
 		y = (2 * Engine.RESOLUTION_Y / 3) - (h);
 		*/
 		
+		isEnemy = true;
 		ay = Game.function.scaleY(1);
 		vy = 0;
 		vx = 0;
