@@ -10,6 +10,8 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import visuals.Star;
+
 public class Pause extends BasicGameState 
 {	
 	int id;
@@ -36,10 +38,13 @@ public class Pause extends BasicGameState
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException 
 	{
 		// Sets background to the specified RGB color
-		g.setBackground(new Color(200, 0, 200));
-		g.drawString("Press 'P' to return to the game!", 300, 300);
+		g.setBackground(new Color(0, 0, 0));
 	
+		for (Star s: IntroScreen.stars) {
+			s.render(g);
+		}
 		
+		g.drawString("Press 'ESCAPE' to return to the game!", 300, 300);
 
 	}
 
@@ -50,6 +55,11 @@ public class Pause extends BasicGameState
 		if (unpause) {
 			sbg.enterState(1);
 			unpause = false;
+		}
+		
+		for (Star s: IntroScreen.stars) {
+			s.update();
+			
 		}
 		
 	}
@@ -67,7 +77,7 @@ public class Pause extends BasicGameState
 	
 	public void keyPressed(int key, char c)
 	{
-		if (key == Input.KEY_P) {
+		if (key == Input.KEY_ESCAPE) {
 			unpause = true;
 		}
 		
