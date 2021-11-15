@@ -42,10 +42,6 @@ public class Game extends BasicGameState
 	private Image walk = null;
 	private SpriteSheet character = null;
 	
-	private Image healthContainer, healthBar;
-	
-	public int healthValue;
-	
 	public static Functions function = new Functions();
 	public static ArrayList<Actor> actors;
 	public static ArrayList<Platform> platforms;
@@ -79,8 +75,6 @@ public class Game extends BasicGameState
 		yPos = 0;
 		back = false;
 
-		healthValue = 0;
-		
 		walkLoop = 0;
 		time = 0;
 		
@@ -139,20 +133,12 @@ public class Game extends BasicGameState
 		for(Platform p : platforms) {
 			p.render(g, Engine.RESOLUTION_X / 2 - (playerW / 2) - playerX, (2 * Engine.RESOLUTION_Y / 3) - playerH - playerY);
 		}
-		
-		setImage("res/HealthBar.png");
-		healthBar.setFilter(Image.FILTER_NEAREST);
-		healthBar.draw((float) Game.function.scaleX(healthBar.getWidth()), Game.function.scaleY(healthBar.getHeight()*2) + (healthBar.getHeight()/2), (Game.function.scaleX(64)*6) - (healthValue * 64), Game.function.scaleY(16)*2);
-		
-		setImage("res/healthContainer.png");
-		healthContainer.setFilter(Image.FILTER_NEAREST);
-		healthContainer.draw((float) Game.function.scaleX(healthContainer.getWidth()), Game.function.scaleY(healthContainer.getHeight()*2) + (healthContainer.getHeight()/2), Game.function.scaleX(64)*6, Game.function.scaleY(16)*2);
-		 
 	}
 
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException
 	{	
 		// This is where you put your game's logic that executes each frame that isn't about drawing
+		
 		x--;
 		y--;
 		time++;
@@ -239,23 +225,17 @@ public class Game extends BasicGameState
 
 	public static void playerTouchesPlatform() {
 		numJumps = 0;
-		
 	}
-	
-	
 	
 	public void keyPressed(int key, char c)
 	{
 		if (key == Input.KEY_W) {
-		
 			if (numJumps < 2) {
 				player.jump();
 				numJumps++;
 				playerYSpeed = player.getPlayerVY();
 			}
-			
 		}
-		
 		
 		if (key == Input.KEY_S) {
 			back = true;
@@ -272,9 +252,6 @@ public class Game extends BasicGameState
 			skill = true;
 		}
 		
-		if (key == Input.KEY_U) {
-			healthValue++;
-		}
 		
 	}
 
@@ -283,8 +260,6 @@ public class Game extends BasicGameState
 		try
 		{
 			character = new SpriteSheet(filepath, 16, 32);
-			healthContainer = new Image(filepath);
-			healthBar = new Image (filepath);
 		}
 		catch(SlickException e)		
 		{
