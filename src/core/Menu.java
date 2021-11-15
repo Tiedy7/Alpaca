@@ -103,15 +103,19 @@ public class Menu extends BasicGameState
 			setImage("res/Player Sprites/Walk Animation/walkCycleBody.png");
 			character.setFilter(Image.FILTER_NEAREST);
 			character.startUse();
-			character.getSubImage(walkLoop, 0).drawEmbedded(4 * (Engine.RESOLUTION_X / 8), (Engine.RESOLUTION_Y / 3), 4* Game.function.scaleX(64), 4*Game.function.scaleY(128));
+			character.getSubImage(walkLoop, 0).drawEmbedded(4 * (Engine.RESOLUTION_X / (int)7.5), (Engine.RESOLUTION_Y / 6), 4* Game.function.scaleX(96), 4*Game.function.scaleY(192));
 			character.endUse();
 			
 			setImage("res/Player Sprites/Attack Animation/attackSide.png");
 			armCycle.setFilter(Image.FILTER_NEAREST);
 			armCycle.startUse();
-			armCycle.getSubImage(armLoop, 0).drawEmbedded(4 * (Engine.RESOLUTION_X / 8),(Engine.RESOLUTION_Y / 3), 4 * Game.function.scaleX(128), 4*Game.function.scaleY(128));
+			armCycle.getSubImage(armLoop, 0).drawEmbedded(4 * (Engine.RESOLUTION_X / (int)7.5),(Engine.RESOLUTION_Y / 6), 4 * Game.function.scaleX(192), 4*Game.function.scaleY(192));
 			armCycle.endUse();
 		}
+		
+		Image menuTitle = new Image("res/menuTitle1.png");
+		menuTitle.setFilter(Image.FILTER_NEAREST);
+		menuTitle.draw((float) ((Game.function.scaleX(1920/7)*2) - ((Game.function.scaleX(menuTitle.getWidth()/2)/2))), (Game.function.scaleY(1080/8)), Game.function.scaleX(menuTitle.getWidth()/2), Game.function.scaleY(menuTitle.getHeight())/2);
 		
 		setImage("res/enterWorld3.png");
 		gameButton.setFilter(Image.FILTER_NEAREST);
