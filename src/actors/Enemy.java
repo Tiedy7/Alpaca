@@ -37,7 +37,6 @@ public class Enemy extends Actor {
 		y = (2 * Engine.RESOLUTION_Y / 3) - (h);
 		*/
 		
-		isEnemy = true;
 		ay = Game.function.scaleY(1);
 		vy = 0;
 		vx = 0;
@@ -49,6 +48,51 @@ public class Enemy extends Actor {
 		
 	}
 	
+	public void contactDamage(Player p, float x, float y, float w, float h) {
+		/*System.out.println("ContactDamage");
+		System.out.println("x:" + x);
+		System.out.println("y:" + y);
+		System.out.println("w:" + w);
+		System.out.println("h:" + h);
+		*/
+		if (collidesWith(p, x, y, w, h)) {
+			p.takeDamage(damage);
+			/*System.out.println("Gaming");
+			System.out.println(p.getPlayerHealth());*/
+		}
+		
+	}
+	
+	public boolean collidesWith(Player p, float x, float y, float w, float h) {
+		/*System.out.println("CollidesWith");
+		System.out.println("x:" + x);
+		System.out.println("y:" + y);
+		System.out.println("w:" + w);
+		System.out.println("h:" + h);
+		System.out.println(p.getPlayerHealth());
+		*/
+		return  collideCheck(p.getX(), p.getY(), x, y, w, h) ||
+				collideCheck(p.getX() + p.getW(), p.getY(), x, y, w, h) ||
+				collideCheck(p.getX(), p.getY() + p.getH(), x, y, w, h) ||
+				collideCheck(p.getX() + p.getW(), p.getY() + p.getH(), x, y, w, h) ||
+				collideCheck(p.getX() + p.getW()/2, p.getY() + p.getH()/2, x, y, w, h);
+		
+	}
+	
+	public boolean collideCheck(float plx, float ply, float x, float y, float w, float h) {
+		/*System.out.println("CollideCheck");
+		System.out.println("x:" + x);
+		System.out.println("y:" + y);
+		System.out.println("w:" + w);
+		System.out.println("h:" + h);
+		System.out.println("plx:" + plx);
+		System.out.println("ply:" + ply);*/
+		return  plx >= x &&
+				plx <= x + w &&
+				ply >= y &&
+				ply <= y + h;
+	}
+
 	public void update() {
 		
 	}
