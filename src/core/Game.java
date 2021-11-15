@@ -264,7 +264,7 @@ public class Game extends BasicGameState
 			forward = true;
 		}
 		
-		if (key == Input.KEY_ESCAPE) {
+		if (key == Input.KEY_P) {
 			pause = true;
 		}
 		
