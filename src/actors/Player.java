@@ -41,6 +41,8 @@ public class Player extends Actor {
 		x = Engine.RESOLUTION_X / 2 - (w / 2);
 		y = (2 * Engine.RESOLUTION_Y / 3) - (h);
 		
+		isEnemy = false;
+		
 		ay = Game.function.scaleY(1);
 		vy = 0;
 		vx = 0;
@@ -122,33 +124,33 @@ public class Player extends Actor {
 				
 			}
 		}
-		if (Game.jumping == true) {
+		if (Game.jumping) {
 			if (faceLeft) {
-				setImage("res/Player Sprites/Jump/jumpArms.png");
-				character.setFilter(Image.FILTER_NEAREST);
-				character.startUse();
-				character.getSubImage(0, 0).drawEmbedded(Engine.RESOLUTION_X / 2 + (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,-w,h);
-				character.endUse();
-				
 				setImage("res/Player Sprites/Jump/jumpBody.png");
 				armCycle.setFilter(Image.FILTER_NEAREST);
 				armCycle.startUse();
 				armCycle.getSubImage(0, 0).drawEmbedded(Engine.RESOLUTION_X / 2 + (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,-w,h);
 				armCycle.endUse();
-			}
-			
-			if (faceRight) {
+				
 				setImage("res/Player Sprites/Jump/jumpArms.png");
 				character.setFilter(Image.FILTER_NEAREST);
 				character.startUse();
-				character.getSubImage(0, 0).drawEmbedded(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,w,h);
+				character.getSubImage(0, 0).drawEmbedded(Engine.RESOLUTION_X / 2 + (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,-w,h);
 				character.endUse();
-				
+			}
+			
+			if (faceRight) {
 				setImage("res/Player Sprites/Jump/jumpBody.png");
 				armCycle.setFilter(Image.FILTER_NEAREST);
 				armCycle.startUse();
 				armCycle.getSubImage(0, 0).drawEmbedded(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,w,h);
 				armCycle.endUse();
+				
+				setImage("res/Player Sprites/Jump/jumpArms.png");
+				character.setFilter(Image.FILTER_NEAREST);
+				character.startUse();
+				character.getSubImage(0, 0).drawEmbedded(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,w,h);
+				character.endUse();
 			}
 		}
 	}
