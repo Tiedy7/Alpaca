@@ -45,6 +45,8 @@ public class GroundEnemy extends Enemy {
 		vx = 0;
 		ax = 0;
 		
+		damage = 2;
+		
 		walkRow = false;
 		walkRowNum = 0;
 		
@@ -72,8 +74,8 @@ public class GroundEnemy extends Enemy {
 	
 	public void update() {
 		
-		if (Game.playerX > x + w / 2) vx = 1;
-		else if (Game.playerX + Game.playerW < x + w / 2) vx = -1;
+		if (Game.playerX > x + (w*0.1)) vx = 3;
+		else if (Game.playerX + Game.playerW < x + (w*0.9)) vx = -3;
 		else vx = 0;
 		vx += ax;
 		vy += ay;
@@ -98,6 +100,7 @@ public class GroundEnemy extends Enemy {
 		
 		//COLLISIONS
 		checkCollisions(Game.platforms);
+		contactDamage(Game.player, x, y, w, h);
 	}
 	
 	protected void checkCollisions(ArrayList<Platform> platforms) {
@@ -121,6 +124,7 @@ public class GroundEnemy extends Enemy {
 				if (p.collidesDown(tempX, tempY, w, h)) {
 					vy = 0;
 					tempY = p.getY() - h;
+					Game.playerTouchesPlatform();
 					canFall = false;
 				}
 			}
