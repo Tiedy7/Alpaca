@@ -15,11 +15,13 @@ public class Player extends Actor {
 
 	private float x, w, y, h;
 	
+	private int swordDamage;
+	private int invincibility;
+	
 	private int walkLoop, walkRowNum;
 	private boolean walkRow;
 	
 	private int time = 0;
-	
 	
 	private Image walk = null;
 	private SpriteSheet character = null;
@@ -41,12 +43,14 @@ public class Player extends Actor {
 		x = Engine.RESOLUTION_X / 2 - (w / 2);
 		y = (2 * Engine.RESOLUTION_Y / 3) - (h);
 		
-		isEnemy = false;
-		
 		ay = Game.function.scaleY(1);
 		vy = 0;
 		vx = 0;
 		ax = 0;
+		
+		maxHealth = 7;
+		curHealth = maxHealth;
+		invincibility = 0;
 		
 		walkRow = false;
 		walkRowNum = 0;
@@ -124,40 +128,38 @@ public class Player extends Actor {
 				
 			}
 		}
-		if (Game.jumping) {
+		if (Game.jumping == true) {
 			if (faceLeft) {
-				setImage("res/Player Sprites/Jump/jumpBody.png");
-				armCycle.setFilter(Image.FILTER_NEAREST);
-				armCycle.startUse();
-				armCycle.getSubImage(0, 0).drawEmbedded(Engine.RESOLUTION_X / 2 + (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,-w,h);
-				armCycle.endUse();
-				
 				setImage("res/Player Sprites/Jump/jumpArms.png");
 				character.setFilter(Image.FILTER_NEAREST);
 				character.startUse();
 				character.getSubImage(0, 0).drawEmbedded(Engine.RESOLUTION_X / 2 + (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,-w,h);
 				character.endUse();
-			}
-			
-			if (faceRight) {
+				
 				setImage("res/Player Sprites/Jump/jumpBody.png");
 				armCycle.setFilter(Image.FILTER_NEAREST);
 				armCycle.startUse();
-				armCycle.getSubImage(0, 0).drawEmbedded(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,w,h);
+				armCycle.getSubImage(0, 0).drawEmbedded(Engine.RESOLUTION_X / 2 + (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,-w,h);
 				armCycle.endUse();
-				
+			}
+			
+			if (faceRight) {
 				setImage("res/Player Sprites/Jump/jumpArms.png");
 				character.setFilter(Image.FILTER_NEAREST);
 				character.startUse();
 				character.getSubImage(0, 0).drawEmbedded(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,w,h);
 				character.endUse();
+				
+				setImage("res/Player Sprites/Jump/jumpBody.png");
+				armCycle.setFilter(Image.FILTER_NEAREST);
+				armCycle.startUse();
+				armCycle.getSubImage(0, 0).drawEmbedded(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,w,h);
+				armCycle.endUse();
 			}
 		}
 	}
 	
 	public void update() {
-		
-		
 		
 		if (Game.gc.getInput().isKeyDown(Game.gc.getInput().KEY_D)) {
 			vx = Game.function.scaleX(10);
@@ -196,13 +198,16 @@ public class Player extends Actor {
 		vy += ay;
 		
 		//COLLISIONS
-		Game.jumping = true;
 		checkCollisions(Game.platforms);
 		
 		if (vx > 0) vx--;
 		if (vx < 0) vx++;
 		if (Math.abs(vx) < 1) vx = 0;
 		
+		//INVINCIBILITY FRAMES
+		if (invincibility > 0) {
+			invincibility -= 1;
+		}
 		
 		//ANIMATION STUFF
 		if (time % 12 == 0) {
@@ -246,7 +251,6 @@ public class Player extends Actor {
 					vy = 0;
 					tempY = p.getY() - h;
 					Game.playerTouchesPlatform();
-					Game.jumping = false;
 					canFall = false;
 				}
 			}
@@ -260,6 +264,10 @@ public class Player extends Actor {
 		}
 		x = tempX;
 		y = tempY;
+	}
+	
+	public float getPlayerHealth() {
+		return curHealth;
 	}
 	
 	public float getX() {
@@ -309,6 +317,14 @@ public class Player extends Actor {
 	public void collidesRight(float newX) {
 		vx = 0;
 		x = newX - h;
+	}
+	
+	public void takeDamage(int damage) {
+		if (invincibility == 0) {
+			curHealth -= damage;
+			invincibility = 60;
+			System.out.println(curHealth);
+		}
 	}
 	
 	public void fall() {
