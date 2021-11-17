@@ -259,7 +259,6 @@ public class Game extends BasicGameState
 
 	public static void playerTouchesPlatform() {
 		numJumps = 0;
-		
 	}
 	
 	
@@ -269,8 +268,8 @@ public class Game extends BasicGameState
 		if (key == Input.KEY_W) {
 			if (numJumps < 2) {
 				player.jump();
-				numJumps++;
 				playerYSpeed = player.getPlayerVY();
+				numJumps++;
 			}
 		}
 		
@@ -295,7 +294,7 @@ public class Game extends BasicGameState
 		}
 		
 	}
-
+	
 	public void setImage(String filepath)
 	{
 		try
