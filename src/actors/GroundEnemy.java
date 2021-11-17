@@ -135,7 +135,6 @@ public class GroundEnemy extends Enemy {
 				if (p.collidesDown(tempX, tempY, w, h)) {
 					vy = 0;
 					tempY = p.getY() - h;
-					Game.playerTouchesPlatform();
 					canFall = false;
 				}
 			}
