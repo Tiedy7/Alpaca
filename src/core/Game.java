@@ -18,6 +18,7 @@ import actors.Actor;
 import actors.Platform;
 import actors.Player;
 import actors.Enemy;
+import actors.Projectile;
 import actors.GroundEnemy;
 import actors.DroneEnemy;
 
@@ -37,7 +38,11 @@ public class Game extends BasicGameState
 	
 	private boolean forward, pause, skill;
 	
+	public static ArrayList<Projectile> projectiles;
+	
 	public static boolean jumping;
+	
+	public static Projectile placejectile;
 	
 	private Image walk = null;
 	private SpriteSheet character = null;
@@ -79,6 +84,8 @@ public class Game extends BasicGameState
 		yPos = 0;
 		back = false;
 
+		projectiles = new ArrayList<Projectile>();
+		
 		healthValue = 0;
 		
 		walkLoop = 0;
@@ -107,11 +114,16 @@ public class Game extends BasicGameState
 		
 		//TEMPORARY FOR TESTING
 		platforms.add(new Platform(function.scaleX(200),function.scaleY(800),function.scaleX(1520),function.scaleY(200)));
-		
+		platforms.add(new Platform(function.scaleX(1800),function.scaleY(500),function.scaleX(1500),function.scaleY(200)));
+		platforms.add(new Platform(function.scaleX(1000),function.scaleY(500),function.scaleX(300),function.scaleY(300)));
+
 		groundEnemy1 = new GroundEnemy(function.scaleX(300), function.scaleY(100));
 		actors.add(groundEnemy1);
 		droneEnemy1 = new DroneEnemy(function.scaleX(300), function.scaleY(100));
 		actors.add(droneEnemy1);
+		placejectile = new Projectile(function.scaleX(100), function.scaleY(300), 64, 64, 5, 0, 2, false);
+		//float x, float y, int sw, int sh, float vx, float vy, int damage, boolean breaksOnWall
+		projectiles.add(placejectile);
 		
 		platforms.add(new Platform(function.scaleX(1000),function.scaleY(500),function.scaleX(300),function.scaleY(300)));
 	}
@@ -142,12 +154,16 @@ public class Game extends BasicGameState
 		
 		setImage("res/HealthBar.png");
 		healthBar.setFilter(Image.FILTER_NEAREST);
-		healthBar.draw((float) Game.function.scaleX(healthBar.getWidth()), Game.function.scaleY(healthBar.getHeight()*2) + (healthBar.getHeight()/2), (Game.function.scaleX(64)*6) - (healthValue * 64), Game.function.scaleY(16)*2);
+		healthBar.draw((float) Game.function.scaleX(healthBar.getWidth()), Game.function.scaleY(healthBar.getHeight()*2) + (healthBar.getHeight()/2), (Game.function.scaleX(64)*6) + ((player.getPlayerHealth()-player.getPlayerMaxHealth()) * 64), Game.function.scaleY(16)*2);
 		
 		setImage("res/healthContainer.png");
 		healthContainer.setFilter(Image.FILTER_NEAREST);
 		healthContainer.draw((float) Game.function.scaleX(healthContainer.getWidth()), Game.function.scaleY(healthContainer.getHeight()*2) + (healthContainer.getHeight()/2), Game.function.scaleX(64)*6, Game.function.scaleY(16)*2);
-		 
+	
+		for(Projectile p : projectiles) {
+			p.render(g, Engine.RESOLUTION_X / 2 - (playerW / 2) - playerX, (2 * Engine.RESOLUTION_Y / 3) - playerH - playerY);
+		}
+		
 	}
 
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException
@@ -194,6 +210,10 @@ public class Game extends BasicGameState
 		
 		for (Actor a : actors) {
 			a.update();
+		}
+		
+		for (Projectile p : projectiles) {
+			p.update();
 		}
 		
 		playerX = player.getX();
@@ -247,13 +267,11 @@ public class Game extends BasicGameState
 	public void keyPressed(int key, char c)
 	{
 		if (key == Input.KEY_W) {
-		
 			if (numJumps < 2) {
 				player.jump();
 				numJumps++;
 				playerYSpeed = player.getPlayerVY();
 			}
-			
 		}
 		
 		
@@ -264,7 +282,7 @@ public class Game extends BasicGameState
 			forward = true;
 		}
 		
-		if (key == Input.KEY_P) {
+		if (key == Input.KEY_ESCAPE) {
 			pause = true;
 		}
 		
