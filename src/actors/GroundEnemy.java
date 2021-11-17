@@ -45,8 +45,6 @@ public class GroundEnemy extends Enemy {
 		vx = 0;
 		ax = 0;
 		
-		damage = 2;
-		
 		walkRow = false;
 		walkRowNum = 0;
 		
@@ -59,34 +57,23 @@ public class GroundEnemy extends Enemy {
 	}
 	
 	public void render(Graphics g, float difX, float difY) {
-		if (faceLeft) {
-			setImage("res/Enemy Sprites/enemyPlaceholder.png");
-			groundEnemy.setFilter(Image.FILTER_NEAREST);
-			groundEnemy.startUse();
-			groundEnemy.getSubImage(0, 0).drawEmbedded(x + difX + (w), y + difY, -w, h);
-			groundEnemy.endUse();
-		}
-		if (faceRight) {
-			setImage("res/Enemy Sprites/enemyPlaceholder.png");
-			groundEnemy.setFilter(Image.FILTER_NEAREST);
-			groundEnemy.startUse();
-			groundEnemy.getSubImage(0, 0).drawEmbedded(x + difX, y + difY, w, h);
-			groundEnemy.endUse();
-		}
+		//THIS IS TEMPORARY JUST FOR TESTING, REPLACE WITH ACTUAL GRAPHICS LATER
+//		g.setColor(color);
+//		g.fillRect(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,w,h);
+		
+
+		
+		setImage("res/Enemy Sprites/enemyPlaceholder.png");
+		groundEnemy.setFilter(Image.FILTER_NEAREST);
+		groundEnemy.startUse();
+		groundEnemy.getSubImage(0, 0).drawEmbedded(x + difX, y + difY, w, h);
+		groundEnemy.endUse();
 	}
 	
 	public void update() {
 		
-		if (Game.playerX > x + (w*0.1)) {
-			vx = 3;
-			faceRight = true;
-			faceLeft = false;
-		}
-		else if (Game.playerX + Game.playerW < x + (w*0.9)) {
-			vx = -3;
-			faceRight = false;
-			faceLeft = true;
-		}
+		if (Game.playerX > x + w / 2) vx = 1;
+		else if (Game.playerX + Game.playerW < x + w / 2) vx = -1;
 		else vx = 0;
 		vx += ax;
 		vy += ay;
@@ -111,7 +98,6 @@ public class GroundEnemy extends Enemy {
 		
 		//COLLISIONS
 		checkCollisions(Game.platforms);
-		contactDamage(Game.player, x, y, w, h);
 	}
 	
 	protected void checkCollisions(ArrayList<Platform> platforms) {
@@ -135,7 +121,6 @@ public class GroundEnemy extends Enemy {
 				if (p.collidesDown(tempX, tempY, w, h)) {
 					vy = 0;
 					tempY = p.getY() - h;
-					Game.playerTouchesPlatform();
 					canFall = false;
 				}
 			}
