@@ -10,6 +10,7 @@ import org.newdawn.slick.SpriteSheet;
 
 import core.Engine;
 import core.Game;
+import core.Menu;
 
 public class Player extends Actor {
 
@@ -29,6 +30,7 @@ public class Player extends Actor {
 	private SpriteSheet character = null;
 	private Image arms = null;
 	private SpriteSheet armCycle = null;
+	private SpriteSheet dwayne = null;
 	
 	private boolean isRight, isLeft, isJump, isIdle, faceRight, faceLeft, canMoveRight, canMoveLeft;
 	
@@ -73,6 +75,24 @@ public class Player extends Actor {
 //		g.setColor(color);
 //		g.fillRect(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,w,h);
 		
+		if (Menu.superDwayne) {
+			if (isRight || isIdle) {
+				setImage("res/THE DWAYNE.png");
+				dwayne.setFilter(Image.FILTER_NEAREST);
+				dwayne.startUse();
+				dwayne.getSubImage(0, 0).drawEmbedded(Engine.RESOLUTION_X / 2 - (Game.function.scaleX(64) / 2),(2 * Engine.RESOLUTION_Y / 3) - Game.function.scaleY(128),Game.function.scaleX(64),Game.function.scaleY(128));
+				dwayne.endUse();
+			}
+			if (isLeft) {
+				setImage("res/THE DWAYNE.png");
+				dwayne.setFilter(Image.FILTER_NEAREST);
+				dwayne.startUse();
+				dwayne.getSubImage(0, 0).drawEmbedded(Engine.RESOLUTION_X / 2 + (Game.function.scaleX(64) / 2),(2 * Engine.RESOLUTION_Y / 3) - Game.function.scaleY(128),-Game.function.scaleX(64),Game.function.scaleY(128));
+				dwayne.endUse();
+			}
+		}
+		
+		if (!Menu.superDwayne) { 
 		if (!Game.jumping) {
 			if (isRight) {
 				setImage("res/Player Sprites/Walk Animation/walkCycleBody.png");
@@ -161,6 +181,7 @@ public class Player extends Actor {
 				character.getSubImage(0, 0).drawEmbedded(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,w,h);
 				character.endUse();
 			}
+		}
 		}
 	}
 	
@@ -292,6 +313,14 @@ public class Player extends Actor {
 		}
 	}
 	
+	public void setHealth(int newHealth) {
+		curHealth = newHealth;
+	}
+	
+	public void setMaxHealth(int newHealth) {
+		maxHealth = newHealth;
+	}
+	
 	public float getX() {
 		return x;
 	}
@@ -360,6 +389,7 @@ public class Player extends Actor {
 		{
 			character = new SpriteSheet(filepath, 16, 32);
 			armCycle = new SpriteSheet(filepath, 16, 32);
+			dwayne = new SpriteSheet(filepath, 32, 64);
 		}
 		catch(SlickException e)		
 		{
