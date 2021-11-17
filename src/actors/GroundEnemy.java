@@ -59,23 +59,34 @@ public class GroundEnemy extends Enemy {
 	}
 	
 	public void render(Graphics g, float difX, float difY) {
-		//THIS IS TEMPORARY JUST FOR TESTING, REPLACE WITH ACTUAL GRAPHICS LATER
-//		g.setColor(color);
-//		g.fillRect(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,w,h);
-		
-
-		
-		setImage("res/Enemy Sprites/enemyPlaceholder.png");
-		groundEnemy.setFilter(Image.FILTER_NEAREST);
-		groundEnemy.startUse();
-		groundEnemy.getSubImage(0, 0).drawEmbedded(x + difX, y + difY, w, h);
-		groundEnemy.endUse();
+		if (faceLeft) {
+			setImage("res/Enemy Sprites/enemyPlaceholder.png");
+			groundEnemy.setFilter(Image.FILTER_NEAREST);
+			groundEnemy.startUse();
+			groundEnemy.getSubImage(0, 0).drawEmbedded(x + difX + (w), y + difY, -w, h);
+			groundEnemy.endUse();
+		}
+		if (faceRight) {
+			setImage("res/Enemy Sprites/enemyPlaceholder.png");
+			groundEnemy.setFilter(Image.FILTER_NEAREST);
+			groundEnemy.startUse();
+			groundEnemy.getSubImage(0, 0).drawEmbedded(x + difX, y + difY, w, h);
+			groundEnemy.endUse();
+		}
 	}
 	
 	public void update() {
 		
-		if (Game.playerX > x + (w*0.1)) vx = 3;
-		else if (Game.playerX + Game.playerW < x + (w*0.9)) vx = -3;
+		if (Game.playerX > x + (w*0.1)) {
+			vx = 3;
+			faceRight = true;
+			faceLeft = false;
+		}
+		else if (Game.playerX + Game.playerW < x + (w*0.9)) {
+			vx = -3;
+			faceRight = false;
+			faceLeft = true;
+		}
 		else vx = 0;
 		vx += ax;
 		vy += ay;
