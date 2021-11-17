@@ -56,7 +56,7 @@ public class Enemy extends Actor {
 		System.out.println("h:" + h);
 		*/
 		if (collidesWith(p, x, y, w, h)) {
-			p.takeDamage(damage);
+//			p.takeDamage(damage);
 			/*System.out.println("Gaming");
 			System.out.println(p.getPlayerHealth());*/
 		}
