@@ -16,6 +16,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import actors.Actor;
 import actors.Platform;
+import actors.Projectile;
 import actors.Player;
 import actors.Enemy;
 import actors.GroundEnemy;
@@ -42,16 +43,14 @@ public class Game extends BasicGameState
 	private Image walk = null;
 	private SpriteSheet character = null;
 	
-	private Image healthContainer, healthBar;
-	
-	public int healthValue;
-	
 	public static Functions function = new Functions();
 	public static ArrayList<Actor> actors;
 	public static ArrayList<Platform> platforms;
+	public static ArrayList<Projectile> projectiles;
 	public static Player player;
 	public static GroundEnemy groundEnemy1;
 	public static DroneEnemy droneEnemy1;
+	public static Projectile placejectile;
 	
 	public static float playerX, playerY, playerW, playerH;
 	
@@ -79,8 +78,6 @@ public class Game extends BasicGameState
 		yPos = 0;
 		back = false;
 
-		healthValue = 0;
-		
 		walkLoop = 0;
 		time = 0;
 		
@@ -97,6 +94,7 @@ public class Game extends BasicGameState
 		//INITIALIZING ARRAYLISTS
 		actors = new ArrayList<Actor>();
 		platforms = new ArrayList<Platform>();
+		projectiles = new ArrayList<Projectile>();
 		player = new Player();
 		actors.add(player);
 		playerX = player.getX();
@@ -107,13 +105,17 @@ public class Game extends BasicGameState
 		
 		//TEMPORARY FOR TESTING
 		platforms.add(new Platform(function.scaleX(200),function.scaleY(800),function.scaleX(1520),function.scaleY(200)));
+		platforms.add(new Platform(function.scaleX(1800),function.scaleY(500),function.scaleX(1500),function.scaleY(200)));
+		platforms.add(new Platform(function.scaleX(1000),function.scaleY(500),function.scaleX(300),function.scaleY(300)));
 		
 		groundEnemy1 = new GroundEnemy(function.scaleX(300), function.scaleY(100));
 		actors.add(groundEnemy1);
 		droneEnemy1 = new DroneEnemy(function.scaleX(300), function.scaleY(100));
 		actors.add(droneEnemy1);
+		placejectile = new Projectile(function.scaleX(100), function.scaleY(300), 64, 64, 5, 0, 2, false);
+		//float x, float y, int sw, int sh, float vx, float vy, int damage, boolean breaksOnWall
+		projectiles.add(placejectile);
 		
-		platforms.add(new Platform(function.scaleX(1000),function.scaleY(500),function.scaleX(300),function.scaleY(300)));
 	}
 
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException 
@@ -140,19 +142,15 @@ public class Game extends BasicGameState
 			p.render(g, Engine.RESOLUTION_X / 2 - (playerW / 2) - playerX, (2 * Engine.RESOLUTION_Y / 3) - playerH - playerY);
 		}
 		
-		setImage("res/HealthBar.png");
-		healthBar.setFilter(Image.FILTER_NEAREST);
-		healthBar.draw((float) Game.function.scaleX(healthBar.getWidth()), Game.function.scaleY(healthBar.getHeight()*2) + (healthBar.getHeight()/2), (Game.function.scaleX(64)*6) - (healthValue * 64), Game.function.scaleY(16)*2);
-		
-		setImage("res/healthContainer.png");
-		healthContainer.setFilter(Image.FILTER_NEAREST);
-		healthContainer.draw((float) Game.function.scaleX(healthContainer.getWidth()), Game.function.scaleY(healthContainer.getHeight()*2) + (healthContainer.getHeight()/2), Game.function.scaleX(64)*6, Game.function.scaleY(16)*2);
-		 
+		for(Projectile p : projectiles) {
+			p.render(g, Engine.RESOLUTION_X / 2 - (playerW / 2) - playerX, (2 * Engine.RESOLUTION_Y / 3) - playerH - playerY);
+		}
 	}
 
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException
 	{	
 		// This is where you put your game's logic that executes each frame that isn't about drawing
+		
 		x--;
 		y--;
 		time++;
@@ -194,6 +192,9 @@ public class Game extends BasicGameState
 		
 		for (Actor a : actors) {
 			a.update();
+		}
+		for (Projectile p : projectiles) {
+			p.update();
 		}
 		
 		playerX = player.getX();
@@ -239,23 +240,17 @@ public class Game extends BasicGameState
 
 	public static void playerTouchesPlatform() {
 		numJumps = 0;
-		
 	}
-	
-	
 	
 	public void keyPressed(int key, char c)
 	{
 		if (key == Input.KEY_W) {
-		
 			if (numJumps < 2) {
 				player.jump();
 				numJumps++;
 				playerYSpeed = player.getPlayerVY();
 			}
-			
 		}
-		
 		
 		if (key == Input.KEY_S) {
 			back = true;
@@ -272,9 +267,6 @@ public class Game extends BasicGameState
 			skill = true;
 		}
 		
-		if (key == Input.KEY_U) {
-			healthValue++;
-		}
 		
 	}
 
@@ -283,8 +275,6 @@ public class Game extends BasicGameState
 		try
 		{
 			character = new SpriteSheet(filepath, 16, 32);
-			healthContainer = new Image(filepath);
-			healthBar = new Image (filepath);
 		}
 		catch(SlickException e)		
 		{
