@@ -18,6 +18,10 @@ public class Player extends Actor {
 	private int walkLoop, walkRowNum;
 	private boolean walkRow;
 	
+	private int swordDamage;
+	private int invincibility;
+
+	
 	private int time = 0;
 	
 	
@@ -47,6 +51,11 @@ public class Player extends Actor {
 		vy = 0;
 		vx = 0;
 		ax = 0;
+		
+		maxHealth = 7;
+		curHealth = maxHealth;
+		invincibility = 0;
+
 		
 		walkRow = false;
 		walkRowNum = 0;
@@ -124,7 +133,7 @@ public class Player extends Actor {
 				
 			}
 		}
-		if (Game.jumping) {
+		if (Game.jumping == true) {
 			if (faceLeft) {
 				setImage("res/Player Sprites/Jump/jumpBody.png");
 				armCycle.setFilter(Image.FILTER_NEAREST);
@@ -204,6 +213,11 @@ public class Player extends Actor {
 		if (Math.abs(vx) < 1) vx = 0;
 		
 		
+		//INVINCIBILITY FRAMES
+		if (invincibility > 0) {
+			invincibility -= 1;
+		}
+		
 		//ANIMATION STUFF
 		if (time % 12 == 0) {
 			walkLoop++;
@@ -222,6 +236,14 @@ public class Player extends Actor {
 		if (!walkRow) {
 			walkRowNum = 0;
 		}
+	}
+	
+	public float getPlayerHealth() {
+		return curHealth;
+	}
+	
+	public float getPlayerMaxHealth() {
+		return maxHealth;
 	}
 	
 	public void checkCollisions(ArrayList<Platform> platforms) {
@@ -260,6 +282,14 @@ public class Player extends Actor {
 		}
 		x = tempX;
 		y = tempY;
+	}
+	
+	public void takeDamage(int damage) {
+		if (invincibility == 0) {
+			curHealth -= damage;
+			invincibility = 60;
+			System.out.println(curHealth);
+		}
 	}
 	
 	public float getX() {
