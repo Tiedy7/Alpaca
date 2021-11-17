@@ -129,7 +129,6 @@ public class DroneEnemy extends Enemy {
 				if (p.collidesDown(tempX, tempY, w, h)) {
 					vy = 0;
 					tempY = p.getY() - h;
-					Game.playerTouchesPlatform();
 				}
 			}
 			if (vy < 0) {
