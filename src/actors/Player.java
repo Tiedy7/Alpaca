@@ -21,7 +21,6 @@ public class Player extends Actor {
 	
 	private int swordDamage;
 	private int invincibility;
-
 	
 	private int time = 0;
 	
@@ -319,6 +318,14 @@ public class Player extends Actor {
 	
 	public void setMaxHealth(int newHealth) {
 		maxHealth = newHealth;
+	}
+	
+	public float getHealth() {
+		return curHealth;
+	}
+	
+	public float getMaxHealth() {
+		return curHealth;
 	}
 	
 	public float getX() {
