@@ -45,6 +45,8 @@ public class GroundEnemy extends Enemy {
 		vx = 0;
 		ax = 0;
 		
+		maxHealth = 5;
+		curHealth = maxHealth;
 		damage = 2;
 		
 		walkRow = false;
