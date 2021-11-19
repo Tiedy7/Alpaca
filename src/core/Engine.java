@@ -24,7 +24,7 @@ public class Engine extends StateBasedGame
     public static final int menu = 3;
     public static final int pause = 4;
     public static final int instructions = 5;
-  
+    public static final int lost = 6;
     
 
 	public Engine(String name) 
@@ -38,6 +38,7 @@ public class Engine extends StateBasedGame
 		this.addState(new SkillTree(skillTree));
 		this.addState(new Instructions(instructions));
 		this.addState(new Menu(menu));
+		this.addState(new Lost(lost));
 		
 	}
 
@@ -49,7 +50,7 @@ public class Engine extends StateBasedGame
 		this.getState(skillTree).init(gc,  this);
 		this.getState(instructions).init(gc,  this);
 		this.getState(menu).init(gc,  this);
-
+		this.getState(lost).init(gc, this);
 	}
 
 	public static void main(String[] args) 
