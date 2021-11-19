@@ -21,6 +21,8 @@ import actors.Enemy;
 import actors.Projectile;
 import actors.GroundEnemy;
 import actors.DroneEnemy;
+import actors.DwayneBoss;
+import actors.Fireball;
 
 public class Game extends BasicGameState 
 {	
@@ -42,8 +44,6 @@ public class Game extends BasicGameState
 	
 	public static boolean jumping;
 	
-	public static Projectile placejectile;
-	
 	private Image walk = null;
 	private SpriteSheet character = null;
 	
@@ -57,6 +57,9 @@ public class Game extends BasicGameState
 	public static Player player;
 	public static GroundEnemy groundEnemy1;
 	public static DroneEnemy droneEnemy1;
+	public static Fireball placejectile;
+	public static DwayneBoss dwayne;
+	public static Fireball dFireball;
 	
 	public static float playerX, playerY, playerW, playerH;
 	
@@ -91,7 +94,6 @@ public class Game extends BasicGameState
 		walkLoop = 0;
 		time = 0;
 		
-		
 		forward = false;
 		
 		jumping = false;
@@ -118,12 +120,14 @@ public class Game extends BasicGameState
 		platforms.add(new Platform(function.scaleX(1800),function.scaleY(500),function.scaleX(1500),function.scaleY(200)));
 		platforms.add(new Platform(function.scaleX(1000),function.scaleY(500),function.scaleX(300),function.scaleY(300)));
 
-		groundEnemy1 = new GroundEnemy(function.scaleX(300), function.scaleY(100));
+		groundEnemy1 = new GroundEnemy(function.scaleX(300), function.scaleY(400));
 		actors.add(groundEnemy1);
 		droneEnemy1 = new DroneEnemy(function.scaleX(300), function.scaleY(100));
 		actors.add(droneEnemy1);
-		placejectile = new Projectile(function.scaleX(100), function.scaleY(300), 64, 64, 5, 0, 2, false);
-		//float x, float y, int sw, int sh, float vx, float vy, int damage, boolean breaksOnWall
+		dwayne = new DwayneBoss(function.scaleX(1500), function.scaleY(200));
+		actors.add(dwayne);
+		
+		placejectile = new Fireball(player.getX()+function.scaleX(8), player.getY()+function.scaleX(16), function.scaleX(1500), function.scaleY(000));
 		projectiles.add(placejectile);
 		
 		platforms.add(new Platform(function.scaleX(1000),function.scaleY(500),function.scaleX(300),function.scaleY(300)));
@@ -155,14 +159,12 @@ public class Game extends BasicGameState
 		
 		setImage("res/HealthBar.png");
 		healthBar.setFilter(Image.FILTER_NEAREST);
-		healthBar.draw((float) Game.function.scaleX(healthBar.getWidth()), Game.function.scaleY(healthBar.getHeight()*2) + (healthBar.getHeight()/2), (float) ((Game.function.scaleX(64)*6) - ((player.getPlayerMaxHealth()-player.getPlayerHealth()) * 54.857)), Game.function.scaleY(16)*2);
-		
+		healthBar.draw((float) Game.function.scaleX(healthBar.getWidth()), Game.function.scaleY(healthBar.getHeight()*2) + (healthBar.getHeight()/2), (Game.function.scaleX(64)*6) + ((player.getHealth()-player.getMaxHealth()) * 64), Game.function.scaleY(16)*2);
+	
 		setImage("res/healthContainer.png");
 		healthContainer.setFilter(Image.FILTER_NEAREST);
 		healthContainer.draw((float) Game.function.scaleX(healthContainer.getWidth()), Game.function.scaleY(healthContainer.getHeight()*2) + (healthContainer.getHeight()/2), Game.function.scaleX(64)*6, Game.function.scaleY(16)*2);
 	
-		
-		
 		for(Projectile p : projectiles) {
 			p.render(g, Engine.RESOLUTION_X / 2 - (playerW / 2) - playerX, (2 * Engine.RESOLUTION_Y / 3) - playerH - playerY);
 		}
@@ -175,13 +177,6 @@ public class Game extends BasicGameState
 		x--;
 		y--;
 		time++;
-		
-		if (player.getPlayerHealth() == 0) {
-			sbg.enterState(6);
-		}
-		if (player.getPlayerHealth() <= 0) {
-			sbg.enterState(6);;
-		}
 		
 		if (forward) {
 			xPos = xPos + 3;
@@ -224,6 +219,11 @@ public class Game extends BasicGameState
 		
 		for (Projectile p : projectiles) {
 			p.update();
+			/*
+			if (p.getTime()>60) {
+				p = null;
+			}
+			*/
 		}
 		
 		playerX = player.getX();
@@ -245,8 +245,6 @@ public class Game extends BasicGameState
 		back = false;
 
 		
-		healthValue = 0;
-		
 		walkLoop = 0;
 		time = 0;
 		
@@ -260,25 +258,24 @@ public class Game extends BasicGameState
 		
 		skill = false;
 		
-		playerX = player.getX();
-		playerY = player.getY();
-		playerW = player.getW();
-		playerH = player.getH();
 		numJumps = 0;
-		
-		
-		player.setHealth(7);
 	}
 
 	public void leave(GameContainer gc, StateBasedGame sbg) 
 	{
 		// This code happens when you leave a gameState. 
 	}
+	
+	public static void dwayneAttack(int number, float dx, float dy) {
+		dFireball = new Fireball(player.getX()+function.scaleX(8), player.getY()+function.scaleY(16), (dx+function.scaleX(8)), (dy+function.scaleY(16)));
+		// (dFireball!=null) {
+			projectiles.add(dFireball);
+		//}
+	}
 
 	public static void playerTouchesPlatform() {
 		numJumps = 0;
 	}
-	
 	
 	
 	public void keyPressed(int key, char c)
@@ -327,8 +324,6 @@ public class Game extends BasicGameState
 		}
 	}
 
-	
-	
 	// Returns the ID code for this game state
 	public int getID() 
 	{
