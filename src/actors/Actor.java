@@ -30,4 +30,8 @@ public class Actor {
 	public void update() {
 		
 	}
+	
+	public void takeDamage(int damage) {
+		curHealth -= damage;
+	}
 }
