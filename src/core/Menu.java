@@ -28,7 +28,9 @@ public class Menu extends BasicGameState
 	private int walkLoop, walkRowNum, dwayneLoop, armLoop;
 	private boolean walkRow;
 	
-	private boolean dwayneTime1, dwayneTime2, dwayneTime3, dwayneTime4, superDwayne;
+	private boolean dwayneTime1, dwayneTime2, dwayneTime3, dwayneTime4;
+
+	public static boolean superDwayne;
 	
 	private int time = 0;
 	private int armTime;
