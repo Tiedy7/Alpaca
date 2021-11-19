@@ -49,28 +49,13 @@ public class Enemy extends Actor {
 	}
 	
 	public void contactDamage(Player p, float x, float y, float w, float h) {
-		/*System.out.println("ContactDamage");
-		System.out.println("x:" + x);
-		System.out.println("y:" + y);
-		System.out.println("w:" + w);
-		System.out.println("h:" + h);
-		*/
 		if (collidesWith(p, x, y, w, h)) {
-//			p.takeDamage(damage);
-			/*System.out.println("Gaming");
-			System.out.println(p.getPlayerHealth());*/
+			p.takeDamage(damage);
 		}
 		
 	}
 	
 	public boolean collidesWith(Player p, float x, float y, float w, float h) {
-		/*System.out.println("CollidesWith");
-		System.out.println("x:" + x);
-		System.out.println("y:" + y);
-		System.out.println("w:" + w);
-		System.out.println("h:" + h);
-		System.out.println(p.getPlayerHealth());
-		*/
 		return  collideCheck(p.getX(), p.getY(), x, y, w, h) ||
 				collideCheck(p.getX() + p.getW(), p.getY(), x, y, w, h) ||
 				collideCheck(p.getX(), p.getY() + p.getH(), x, y, w, h) ||
@@ -80,13 +65,6 @@ public class Enemy extends Actor {
 	}
 	
 	public boolean collideCheck(float plx, float ply, float x, float y, float w, float h) {
-		/*System.out.println("CollideCheck");
-		System.out.println("x:" + x);
-		System.out.println("y:" + y);
-		System.out.println("w:" + w);
-		System.out.println("h:" + h);
-		System.out.println("plx:" + plx);
-		System.out.println("ply:" + ply);*/
 		return  plx >= x &&
 				plx <= x + w &&
 				ply >= y &&
