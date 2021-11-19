@@ -34,6 +34,8 @@ public class DroneEnemy extends Enemy {
 
 	
 	public DroneEnemy(float sx, float sy) {
+		setImage("res/Enemy Sprites/droneEnemy.png");
+		
 		this.w = Game.function.scaleX(64);
 		this.h = Game.function.scaleY(64);
 		this.x = sx;
@@ -44,6 +46,8 @@ public class DroneEnemy extends Enemy {
 		vx = 0;
 		ax = 0;
 		
+		maxHealth = 5;
+		curHealth = maxHealth;
 		damage = 1;
 		
 		walkRow = false;
@@ -61,8 +65,7 @@ public class DroneEnemy extends Enemy {
 		//THIS IS TEMPORARY JUST FOR TESTING, REPLACE WITH ACTUAL GRAPHICS LATER
 //		g.setColor(color);
 //		g.fillRect(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,w,h);
-		
-		setImage("res/Enemy Sprites/droneEnemy.png");
+
 		droneEnemy.setFilter(Image.FILTER_NEAREST);
 		droneEnemy.startUse();
 		droneEnemy.getSubImage(walkLoop, 0).drawEmbedded(x + difX, y + difY, w, h);
