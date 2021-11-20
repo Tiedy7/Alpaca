@@ -18,9 +18,11 @@ import actors.Actor;
 import actors.Platform;
 import actors.Player;
 import actors.Enemy;
+import actors.Fireball;
 import actors.Projectile;
 import actors.GroundEnemy;
 import actors.DroneEnemy;
+import actors.DwayneBoss;
 
 public class Game extends BasicGameState 
 {	
@@ -42,7 +44,7 @@ public class Game extends BasicGameState
 	
 	public static boolean jumping;
 	
-	public static Projectile placejectile;
+//	public static Projectile placejectile;
 	
 	private Image walk = null;
 	private SpriteSheet character = null;
@@ -57,6 +59,10 @@ public class Game extends BasicGameState
 	public static Player player;
 	public static GroundEnemy groundEnemy1;
 	public static DroneEnemy droneEnemy1;
+	
+//	public static Fireball placejectile;
+	public static DwayneBoss dwayne;
+	public static Fireball dFireball;
 	
 	public static float playerX, playerY, playerW, playerH;
 	
@@ -118,13 +124,15 @@ public class Game extends BasicGameState
 		platforms.add(new Platform(function.scaleX(1800),function.scaleY(500),function.scaleX(1500),function.scaleY(200)));
 		platforms.add(new Platform(function.scaleX(1000),function.scaleY(500),function.scaleX(300),function.scaleY(300)));
 
-		groundEnemy1 = new GroundEnemy(function.scaleX(300), function.scaleY(100));
+		groundEnemy1 = new GroundEnemy(function.scaleX(300), function.scaleY(400));
 		actors.add(groundEnemy1);
 		droneEnemy1 = new DroneEnemy(function.scaleX(300), function.scaleY(100));
 		actors.add(droneEnemy1);
-		placejectile = new Projectile(function.scaleX(100), function.scaleY(300), 64, 64, 5, 0, 2, false);
-		//float x, float y, int sw, int sh, float vx, float vy, int damage, boolean breaksOnWall
-		projectiles.add(placejectile);
+		dwayne = new DwayneBoss(function.scaleX(1500), function.scaleY(200));
+		actors.add(dwayne);
+
+//		placejectile = new Fireball(player.getX()+function.scaleX(8), player.getY()+function.scaleX(16), function.scaleX(1500), function.scaleY(000));
+//		projectiles.add(placejectile);
 		
 		platforms.add(new Platform(function.scaleX(1000),function.scaleY(500),function.scaleX(300),function.scaleY(300)));
 	}
@@ -155,7 +163,7 @@ public class Game extends BasicGameState
 		
 		setImage("res/HealthBar.png");
 		healthBar.setFilter(Image.FILTER_NEAREST);
-		healthBar.draw((float) Game.function.scaleX(healthBar.getWidth()), Game.function.scaleY(healthBar.getHeight()*2) + (healthBar.getHeight()/2), (float) ((Game.function.scaleX(64)*6) - ((player.getPlayerMaxHealth()-player.getPlayerHealth()) * 54.857)), Game.function.scaleY(16)*2);
+		healthBar.draw((float) Game.function.scaleX(healthBar.getWidth()), Game.function.scaleY(healthBar.getHeight()*2) + (healthBar.getHeight()/2), (float) ((Game.function.scaleX(64)*6) - ((player.getPlayerMaxHealth()-player.getPlayerHealth()) * (384/player.getMaxHealth()))), Game.function.scaleY(16)*2);
 		
 		setImage("res/healthContainer.png");
 		healthContainer.setFilter(Image.FILTER_NEAREST);
@@ -224,6 +232,11 @@ public class Game extends BasicGameState
 		
 		for (Projectile p : projectiles) {
 			p.update();
+			/*
+			if (p.getTime()>60) {
+				p = null;
+			}
+			*/
 		}
 		
 		playerX = player.getX();
@@ -260,14 +273,14 @@ public class Game extends BasicGameState
 		
 		skill = false;
 		
-		playerX = player.getX();
-		playerY = player.getY();
-		playerW = player.getW();
-		playerH = player.getH();
+//		playerX = player.getX();
+//		playerY = player.getY();
+//		playerW = player.getW();
+//		playerH = player.getH();
 		numJumps = 0;
 		
 		
-		player.setHealth(7);
+		player.setHealth(10);
 	}
 
 	public void leave(GameContainer gc, StateBasedGame sbg) 
@@ -311,6 +324,16 @@ public class Game extends BasicGameState
 			healthValue++;
 		}
 		
+		if (key == Input.KEY_J) {
+			player.sideAttack();
+		}
+	}
+	
+	public static void dwayneAttack(int number, float dx, float dy) {
+		dFireball = new Fireball(player.getX()+function.scaleX(8), player.getY()+function.scaleY(16), (dx+function.scaleX(8)), (dy+function.scaleY(16)));
+		// (dFireball!=null) {
+			projectiles.add(dFireball);
+		//}
 	}
 	
 	public void setImage(String filepath)
