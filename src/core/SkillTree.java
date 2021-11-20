@@ -118,13 +118,21 @@ public class SkillTree extends BasicGameState
 				
 		if (button == Input.MOUSE_LEFT_BUTTON) {
 //			System.out.println(Game.function.scaleX(aPlus.getWidth()/2));
-			if (x > (Game.gc.getWidth()/4*2) - (Game.function.scaleX(aPlus.getWidth()/2)) && y > Game.gc.getHeight()/4 && x < (Game.gc.getWidth()/4*2) + (Game.function.scaleX(aPlus.getWidth()/2)) && y < Game.gc.getHeight()/4 + 4*Game.function.scaleY(aPlus.getHeight())){
+			if (x > (Game.gc.getWidth()/4*2) - (Game.function.scaleX(aPlus.getWidth()/2)) && y > Game.gc.getHeight()/4 && x < (Game.gc.getWidth()/4*2) + 4*(Game.function.scaleX(aPlus.getWidth()/2)) && y < Game.gc.getHeight()/4 + 4*Game.function.scaleY(aPlus.getHeight())){
 					aBoost++;
 					System.out.println(aBoost);
 					
 			}
 			
+			if (x > (Game.gc.getWidth()/4*2) - (Game.function.scaleX(hPlus.getWidth()/2)) && y > Game.gc.getHeight()/4 * 2	&& x < (Game.gc.getWidth()/4*2) + 4*Game.function.scaleX(hPlus.getWidth()) && y < Game.gc.getHeight()/4 * 2 + 4*Game.function.scaleY(hPlus.getHeight())) {
+				hBoost++;
+				System.out.println(hBoost);
+			}
 			
+			if (x > (Game.gc.getWidth()/4*2) - (Game.function.scaleX(dPlus.getWidth()/2)) && y > Game.gc.getHeight()/4 * 3	&& x < (Game.gc.getWidth()/4*2) + 4*Game.function.scaleX(dPlus.getWidth()) && y < Game.gc.getHeight()/4 * 3 + 4*Game.function.scaleY(dPlus.getHeight())) {
+				dBoost ++;
+				System.out.println(dBoost);
+			}
 		}
 	}
 
