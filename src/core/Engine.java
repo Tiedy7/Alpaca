@@ -25,6 +25,7 @@ public class Engine extends StateBasedGame
     public static final int pause = 4;
     public static final int instructions = 5;
     public static final int lost = 6;
+    public static final int pauseInstructions = 7;
     
 
 	public Engine(String name) 
@@ -39,7 +40,7 @@ public class Engine extends StateBasedGame
 		this.addState(new Instructions(instructions));
 		this.addState(new Menu(menu));
 		this.addState(new Lost(lost));
-		
+		this.addState(new PauseInstructions(pauseInstructions));
 	}
 
 	public void initStatesList(GameContainer gc) throws SlickException 
@@ -51,6 +52,7 @@ public class Engine extends StateBasedGame
 		this.getState(instructions).init(gc,  this);
 		this.getState(menu).init(gc,  this);
 		this.getState(lost).init(gc, this);
+		this.getState(pauseInstructions).init(gc,  this);
 	}
 
 	public static void main(String[] args) 
