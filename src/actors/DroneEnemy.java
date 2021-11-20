@@ -15,7 +15,6 @@ import actors.Player;
 
 public class DroneEnemy extends Enemy {
 
-	private float x, w, y, h;
 	
 	private int walkLoop, walkRowNum;
 	private boolean walkRow;
@@ -34,13 +33,16 @@ public class DroneEnemy extends Enemy {
 
 	
 	public DroneEnemy(float sx, float sy) {
-		this.w = Game.function.scaleX(64);
-		this.h = Game.function.scaleY(64);
-		this.x = sx;
-		this.y = sy;
 		
-		this.ay = Game.function.scaleY(1);
-		this.vy = 0;
+		setImage("res/Enemy Sprites/droneEnemy.png");
+		
+		w = Game.function.scaleX(64);
+		h = Game.function.scaleY(64);
+		x = sx;
+		y = sy;
+		
+		ay = Game.function.scaleY(1);
+		vy = 0;
 		vx = 0;
 		ax = 0;
 		
@@ -49,12 +51,16 @@ public class DroneEnemy extends Enemy {
 		walkRow = false;
 		walkRowNum = 0;
 		
+		maxHealth = 5;
+		curHealth = maxHealth;
+		
 		isRight = false;
 		isLeft = false;
 		isIdle = true;
 		faceRight = true;
 		faceLeft = false;
 		isJump = false;
+		isEnemy = true;
 	}
 	
 	public void render(Graphics g, float difX, float difY) {
@@ -62,7 +68,7 @@ public class DroneEnemy extends Enemy {
 //		g.setColor(color);
 //		g.fillRect(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,w,h);
 		
-		setImage("res/Enemy Sprites/droneEnemy.png");
+		
 		droneEnemy.setFilter(Image.FILTER_NEAREST);
 		droneEnemy.startUse();
 		droneEnemy.getSubImage(walkLoop, 0).drawEmbedded(x + difX, y + difY, w, h);
@@ -100,7 +106,7 @@ public class DroneEnemy extends Enemy {
 			walkRowNum = 0;
 		}
 		
-		//COLLISIONS
+//		//COLLISIONS
 		checkCollisions(Game.platforms);
 		contactDamage(Game.player, x, y, w, h);
 		
@@ -142,7 +148,7 @@ public class DroneEnemy extends Enemy {
 		x = tempX;
 		y = tempY;
 	}
-	
+//	
 	public void collidesDown(float newY) {
 		vy = 1;
 		ay = 0;
