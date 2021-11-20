@@ -163,7 +163,7 @@ public class Game extends BasicGameState
 		
 		setImage("res/HealthBar.png");
 		healthBar.setFilter(Image.FILTER_NEAREST);
-		healthBar.draw((float) Game.function.scaleX(healthBar.getWidth()), Game.function.scaleY(healthBar.getHeight()*2) + (healthBar.getHeight()/2), (float) ((Game.function.scaleX(64)*6) - ((player.getPlayerMaxHealth()-player.getPlayerHealth()) * (384/player.getMaxHealth()))), Game.function.scaleY(16)*2);
+		healthBar.draw((float) Game.function.scaleX(healthBar.getWidth()), Game.function.scaleY(healthBar.getHeight()*2) + (healthBar.getHeight()/2), (float) ((Game.function.scaleX(64)*6) - ((player.getPlayerMaxHealth()-player.getPlayerHealth()) * Game.function.scaleX((384/player.getMaxHealth())))), Game.function.scaleY(16)*2);
 		
 		setImage("res/healthContainer.png");
 		healthContainer.setFilter(Image.FILTER_NEAREST);
