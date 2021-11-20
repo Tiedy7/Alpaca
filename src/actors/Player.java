@@ -33,6 +33,7 @@ public class Player extends Actor {
 	private SpriteSheet dwayne = null;
 	
 	private boolean isRight, isLeft, isJump, isIdle, faceRight, faceLeft, canMoveRight, canMoveLeft;
+	private int dashCooldown, dashLength, dashCooldownTimer, rightDash, leftDash;
 	
 	private float ax, vx, ay, vy; //acceleration & velocity
 	
@@ -57,6 +58,12 @@ public class Player extends Actor {
 		maxHealth = 10;
 		curHealth = maxHealth;
 		invincibility = 0;
+		dashCooldown = 28;
+		dashLength = 4;
+		dashCooldownTimer = 0;
+		rightDash = 0;
+		leftDash = 0;
+		
 
 		
 		walkRow = false;
@@ -92,7 +99,7 @@ public class Player extends Actor {
 			}
 		}
 		
-		if (!Menu.superDwayne) { 
+		if (!Menu.superDwayne) {
 		if (!Game.jumping) {
 			if (isRight) {
 				setImage("res/Player Sprites/Walk Animation/walkCycleBody.png");
@@ -188,9 +195,10 @@ public class Player extends Actor {
 	public void update() {
 		
 		
-		
 		if (Game.gc.getInput().isKeyDown(Game.gc.getInput().KEY_D)) {
-			vx = Game.function.scaleX(10);
+			if ((vx >= Game.function.scaleX(-13))&&(vx <= Game.function.scaleX(13))) {
+				vx = Game.function.scaleX(13);
+			}
 			isRight = true;
 			isLeft = false;
 			isIdle = false;
@@ -199,7 +207,9 @@ public class Player extends Actor {
 			faceLeft = false;
 		}
 		if (Game.gc.getInput().isKeyDown(Game.gc.getInput().KEY_A)) {
-			vx = Game.function.scaleX(-10);
+			if ((vx >= Game.function.scaleX(-13))&&(vx <= Game.function.scaleX(13))) {
+				vx = Game.function.scaleX(-13);
+			}
 			isLeft = true;
 			isRight = false;
 			isIdle = false;
@@ -215,11 +225,52 @@ public class Player extends Actor {
 			isJump = false;
 		}
 		
-		if (Game.gc.getInput().isKeyDown(Game.gc.getInput().KEY_D)) {
-			vx = Game.function.scaleX(13);
+//		if (Game.gc.getInput().isKeyDown(Game.gc.getInput().KEY_D)) {
+//			vx = Game.function.scaleX(13);
+//		}
+//		if (Game.gc.getInput().isKeyDown(Game.gc.getInput().KEY_A)) {
+//			vx = Game.function.scaleX(-13);
+//		}
+		
+		if ((Game.gc.getInput().isKeyDown(Game.gc.getInput().KEY_K))&&(dashCooldownTimer<=0)&&(faceRight)) {
+			rightDash = dashLength;
+			dashCooldownTimer = dashCooldown;
 		}
-		if (Game.gc.getInput().isKeyDown(Game.gc.getInput().KEY_A)) {
-			vx = Game.function.scaleX(-13);
+		
+		if (rightDash>0) {
+			vx = Game.function.scaleX(26);
+			vy = 0;
+			isRight = true;
+			isLeft = false;
+			isIdle = false;
+			isJump = false;
+			faceRight = true;
+			faceLeft = false;
+			rightDash--;
+		}
+		
+		if ((Game.gc.getInput().isKeyDown(Game.gc.getInput().KEY_K))&&(dashCooldownTimer<=0)&&(faceLeft)) {
+			leftDash = dashLength;
+			dashCooldownTimer = dashCooldown;
+		}
+		
+		if (leftDash>0) {
+			vx = Game.function.scaleX(-26);
+			vy = 0;
+			isRight = false;
+			isLeft = true;
+			isIdle = false;
+			isJump = false;
+			faceRight = false;
+			faceLeft = true;
+			leftDash--;
+		}
+		
+		if (dashCooldownTimer>0) {
+			if ((vx > 13)||(vx < -13)) {
+				vy = 0;
+			}
+			dashCooldownTimer--;
 		}
 		
 		//UPDATING MOVEMENT
