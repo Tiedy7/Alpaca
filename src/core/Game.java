@@ -91,7 +91,6 @@ public class Game extends BasicGameState
 		walkLoop = 0;
 		time = 0;
 		
-		
 		forward = false;
 		
 		jumping = false;
@@ -155,14 +154,12 @@ public class Game extends BasicGameState
 		
 		setImage("res/HealthBar.png");
 		healthBar.setFilter(Image.FILTER_NEAREST);
-		healthBar.draw((float) Game.function.scaleX(healthBar.getWidth()), Game.function.scaleY(healthBar.getHeight()*2) + (healthBar.getHeight()/2), (float) ((Game.function.scaleX(64)*6) - ((player.getPlayerMaxHealth()-player.getPlayerHealth()) * 54.857)), Game.function.scaleY(16)*2);
+		healthBar.draw((float) Game.function.scaleX(healthBar.getWidth()), Game.function.scaleY(healthBar.getHeight()*2) + (healthBar.getHeight()/2), (Game.function.scaleX(64)*6) + ((player.getPlayerHealth()-player.getPlayerMaxHealth()) * 64), Game.function.scaleY(16)*2);
 		
 		setImage("res/healthContainer.png");
 		healthContainer.setFilter(Image.FILTER_NEAREST);
 		healthContainer.draw((float) Game.function.scaleX(healthContainer.getWidth()), Game.function.scaleY(healthContainer.getHeight()*2) + (healthContainer.getHeight()/2), Game.function.scaleX(64)*6, Game.function.scaleY(16)*2);
 	
-		
-		
 		for(Projectile p : projectiles) {
 			p.render(g, Engine.RESOLUTION_X / 2 - (playerW / 2) - playerX, (2 * Engine.RESOLUTION_Y / 3) - playerH - playerY);
 		}
@@ -175,13 +172,6 @@ public class Game extends BasicGameState
 		x--;
 		y--;
 		time++;
-		
-		if (player.getPlayerHealth() == 0) {
-			sbg.enterState(6);
-		}
-		if (player.getPlayerHealth() <= 0) {
-			sbg.enterState(6);;
-		}
 		
 		if (forward) {
 			xPos = xPos + 3;
@@ -244,8 +234,7 @@ public class Game extends BasicGameState
 		yPos = 0;
 		back = false;
 
-		
-		healthValue = 0;
+
 		
 		walkLoop = 0;
 		time = 0;
@@ -260,14 +249,7 @@ public class Game extends BasicGameState
 		
 		skill = false;
 		
-		playerX = player.getX();
-		playerY = player.getY();
-		playerW = player.getW();
-		playerH = player.getH();
 		numJumps = 0;
-		
-		
-		player.setHealth(7);
 	}
 
 	public void leave(GameContainer gc, StateBasedGame sbg) 
@@ -289,6 +271,10 @@ public class Game extends BasicGameState
 				playerYSpeed = player.getPlayerVY();
 				numJumps++;
 			}
+		}
+		
+		if (key == Input.KEY_J) {
+			player.sideAttack();
 		}
 		
 		
