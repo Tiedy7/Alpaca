@@ -14,7 +14,7 @@ import core.Game;
 
 public class Enemy extends Actor {
 
-	private float x, w, y, h;
+//	private float x, w, y, h;
 	
 	private int time = 0;
 	
@@ -42,6 +42,8 @@ public class Enemy extends Actor {
 		vx = 0;
 		ax = 0;
 		
+		isEnemy = true;
+		
 	}
 	
 	public void render(Graphics g, float difX, float difY) {
@@ -49,28 +51,17 @@ public class Enemy extends Actor {
 	}
 	
 	public void contactDamage(Player p, float x, float y, float w, float h) {
-		/*System.out.println("ContactDamage");
-		System.out.println("x:" + x);
-		System.out.println("y:" + y);
-		System.out.println("w:" + w);
-		System.out.println("h:" + h);
-		*/
+		
 		if (collidesWith(p, x, y, w, h)) {
 //			p.takeDamage(damage);
-			/*System.out.println("Gaming");
-			System.out.println(p.getPlayerHealth());*/
+			p.takeDamage(damage);
+			
 		}
 		
 	}
 	
 	public boolean collidesWith(Player p, float x, float y, float w, float h) {
-		/*System.out.println("CollidesWith");
-		System.out.println("x:" + x);
-		System.out.println("y:" + y);
-		System.out.println("w:" + w);
-		System.out.println("h:" + h);
-		System.out.println(p.getPlayerHealth());
-		*/
+		
 		return  collideCheck(p.getX(), p.getY(), x, y, w, h) ||
 				collideCheck(p.getX() + p.getW(), p.getY(), x, y, w, h) ||
 				collideCheck(p.getX(), p.getY() + p.getH(), x, y, w, h) ||
@@ -80,13 +71,7 @@ public class Enemy extends Actor {
 	}
 	
 	public boolean collideCheck(float plx, float ply, float x, float y, float w, float h) {
-		/*System.out.println("CollideCheck");
-		System.out.println("x:" + x);
-		System.out.println("y:" + y);
-		System.out.println("w:" + w);
-		System.out.println("h:" + h);
-		System.out.println("plx:" + plx);
-		System.out.println("ply:" + ply);*/
+		
 		return  plx >= x &&
 				plx <= x + w &&
 				ply >= y &&
@@ -97,21 +82,21 @@ public class Enemy extends Actor {
 		
 	}
 	
-	public float getX() {
-		return x;
-	}
-	
-	public float getW() {
-		return w;
-	}
-	
-	public float getY() {
-		return y;
-	}
-	
-	public float getH() {
-		return h;
-	}
+//	public float getX() {
+//		return x;
+//	}
+//	
+//	public float getW() {
+//		return w;
+//	}
+//	
+//	public float getY() {
+//		return y;
+//	}
+//	
+//	public float getH() {
+//		return h;
+//	}
 	
 	public float getEnemyVX() {
 		return vx;
