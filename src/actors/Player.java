@@ -10,11 +10,10 @@ import org.newdawn.slick.SpriteSheet;
 
 import core.Engine;
 import core.Game;
-import core.Menu;
 
 public class Player extends Actor {
-
-	private float x, w, y, h;
+	
+	public float hitBoxX, hitBoxY, hitBoxW, hitBoxH;
 	
 	private int walkLoop, walkRowNum;
 	private boolean walkRow;
@@ -30,7 +29,6 @@ public class Player extends Actor {
 	private SpriteSheet character = null;
 	private Image arms = null;
 	private SpriteSheet armCycle = null;
-	private SpriteSheet dwayne = null;
 	
 	private boolean isRight, isLeft, isJump, isIdle, faceRight, faceLeft, canMoveRight, canMoveLeft;
 	
@@ -68,6 +66,8 @@ public class Player extends Actor {
 		faceRight = true;
 		faceLeft = false;
 		isJump = false;
+		
+		
 	}
 	
 	public void render(Graphics g, float difX, float difY) {
@@ -75,24 +75,6 @@ public class Player extends Actor {
 //		g.setColor(color);
 //		g.fillRect(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,w,h);
 		
-		if (Menu.superDwayne) {
-			if (isRight || isIdle) {
-				setImage("res/THE DWAYNE.png");
-				dwayne.setFilter(Image.FILTER_NEAREST);
-				dwayne.startUse();
-				dwayne.getSubImage(0, 0).drawEmbedded(Engine.RESOLUTION_X / 2 - (Game.function.scaleX(64) / 2),(2 * Engine.RESOLUTION_Y / 3) - Game.function.scaleY(128),Game.function.scaleX(64),Game.function.scaleY(128));
-				dwayne.endUse();
-			}
-			if (isLeft) {
-				setImage("res/THE DWAYNE.png");
-				dwayne.setFilter(Image.FILTER_NEAREST);
-				dwayne.startUse();
-				dwayne.getSubImage(0, 0).drawEmbedded(Engine.RESOLUTION_X / 2 + (Game.function.scaleX(64) / 2),(2 * Engine.RESOLUTION_Y / 3) - Game.function.scaleY(128),-Game.function.scaleX(64),Game.function.scaleY(128));
-				dwayne.endUse();
-			}
-		}
-		
-		if (!Menu.superDwayne) { 
 		if (!Game.jumping) {
 			if (isRight) {
 				setImage("res/Player Sprites/Walk Animation/walkCycleBody.png");
@@ -181,7 +163,6 @@ public class Player extends Actor {
 				character.getSubImage(0, 0).drawEmbedded(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,w,h);
 				character.endUse();
 			}
-		}
 		}
 	}
 	
@@ -313,14 +294,6 @@ public class Player extends Actor {
 		}
 	}
 	
-	public void setHealth(int newHealth) {
-		curHealth = newHealth;
-	}
-	
-	public void setMaxHealth(int newHealth) {
-		maxHealth = newHealth;
-	}
-	
 	public float getX() {
 		return x;
 	}
@@ -375,8 +348,51 @@ public class Player extends Actor {
 	}
 	
 	public void jump() {
-		ay = Game.function.scaleX(1);
-		vy = Game.function.scaleX(-22);
+		ay = Game.function.scaleY(1);
+		vy = Game.function.scaleY(-22);
+	}
+	
+	public void sideAttack() {
+		hitBoxX = x;
+		hitBoxY = y;
+		hitBoxW = Game.function.scaleX(64);
+		hitBoxH = Game.function.scaleY(128);
+		if (faceRight) {
+			hitBoxX = x + w;
+		} else
+		if (faceLeft) {
+			hitBoxX = x - Game.function.scaleX(64);
+		}
+		
+		int size = Game.actors.size();
+		for (int i = 0; i < size; i++) {
+			if (Game.actors.get(i).getIsEnemy()) {
+				if (hitBoxCheck(Game.actors.get(i),hitBoxX,hitBoxY,hitBoxW,hitBoxH)) {
+					System.out.println("Successful attack!");
+					Game.actors.remove(Game.actors.get(i));
+					i--;
+					size = Game.actors.size();
+				}
+			}
+		}
+	}
+	
+	public boolean hitBoxCheck(Actor a, float x, float y, float w, float h) 
+	{
+		System.out.println("A.getX(): " + a.getX());
+		System.out.println("A.getY(): " + a.getY());
+		return 	cornerCheck(a.getX(), a.getY(), x, y, w, h) ||
+				cornerCheck(a.getX() + a.getW(), a.getY(), x, y, w, h) ||
+				cornerCheck(a.getX(), a.getY() + a.getH(), x, y, w, h) ||
+				cornerCheck(a.getX() + a.getW(), a.getY() + a.getH(), x, y, w, h) ||
+				cornerCheck(a.getX() + a.getW()/2, a.getY() + a.getH()/2, x, y, w, h);
+	}
+	
+	public boolean cornerCheck(float ax, float ay, float x, float y, float w, float h) {
+		return 	ax >= x &&
+				ax <= x + w &&
+				ay >= y &&
+				ay <= y + h;
 	}
 	
 	public void moveRight() {
@@ -389,7 +405,6 @@ public class Player extends Actor {
 		{
 			character = new SpriteSheet(filepath, 16, 32);
 			armCycle = new SpriteSheet(filepath, 16, 32);
-			dwayne = new SpriteSheet(filepath, 32, 64);
 		}
 		catch(SlickException e)		
 		{
