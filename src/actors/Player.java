@@ -14,7 +14,7 @@ import core.Menu;
 
 public class Player extends Actor {
 
-	private float x, w, y, h;
+	public float hitBoxX, hitBoxY, hitBoxW, hitBoxH;
 	
 	private int walkLoop, walkRowNum;
 	private boolean walkRow;
@@ -54,7 +54,7 @@ public class Player extends Actor {
 		vx = 0;
 		ax = 0;
 		
-		maxHealth = 7;
+		maxHealth = 10;
 		curHealth = maxHealth;
 		invincibility = 0;
 
@@ -313,6 +313,15 @@ public class Player extends Actor {
 		}
 	}
 	
+	public float getHealth() {
+		return curHealth;
+	}
+
+	public float getMaxHealth() {
+		return maxHealth;
+	}
+
+	
 	public void setHealth(int newHealth) {
 		curHealth = newHealth;
 	}
@@ -375,8 +384,52 @@ public class Player extends Actor {
 	}
 	
 	public void jump() {
-		ay = Game.function.scaleX(1);
-		vy = Game.function.scaleX(-22);
+		ay = Game.function.scaleY(1);
+		vy = Game.function.scaleY(-22);
+	}
+	
+
+	public void sideAttack() {
+		hitBoxX = x;
+		hitBoxY = y;
+		hitBoxW = Game.function.scaleX(64);
+		hitBoxH = Game.function.scaleY(128);
+		if (faceRight) {
+			hitBoxX = x + w;
+		} else
+		if (faceLeft) {
+			hitBoxX = x - Game.function.scaleX(64);
+		}
+	
+		int size = Game.actors.size();
+		for (int i = 0; i < size; i++) {
+			if (Game.actors.get(i).getIsEnemy()) {
+				if (hitBoxCheck(Game.actors.get(i),hitBoxX,hitBoxY,hitBoxW,hitBoxH)) {
+					System.out.println("Successful attack!");
+					Game.actors.remove(Game.actors.get(i));
+					i--;
+					size = Game.actors.size();
+				}
+			}
+		}
+	}
+	
+	public boolean hitBoxCheck(Actor a, float x, float y, float w, float h) 
+	{
+		System.out.println("A.getX(): " + a.getX());
+		System.out.println("A.getY(): " + a.getY());
+		return 	cornerCheck(a.getX(), a.getY(), x, y, w, h) ||
+				cornerCheck(a.getX() + a.getW(), a.getY(), x, y, w, h) ||
+				cornerCheck(a.getX(), a.getY() + a.getH(), x, y, w, h) ||
+				cornerCheck(a.getX() + a.getW(), a.getY() + a.getH(), x, y, w, h) ||
+				cornerCheck(a.getX() + a.getW()/2, a.getY() + a.getH()/2, x, y, w, h);
+	}
+	
+	public boolean cornerCheck(float ax, float ay, float x, float y, float w, float h) {
+		return 	ax >= x &&
+				ax <= x + w &&
+				ay >= y &&
+				ay <= y + h;
 	}
 	
 	public void moveRight() {
