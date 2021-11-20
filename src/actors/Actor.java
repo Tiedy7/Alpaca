@@ -9,14 +9,13 @@ import core.Game;
 public class Actor {
 
 	protected float x, y, w, h;
-	private float ax, vx, ay, vy;
 	protected float xSpeed, ySpeed;
 	protected int maxHealth, curHealth;
 	
 	protected boolean isPlayer, isProjectile, isEnemy;
 	
 	public Actor() {
-		
+	
 	}
 	
 	public void render(Graphics g, float difX, float difY) {
@@ -31,7 +30,23 @@ public class Actor {
 		
 	}
 	
-	public void takeDamage(int damage) {
-		curHealth -= damage;
+	public float getX() {
+		return x;
+	}
+
+	public float getY() {
+		return y;
+	}
+
+	public float getW() {
+		return w;
+	}
+
+	public float getH() {
+		return h;
+	}
+
+	public boolean getIsEnemy() {
+		return isEnemy;
 	}
 }
