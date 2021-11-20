@@ -13,8 +13,6 @@ import core.Functions;
 import core.Game;
 
 public class GroundEnemy extends Enemy {
-
-	private float x, w, y, h;
 	
 	private int walkLoop, walkRowNum;
 	private boolean walkRow;
@@ -56,6 +54,7 @@ public class GroundEnemy extends Enemy {
 		faceRight = true;
 		faceLeft = false;
 		isJump = false;
+		isEnemy = true;
 	}
 	
 	public void render(Graphics g, float difX, float difY) {
