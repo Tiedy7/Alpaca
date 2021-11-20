@@ -163,13 +163,12 @@ public class Game extends BasicGameState
 		
 		setImage("res/HealthBar.png");
 		healthBar.setFilter(Image.FILTER_NEAREST);
-		healthBar.draw((float) Game.function.scaleX(healthBar.getWidth()), Game.function.scaleY(healthBar.getHeight()*2) + (healthBar.getHeight()/2), (float) ((Game.function.scaleX(64)*6) - ((player.getPlayerMaxHealth()-player.getPlayerHealth()) * Game.function.scaleX((384/player.getMaxHealth())))), Game.function.scaleY(16)*2);
+		healthBar.draw((float) Game.function.scaleX(healthBar.getWidth()), Game.function.scaleY(healthBar.getHeight()*2) + (healthBar.getHeight()/2), (float) ((Game.function.scaleX(64)*6) - (Game.function.scaleX(player.getPlayerMaxHealth()-player.getPlayerHealth()) * Game.function.scaleX((384/player.getMaxHealth())))), Game.function.scaleY(16)*2);
 		
 		setImage("res/healthContainer.png");
 		healthContainer.setFilter(Image.FILTER_NEAREST);
 		healthContainer.draw((float) Game.function.scaleX(healthContainer.getWidth()), Game.function.scaleY(healthContainer.getHeight()*2) + (healthContainer.getHeight()/2), Game.function.scaleX(64)*6, Game.function.scaleY(16)*2);
-	
-		
+
 		
 		
 		for(Projectile p : projectiles) {
@@ -281,7 +280,7 @@ public class Game extends BasicGameState
 		numJumps = 0;
 		
 		
-		player.setHealth(10);
+		//player.setHealth((int) player.getMaxHealth());
 	}
 
 	public void leave(GameContainer gc, StateBasedGame sbg) 
