@@ -95,7 +95,7 @@ public class Pause extends BasicGameState
 		}
 		
 		if (help) {
-			sbg.enterState(5);
+			sbg.enterState(7);
 			help = false;
 		}
 		
