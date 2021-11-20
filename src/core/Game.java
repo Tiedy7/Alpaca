@@ -171,6 +171,7 @@ public class Game extends BasicGameState
 	
 		
 		
+		
 		for(Projectile p : projectiles) {
 			p.render(g, Engine.RESOLUTION_X / 2 - (playerW / 2) - playerX, (2 * Engine.RESOLUTION_Y / 3) - playerH - playerY);
 		}
