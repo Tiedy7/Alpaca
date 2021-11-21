@@ -23,6 +23,7 @@ import actors.Projectile;
 import actors.GroundEnemy;
 import actors.DroneEnemy;
 import actors.DwayneBoss;
+import actors.Pickup;
 
 public class Game extends BasicGameState 
 {	
@@ -41,6 +42,9 @@ public class Game extends BasicGameState
 	private boolean forward, pause, skill;
 	
 	public static ArrayList<Projectile> projectiles;
+	
+	
+	public static ArrayList<Pickup> pickups;
 	
 	public static boolean jumping;
 	
@@ -69,7 +73,7 @@ public class Game extends BasicGameState
 	public static float playerXSpeed, playerYSpeed;
 	public static boolean playerCanFall;
 	
-	public static float numJumps;
+	public static int numJumps, maxJumps;
 	
 //	public static SpriteSheet character;
 	
@@ -89,8 +93,12 @@ public class Game extends BasicGameState
 		xPos = 0;
 		yPos = 0;
 		back = false;
+		
+		numJumps = 0;
+		maxJumps = 1;
 
-		projectiles = new ArrayList<Projectile>();
+
+		
 		
 		healthValue = 0;
 		
@@ -111,6 +119,9 @@ public class Game extends BasicGameState
 		//INITIALIZING ARRAYLISTS
 		actors = new ArrayList<Actor>();
 		platforms = new ArrayList<Platform>();
+		projectiles = new ArrayList<Projectile>();
+		pickups = new ArrayList<Pickup>();
+		
 		player = new Player();
 		actors.add(player);
 		playerX = player.getX();
@@ -118,6 +129,8 @@ public class Game extends BasicGameState
 		playerW = player.getW();
 		playerH = player.getH();
 		numJumps = 0;
+		
+		load000();
 		
 		//TEMPORARY FOR TESTING
 		platforms.add(new Platform(function.scaleX(200),function.scaleY(800),function.scaleX(1520),function.scaleY(200)));
@@ -134,14 +147,29 @@ public class Game extends BasicGameState
 //		placejectile = new Fireball(player.getX()+function.scaleX(8), player.getY()+function.scaleX(16), function.scaleX(1500), function.scaleY(000));
 //		projectiles.add(placejectile);
 		
-		platforms.add(new Platform(function.scaleX(1000),function.scaleY(500),function.scaleX(300),function.scaleY(300)));
+		
 	}
 
+	public void clearLevel() {
+		platforms.clear();
+		projectiles.clear();
+		actors.clear();
+		actors.add(player);
+		player.resetPosition();
+	}
+	
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException 
 	{
 		// Sets background to the specified RGB color
 		g.setBackground(new Color(10, 10, 50));
 		
+		float px = Engine.RESOLUTION_X / 2 - (playerW / 2) - playerX;
+		float py = (2 * Engine.RESOLUTION_Y / 3) - playerH - playerY;
+
+
+		for (Pickup p : pickups) {
+			p.render(g, px, py);
+		}
 		
 //		setImage("res/Walk Cycle (Part Arm).png");
 //		character.setFilter(Image.FILTER_NEAREST);
@@ -154,16 +182,16 @@ public class Game extends BasicGameState
 		
 		
 		for(Actor a : actors) {
-			a.render(g, Engine.RESOLUTION_X / 2 - (playerW / 2) - playerX, (2 * Engine.RESOLUTION_Y / 3) - playerH - playerY);
+			a.render(g, px, py);
 		}
 			
 		for(Platform p : platforms) {
-			p.render(g, Engine.RESOLUTION_X / 2 - (playerW / 2) - playerX, (2 * Engine.RESOLUTION_Y / 3) - playerH - playerY);
+			p.render(g, px, py);
 		}
 		
 		setImage("res/HealthBar.png");
 		healthBar.setFilter(Image.FILTER_NEAREST);
-		healthBar.draw((float) Game.function.scaleX(healthBar.getWidth()), Game.function.scaleY(healthBar.getHeight()*2) + (healthBar.getHeight()/2), (float) ((Game.function.scaleX(64)*6) - ((player.getPlayerMaxHealth()-player.getPlayerHealth()) * Game.function.scaleX((384/player.getMaxHealth())))), Game.function.scaleY(16)*2);
+		healthBar.draw((float) Game.function.scaleX(healthBar.getWidth()), Game.function.scaleY(healthBar.getHeight()*2) + (healthBar.getHeight()/2), (float) ((Game.function.scaleX(64)*6) - (Game.function.scaleX(player.getPlayerMaxHealth()-player.getPlayerHealth()) * Game.function.scaleX((384/player.getMaxHealth())))), Game.function.scaleY(16)*2);
 		
 		setImage("res/healthContainer.png");
 		healthContainer.setFilter(Image.FILTER_NEAREST);
@@ -171,9 +199,9 @@ public class Game extends BasicGameState
 	
 		
 		
-		
 		for(Projectile p : projectiles) {
-			p.render(g, Engine.RESOLUTION_X / 2 - (playerW / 2) - playerX, (2 * Engine.RESOLUTION_Y / 3) - playerH - playerY);
+			p.render(g, px, py);
+
 		}
 		
 	}
@@ -184,6 +212,10 @@ public class Game extends BasicGameState
 		x--;
 		y--;
 		time++;
+		
+		for (Pickup p : pickups) {
+			p.update();
+		}
 		
 		if (player.getPlayerHealth() == 0) {
 			sbg.enterState(6);
@@ -281,7 +313,7 @@ public class Game extends BasicGameState
 		numJumps = 0;
 		
 		
-		player.setHealth(10);
+		//player.setHealth((int) player.getMaxHealth());
 	}
 
 	public void leave(GameContainer gc, StateBasedGame sbg) 
@@ -293,12 +325,34 @@ public class Game extends BasicGameState
 		numJumps = 0;
 	}
 	
+	public static void doubleJump() {
+		maxJumps = 2;
+	}
 	
+	public void load000() {
+		platforms.add(new Platform(function.scaleX(1000),function.scaleY(500),function.scaleX(300),function.scaleY(300)));		
+		platforms.add(new Platform(function.scaleX(200),function.scaleY(800),function.scaleX(1520),function.scaleY(200)));
+		platforms.add(new Platform(function.scaleX(1800),function.scaleY(500),function.scaleX(1500),function.scaleY(200)));
+		groundEnemy1 = new GroundEnemy(function.scaleX(300), function.scaleY(400));
+		actors.add(groundEnemy1);
+		droneEnemy1 = new DroneEnemy(function.scaleX(300), function.scaleY(100));
+		actors.add(droneEnemy1);
+
+		pickups.add(new Pickup(function.scaleX(600),function.scaleY(725),function.scaleX(50),function.scaleY(50),new Color(250,250,0),"doubleJump"));
+	}
+	
+	public void load001() {
+		platforms.add(new Platform(function.scaleX(200),function.scaleY(800),function.scaleX(1520),function.scaleY(200)));
+		platforms.add(new Platform(function.scaleX(400),function.scaleY(500),function.scaleX(300),function.scaleY(300)));
+
+		dwayne = new DwayneBoss(function.scaleX(1500), function.scaleY(200));
+		actors.add(dwayne);
+	}
 	
 	public void keyPressed(int key, char c)
 	{
 		if (key == Input.KEY_W) {
-			if (numJumps < 2) {
+			if (numJumps < maxJumps) {
 				player.jump();
 				playerYSpeed = player.getPlayerVY();
 				numJumps++;
@@ -327,6 +381,11 @@ public class Game extends BasicGameState
 		
 		if (key == Input.KEY_J) {
 			player.sideAttack();
+		}
+		
+		if (key == Input.KEY_0) {
+			clearLevel();
+			load001();
 		}
 	}
 	
