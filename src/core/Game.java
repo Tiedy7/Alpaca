@@ -132,21 +132,6 @@ public class Game extends BasicGameState
 		
 		load000();
 		
-		//TEMPORARY FOR TESTING
-		platforms.add(new Platform(function.scaleX(200),function.scaleY(800),function.scaleX(1520),function.scaleY(200)));
-		platforms.add(new Platform(function.scaleX(1800),function.scaleY(500),function.scaleX(1500),function.scaleY(200)));
-		platforms.add(new Platform(function.scaleX(1000),function.scaleY(500),function.scaleX(300),function.scaleY(300)));
-
-		groundEnemy1 = new GroundEnemy(function.scaleX(300), function.scaleY(400));
-		actors.add(groundEnemy1);
-		droneEnemy1 = new DroneEnemy(function.scaleX(300), function.scaleY(100));
-		actors.add(droneEnemy1);
-		dwayne = new DwayneBoss(function.scaleX(1500), function.scaleY(200));
-		actors.add(dwayne);
-
-//		placejectile = new Fireball(player.getX()+function.scaleX(8), player.getY()+function.scaleX(16), function.scaleX(1500), function.scaleY(000));
-//		projectiles.add(placejectile);
-		
 		
 	}
 
