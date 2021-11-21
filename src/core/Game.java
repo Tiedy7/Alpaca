@@ -15,14 +15,14 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import actors.Actor;
-import actors.Platform;
-import actors.Player;
-import actors.Enemy;
-import actors.Fireball;
-import actors.Projectile;
-import actors.GroundEnemy;
 import actors.DroneEnemy;
 import actors.DwayneBoss;
+import actors.Fireball;
+import actors.GroundEnemy;
+import actors.Pickup;
+import actors.Platform;
+import actors.Player;
+import actors.Projectile;
 
 public class Game extends BasicGameState 
 {	
@@ -40,8 +40,6 @@ public class Game extends BasicGameState
 	
 	private boolean forward, pause, skill;
 	
-	public static ArrayList<Projectile> projectiles;
-	
 	public static boolean jumping;
 	
 //	public static Projectile placejectile;
@@ -56,6 +54,8 @@ public class Game extends BasicGameState
 	public static Functions function = new Functions();
 	public static ArrayList<Actor> actors;
 	public static ArrayList<Platform> platforms;
+	public static ArrayList<Projectile> projectiles;
+	public static ArrayList<Pickup> pickups;
 	public static Player player;
 	public static GroundEnemy groundEnemy1;
 	public static DroneEnemy droneEnemy1;
@@ -69,7 +69,7 @@ public class Game extends BasicGameState
 	public static float playerXSpeed, playerYSpeed;
 	public static boolean playerCanFall;
 	
-	public static float numJumps;
+	public static int numJumps, maxJumps;
 	
 //	public static SpriteSheet character;
 	
@@ -89,10 +89,11 @@ public class Game extends BasicGameState
 		xPos = 0;
 		yPos = 0;
 		back = false;
-
-		projectiles = new ArrayList<Projectile>();
 		
 		healthValue = 0;
+		
+		numJumps = 0;
+		maxJumps = 1;
 		
 		walkLoop = 0;
 		time = 0;
@@ -111,6 +112,8 @@ public class Game extends BasicGameState
 		//INITIALIZING ARRAYLISTS
 		actors = new ArrayList<Actor>();
 		platforms = new ArrayList<Platform>();
+		projectiles = new ArrayList<Projectile>();
+		pickups = new ArrayList<Pickup>();
 		player = new Player();
 		actors.add(player);
 		playerX = player.getX();
@@ -119,22 +122,37 @@ public class Game extends BasicGameState
 		playerH = player.getH();
 		numJumps = 0;
 		
-		//TEMPORARY FOR TESTING
+		load000();
+	}
+	
+	//LOADING LEVELS
+	public void clearLevel() {
+		platforms.clear();
+		projectiles.clear();
+		actors.clear();
+		actors.add(player);
+		player.resetPosition();
+	}
+	
+	public void load000() {
 		platforms.add(new Platform(function.scaleX(200),function.scaleY(800),function.scaleX(1520),function.scaleY(200)));
 		platforms.add(new Platform(function.scaleX(1800),function.scaleY(500),function.scaleX(1500),function.scaleY(200)));
-		platforms.add(new Platform(function.scaleX(1000),function.scaleY(500),function.scaleX(300),function.scaleY(300)));
-
+		platforms.add(new Platform(function.scaleX(1000),function.scaleY(500),function.scaleX(300),function.scaleY(300)));		
+		
 		groundEnemy1 = new GroundEnemy(function.scaleX(300), function.scaleY(400));
 		actors.add(groundEnemy1);
 		droneEnemy1 = new DroneEnemy(function.scaleX(300), function.scaleY(100));
 		actors.add(droneEnemy1);
+		
+		pickups.add(new Pickup(function.scaleX(600),function.scaleY(725),function.scaleX(50),function.scaleY(50),new Color(250,250,0),"doubleJump"));
+	}
+	
+	public void load001() {
+		platforms.add(new Platform(function.scaleX(200),function.scaleY(800),function.scaleX(1520),function.scaleY(200)));
+		platforms.add(new Platform(function.scaleX(400),function.scaleY(500),function.scaleX(300),function.scaleY(300)));
+		
 		dwayne = new DwayneBoss(function.scaleX(1500), function.scaleY(200));
 		actors.add(dwayne);
-
-//		placejectile = new Fireball(player.getX()+function.scaleX(8), player.getY()+function.scaleX(16), function.scaleX(1500), function.scaleY(000));
-//		projectiles.add(placejectile);
-		
-		platforms.add(new Platform(function.scaleX(1000),function.scaleY(500),function.scaleX(300),function.scaleY(300)));
 	}
 
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException 
@@ -143,27 +161,30 @@ public class Game extends BasicGameState
 		g.setBackground(new Color(10, 10, 50));
 		
 		
-//		setImage("res/Walk Cycle (Part Arm).png");
-//		character.setFilter(Image.FILTER_NEAREST);
-//		character.startUse();
-//		character.getSubImage(1+walkLoop, 0+walkRowNum).drawEmbedded(200+xPos, 200, 64, 128);
-//		character.endUse();
+		float px = Engine.RESOLUTION_X / 2 - (playerW / 2) - playerX;
+		float py = (2 * Engine.RESOLUTION_Y / 3) - playerH - playerY;
+
 		
-//		character.draw(500+xPos, 500+yPos, character.getWidth()*3, character.getHeight()*3);
-		
-		
+		for (Pickup p : pickups) {
+			p.render(g, px, py);
+		}
 		
 		for(Actor a : actors) {
-			a.render(g, Engine.RESOLUTION_X / 2 - (playerW / 2) - playerX, (2 * Engine.RESOLUTION_Y / 3) - playerH - playerY);
+			a.render(g, px, py);
 		}
 			
 		for(Platform p : platforms) {
-			p.render(g, Engine.RESOLUTION_X / 2 - (playerW / 2) - playerX, (2 * Engine.RESOLUTION_Y / 3) - playerH - playerY);
+			p.render(g, px, py);
+		}
+		
+		for(Projectile p : projectiles) {
+			p.render(g, px, py);
+		
 		}
 		
 		setImage("res/HealthBar.png");
 		healthBar.setFilter(Image.FILTER_NEAREST);
-		healthBar.draw((float) Game.function.scaleX(healthBar.getWidth()), Game.function.scaleY(healthBar.getHeight()*2) + (healthBar.getHeight()/2), (float) ((Game.function.scaleX(64)*6) - ((player.getPlayerMaxHealth()-player.getPlayerHealth()) * Game.function.scaleX((384/player.getMaxHealth())))), Game.function.scaleY(16)*2);
+		healthBar.draw((float) Game.function.scaleX(healthBar.getWidth()), Game.function.scaleY(healthBar.getHeight()*2) + (healthBar.getHeight()/2), (float) ((Game.function.scaleX(64)*6) - ((player.getPlayerMaxHealth()-player.getPlayerHealth()) * (384/player.getMaxHealth()))), Game.function.scaleY(16)*2);
 		
 		setImage("res/healthContainer.png");
 		healthContainer.setFilter(Image.FILTER_NEAREST);
@@ -172,9 +193,6 @@ public class Game extends BasicGameState
 		
 		
 		
-		for(Projectile p : projectiles) {
-			p.render(g, Engine.RESOLUTION_X / 2 - (playerW / 2) - playerX, (2 * Engine.RESOLUTION_Y / 3) - playerH - playerY);
-		}
 		
 	}
 
@@ -233,11 +251,10 @@ public class Game extends BasicGameState
 		
 		for (Projectile p : projectiles) {
 			p.update();
-			/*
-			if (p.getTime()>60) {
-				p = null;
-			}
-			*/
+		}
+		
+		for (Pickup p : pickups) {
+			p.update();
 		}
 		
 		playerX = player.getX();
@@ -293,12 +310,14 @@ public class Game extends BasicGameState
 		numJumps = 0;
 	}
 	
-	
+	public static void doubleJump() {
+		maxJumps = 2;
+	}
 	
 	public void keyPressed(int key, char c)
 	{
 		if (key == Input.KEY_W) {
-			if (numJumps < 2) {
+			if (numJumps < maxJumps) {
 				player.jump();
 				playerYSpeed = player.getPlayerVY();
 				numJumps++;
@@ -327,6 +346,11 @@ public class Game extends BasicGameState
 		
 		if (key == Input.KEY_J) {
 			player.sideAttack();
+		}
+		
+		if (key == Input.KEY_0) {
+			clearLevel();
+			load001();
 		}
 	}
 	
