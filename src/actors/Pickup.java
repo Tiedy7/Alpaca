@@ -40,6 +40,12 @@ public class Pickup {
 		switch (type) {
 			case "doubleJump": 	Game.doubleJump();
 								break;
+			case "heal":		Game.player.addHealth();
+								break;
+			case "dash":		Game.player.enableDash();
+								break;
+			case "wallJump": 	Game.player.enableWallJump();
+								break;
 			default : 			System.out.println("Invalid pickup type.");
 								break;
 		}
