@@ -32,7 +32,7 @@ public class Player extends Actor {
 	private SpriteSheet armCycle = null;
 	private SpriteSheet dwayne = null;
 	
-	private boolean isRight, isLeft, isJump, isIdle, faceRight, faceLeft, canMoveRight, canMoveLeft;
+	private boolean isRight, isLeft, isJump, isIdle, faceRight, faceLeft;
 	
 	private float ax, vx, ay, vy; //acceleration & velocity
 	
@@ -228,6 +228,7 @@ public class Player extends Actor {
 		//COLLISIONS
 		Game.jumping = true;
 		checkCollisions(Game.platforms);
+		checkPickups(Game.pickups);
 		
 		if (vx > 0) vx--;
 		if (vx < 0) vx++;
@@ -321,6 +322,18 @@ public class Player extends Actor {
 		return maxHealth;
 	}
 
+	public void attackBoost() {
+		attackDamage++;
+	}
+	
+	public void healthBoost() {
+		maxHealth++;
+		curHealth++;
+	}
+	
+	public void defenseBoost() {
+		shielding++;
+	}
 	
 	public void setHealth(int newHealth) {
 		curHealth = newHealth;
@@ -344,6 +357,11 @@ public class Player extends Actor {
 	
 	public float getH() {
 		return h;
+	}
+	
+	public void resetPosition() {
+		x = Engine.RESOLUTION_X / 2 - (w / 2);
+		y = (2 * Engine.RESOLUTION_Y / 3) - (h);
 	}
 	
 	public float getPlayerVX() {
@@ -405,7 +423,6 @@ public class Player extends Actor {
 		for (int i = 0; i < size; i++) {
 			if (Game.actors.get(i).getIsEnemy()) {
 				if (hitBoxCheck(Game.actors.get(i),hitBoxX,hitBoxY,hitBoxW,hitBoxH)) {
-					System.out.println("Successful attack!");
 					Game.actors.remove(Game.actors.get(i));
 					i--;
 					size = Game.actors.size();
@@ -416,8 +433,6 @@ public class Player extends Actor {
 	
 	public boolean hitBoxCheck(Actor a, float x, float y, float w, float h) 
 	{
-		System.out.println("A.getX(): " + a.getX());
-		System.out.println("A.getY(): " + a.getY());
 		return 	cornerCheck(a.getX(), a.getY(), x, y, w, h) ||
 				cornerCheck(a.getX() + a.getW(), a.getY(), x, y, w, h) ||
 				cornerCheck(a.getX(), a.getY() + a.getH(), x, y, w, h) ||
@@ -425,11 +440,31 @@ public class Player extends Actor {
 				cornerCheck(a.getX() + a.getW()/2, a.getY() + a.getH()/2, x, y, w, h);
 	}
 	
+	public boolean pickupsBoxCheck(Pickup p, float x, float y, float w, float h) {
+		return 	cornerCheck(p.getX(), p.getY(), x, y, w, h) ||
+				cornerCheck(p.getX() + p.getW(), p.getY(), x, y, w, h) ||
+				cornerCheck(p.getX(), p.getY() + p.getH(), x, y, w, h) ||
+				cornerCheck(p.getX() + p.getW(), p.getY() + p.getH(), x, y, w, h) ||
+				cornerCheck(p.getX() + p.getW()/2, p.getY() + p.getH()/2, x, y, w, h);
+	}
+	
 	public boolean cornerCheck(float ax, float ay, float x, float y, float w, float h) {
 		return 	ax >= x &&
 				ax <= x + w &&
 				ay >= y &&
 				ay <= y + h;
+	}
+	
+	public void checkPickups(ArrayList<Pickup> pickups) {
+		int size = pickups.size();
+		for (int i = 0; i < pickups.size(); i++) {
+			if (pickupsBoxCheck(pickups.get(i),x,y,w,h)) {
+				pickups.get(i).effect();
+				pickups.remove(i);
+				i--;
+				size = pickups.size();
+			}
+		}
 	}
 	
 	public void moveRight() {
