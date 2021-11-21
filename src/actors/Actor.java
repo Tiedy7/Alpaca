@@ -10,7 +10,7 @@ public class Actor {
 
 	protected float x, y, w, h;
 	protected float xSpeed, ySpeed;
-	protected int maxHealth, curHealth;
+	protected int maxHealth, curHealth, attackDamage, shielding;
 	
 	protected boolean isPlayer, isProjectile, isEnemy;
 	
