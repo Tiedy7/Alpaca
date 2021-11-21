@@ -37,12 +37,9 @@ public class Player extends Actor {
 	
 	private int attackTimer, attackCycle;
 	
-	private boolean isRight, isLeft, isJump, isIdle, faceRight, faceLeft, canMoveRight, canMoveLeft;
+	private boolean isRight, isLeft, isJump, isIdle, faceRight, faceLeft, canMoveRight, canMoveLeft, canDash, canWallJump;
 	
 	private float ax, vx, ay, vy; //acceleration & velocity
-	
-	//COLOR JUST FOR TESTING
-	protected Color color = new Color((int)(Math.random()*255),(int)(Math.random()*255),(int)(Math.random())*255);
 
 	
 	public Player() {
@@ -52,11 +49,14 @@ public class Player extends Actor {
 		x = Engine.RESOLUTION_X / 2 - (w / 2);
 		y = (2 * Engine.RESOLUTION_Y / 3) - (h);
 		
+		canDash = false;
 		dashCooldown = 28;
 		dashLength = 4;
 		dashCooldownTimer = 0;
 		rightDash = 0;
 		leftDash = 0;
+		
+		canWallJump = false;
 		
 		isEnemy = false;
 		
@@ -320,8 +320,10 @@ public class Player extends Actor {
 //		}
 
 		if ((Game.gc.getInput().isKeyDown(Game.gc.getInput().KEY_K))&&(dashCooldownTimer<=0)&&(faceRight)) {
-			rightDash = dashLength;
-			dashCooldownTimer = dashCooldown;
+			if (canDash) {
+				rightDash = dashLength;
+				dashCooldownTimer = dashCooldown;
+			}
 		}
 		
 		if (rightDash>0) {
@@ -337,8 +339,10 @@ public class Player extends Actor {
 		}
 
 		if ((Game.gc.getInput().isKeyDown(Game.gc.getInput().KEY_K))&&(dashCooldownTimer<=0)&&(faceLeft)) {
-			leftDash = dashLength;
-			dashCooldownTimer = dashCooldown;
+			if (canDash) {
+				leftDash = dashLength;
+				dashCooldownTimer = dashCooldown;
+			}
 		}
 
 		if (leftDash>0) {
@@ -365,6 +369,7 @@ public class Player extends Actor {
 		
 		//COLLISIONS
 		Game.jumping = true;
+		ay = Game.function.scaleY(1);
 		checkCollisions(Game.platforms);
 		
 		checkPickups(Game.pickups);
@@ -434,12 +439,20 @@ public class Player extends Actor {
 				if (p.collidesRight(tempX,tempY,w,h)) {
 					vx = 0;
 					tempX = p.getX() - w;
+					if (vy > 0) {
+						ay = Game.function.scaleY((float) 0.2);
+						if (canWallJump) Game.playerTouchesPlatform();
+					}
 				}
 			}
 			if (vx < 0) {
 				if (p.collidesLeft(tempX, tempY, w, h)) {
 					vx = 0;
 					tempX = p.getX() + p.getW();
+					if (vy > 0) {
+						ay = Game.function.scaleY((float) 0.2);
+						if (canWallJump) Game.playerTouchesPlatform();
+					}
 				}
 			}
 			if (vy > 0) {
@@ -499,6 +512,10 @@ public class Player extends Actor {
 		return maxHealth;
 	}
 
+	public void addHealth() {
+		curHealth++;
+		if (curHealth > maxHealth) curHealth = maxHealth;
+	}
 	
 	public void setHealth(int newHealth) {
 		curHealth = newHealth;
@@ -506,6 +523,14 @@ public class Player extends Actor {
 	
 	public void setMaxHealth(int newHealth) {
 		maxHealth = newHealth;
+	}
+	
+	public void enableDash() {
+		canDash = true;
+	}
+	
+	public void enableWallJump() {
+		canWallJump = true;
 	}
 	
 	public float getX() {
