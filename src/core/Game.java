@@ -329,6 +329,12 @@ public class Game extends BasicGameState
 	public void load001() {
 		platforms.add(new Platform(function.scaleX(200),function.scaleY(800),function.scaleX(1520),function.scaleY(200)));
 		platforms.add(new Platform(function.scaleX(400),function.scaleY(500),function.scaleX(300),function.scaleY(300)));
+		platforms.add(new Platform(function.scaleX(1800),function.scaleY(-500),function.scaleX(150),function.scaleY(1000)));
+		
+		pickups.add(new Pickup(function.scaleX(550),function.scaleY(225),function.scaleX(50),function.scaleY(50),new Color(125,225,0),"wallJump"));
+		pickups.add(new Pickup(function.scaleX(1200),function.scaleY(725),function.scaleX(50),function.scaleY(50),new Color(0,250,0),"heal"));
+		pickups.add(new Pickup(function.scaleX(550),function.scaleY(425),function.scaleX(50),function.scaleY(50),new Color(0,0,250),"dash"));
+		
 
 		dwayne = new DwayneBoss(function.scaleX(1500), function.scaleY(200));
 		actors.add(dwayne);
