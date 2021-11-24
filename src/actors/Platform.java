@@ -8,16 +8,19 @@ import core.Game;
 public class Platform {
 
 	protected float x, y, w, h;
+	protected int sizeW, sizeH;
 	
 	//THIS COLOR IS TEMPORARY JSUT FOR TESTING
 	protected Color color = new Color((int)(Math.random()*255),(int)(Math.random()*255),(int)(Math.random())*255);
 	
-	public Platform(float x, float y, float w, float h) {
-		//X, Y, W, H VALUES MUST BE SCALED IN THE INITIALIZATION OF THE PLATFORM, NOT HERE!!!
-		this.x = x;
-		this.y = y;
-		this.w = w;
-		this.h = h;
+	public Platform(int x, int y, int w, int h) {
+		//X, Y, W, H VALUES GIVEN IN INTS BY NUMBER OF TILES (EACH TILE IS 64 x 64 PIXELS)
+		this.x = x * Game.function.scaleX(64);
+		this.y = y * Game.function.scaleY(64);
+		this.w = w * Game.function.scaleX(64);
+		this.h = h * Game.function.scaleY(64);
+		sizeW = w;
+		sizeH = h;
 	}
 	
 	public void render(Graphics g, float difX, float difY) { 
