@@ -61,8 +61,7 @@ public class Game extends BasicGameState
 	public static ArrayList<Actor> actors;
 	public static ArrayList<Platform> platforms;
 	public static Player player;
-	public static GroundEnemy groundEnemy1;
-	public static DroneEnemy droneEnemy1;
+	Level level;
 	
 //	public static Fireball placejectile;
 	public static DwayneBoss dwayne;
@@ -130,14 +129,31 @@ public class Game extends BasicGameState
 		playerH = player.getH();
 		numJumps = 0;
 		
-		load000();
 		
+		//LOAD LEVEL 0
+		level = new Level(0);
+		loadLevel();
 		
 	}
 
+	public void loadLevel() {
+		for (int i = 0; i < level.getPlatformsSize(); i++) {
+			platforms.add(level.getPlatform(i));
+		}
+		
+		for (int i = 0; i < level.getActorsSize(); i++) {
+			actors.add(level.getActor(i));
+		}
+		
+		for (int i = 0; i < level.getPickupsSize(); i++) {
+			pickups.add(level.getPickup(i));
+		}
+	}
+	
 	public void clearLevel() {
 		platforms.clear();
 		projectiles.clear();
+		pickups.clear();
 		actors.clear();
 		actors.add(player);
 		player.resetPosition();
@@ -150,28 +166,22 @@ public class Game extends BasicGameState
 		
 		float px = Engine.RESOLUTION_X / 2 - (playerW / 2) - playerX;
 		float py = (2 * Engine.RESOLUTION_Y / 3) - playerH - playerY;
-
-
-		for (Pickup p : pickups) {
+		
+		for(Platform p : platforms) {
 			p.render(g, px, py);
 		}
-		
-//		setImage("res/Walk Cycle (Part Arm).png");
-//		character.setFilter(Image.FILTER_NEAREST);
-//		character.startUse();
-//		character.getSubImage(1+walkLoop, 0+walkRowNum).drawEmbedded(200+xPos, 200, 64, 128);
-//		character.endUse();
-		
-//		character.draw(500+xPos, 500+yPos, character.getWidth()*3, character.getHeight()*3);
-		
-		
+	
+		for (Pickup p : pickups) {
+			p.render(g, px, py);
+		}		
 		
 		for(Actor a : actors) {
 			a.render(g, px, py);
 		}
-			
-		for(Platform p : platforms) {
+		
+		for(Projectile p : projectiles) {
 			p.render(g, px, py);
+
 		}
 		
 		setImage("res/HealthBar.png");
@@ -181,13 +191,6 @@ public class Game extends BasicGameState
 		setImage("res/healthContainer.png");
 		healthContainer.setFilter(Image.FILTER_NEAREST);
 		healthContainer.draw((float) Game.function.scaleX(healthContainer.getWidth()), Game.function.scaleY(healthContainer.getHeight()*2) + (healthContainer.getHeight()/2), Game.function.scaleX(64)*6, Game.function.scaleY(16)*2);
-	
-		
-		
-		for(Projectile p : projectiles) {
-			p.render(g, px, py);
-
-		}
 		
 	}
 
@@ -314,32 +317,6 @@ public class Game extends BasicGameState
 		maxJumps = 2;
 	}
 	
-	public void load000() {
-		platforms.add(new Platform(function.scaleX(1000),function.scaleY(500),function.scaleX(300),function.scaleY(300)));		
-		platforms.add(new Platform(function.scaleX(200),function.scaleY(800),function.scaleX(1520),function.scaleY(200)));
-		platforms.add(new Platform(function.scaleX(1800),function.scaleY(500),function.scaleX(1500),function.scaleY(200)));
-		groundEnemy1 = new GroundEnemy(function.scaleX(300), function.scaleY(400));
-		actors.add(groundEnemy1);
-		droneEnemy1 = new DroneEnemy(function.scaleX(300), function.scaleY(100));
-		actors.add(droneEnemy1);
-
-		pickups.add(new Pickup(function.scaleX(600),function.scaleY(725),function.scaleX(50),function.scaleY(50),new Color(250,250,0),"doubleJump"));
-	}
-	
-	public void load001() {
-		platforms.add(new Platform(function.scaleX(200),function.scaleY(800),function.scaleX(1520),function.scaleY(200)));
-		platforms.add(new Platform(function.scaleX(400),function.scaleY(500),function.scaleX(300),function.scaleY(300)));
-		platforms.add(new Platform(function.scaleX(1800),function.scaleY(-500),function.scaleX(150),function.scaleY(1000)));
-		
-		pickups.add(new Pickup(function.scaleX(550),function.scaleY(225),function.scaleX(50),function.scaleY(50),new Color(125,225,0),"wallJump"));
-		pickups.add(new Pickup(function.scaleX(1200),function.scaleY(725),function.scaleX(50),function.scaleY(50),new Color(0,250,0),"heal"));
-		pickups.add(new Pickup(function.scaleX(550),function.scaleY(425),function.scaleX(50),function.scaleY(50),new Color(0,0,250),"dash"));
-		
-
-		dwayne = new DwayneBoss(function.scaleX(1500), function.scaleY(200));
-		actors.add(dwayne);
-	}
-	
 	public void keyPressed(int key, char c)
 	{
 		if (key == Input.KEY_W) {
@@ -376,7 +353,8 @@ public class Game extends BasicGameState
 		
 		if (key == Input.KEY_0) {
 			clearLevel();
-			load001();
+			level = new Level(1);
+			loadLevel();
 		}
 	}
 	
