@@ -14,12 +14,12 @@ public class Pickup {
 	
 	protected String type;
 	
-	public Pickup(int x, int y, int w, int h, Color color, String type) {
+	public Pickup(int x, int y, Color color, String type) {
 		//X, Y, W, H VALUES GIVEN IN INTS BY NUMBER OF TILES (EACH TILE IS 64 x 64 PIXELS)
-		this.x = x * Game.function.scaleX(64);
-		this.y = y * Game.function.scaleY(64);
-		this.w = w * Game.function.scaleX(64);
-		this.h = h * Game.function.scaleY(64);
+		this.x = x * Game.function.scaleX(64) + Game.function.scaleX(16);
+		this.y = y * Game.function.scaleY(64) + Game.function.scaleY(16);
+		this.w = Game.function.scaleX(64) - Game.function.scaleX(32);
+		this.h = Game.function.scaleY(64) - Game.function.scaleY(32);
 		
 		baseY = this.y;
 		time = 0;
@@ -35,7 +35,7 @@ public class Pickup {
 	
 	public void update() {
 		time++;
-		
+		y += (float) (Math.sin(time / 60) / 10);
 	}
 	
 	public void effect() {
