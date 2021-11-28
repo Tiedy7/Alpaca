@@ -14,4 +14,12 @@ public class Functions {
 	public static float scaleY(float y) {
 		return (y * Engine.RESOLUTION_Y)/ 1080; 
 	}
+	
+	public static float minimapScaleX(float x, float minimapW, float levelW) {
+		return (x * minimapW) / levelW;
+	}
+	
+	public static float minimapScaleY(float y, float minimapH, float levelH) {
+		return (y * minimapH) / levelH;
+	}
 }
