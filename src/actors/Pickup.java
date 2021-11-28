@@ -68,4 +68,8 @@ public class Pickup {
 	public float getH() {
 		return h;
 	}
+	
+	public Color getColor() {
+		return color;
+	}
 }
