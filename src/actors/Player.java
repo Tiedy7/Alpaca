@@ -403,12 +403,31 @@ public class Player extends Actor {
 	}
 	
 	public void checkCollisions(ArrayList<Platform> platforms) {
-		float tempX = x + vx;
 		float tempY = y + vy;
 		boolean canFall = true;
 		for (Platform p : platforms) {
+			if (vy > 0) {
+				if (p.collidesDown(x, tempY, w, h)) {
+					vy = 0;
+					tempY = p.getY() - h;
+					Game.playerTouchesPlatform();
+					Game.jumping = false;
+					canFall = false;
+				}
+			}
+			if (vy < 0) {
+				if (p.collidesUp(x, tempY, w, h)) {
+					vy = 0;
+					tempY = p.getY() + p.getH();
+					ay = 1;
+				}
+			}
+		}
+		y = tempY;
+		float tempX = x + vx;		
+		for (Platform p : platforms) {
 			if (vx > 0) {
-				if (p.collidesRight(tempX,tempY,w,h)) {
+				if (p.collidesRight(tempX,y,w,h)) {
 					vx = 0;
 					tempX = p.getX() - w;
 					if (vy > 0) {
@@ -418,7 +437,7 @@ public class Player extends Actor {
 				}
 			}
 			if (vx < 0) {
-				if (p.collidesLeft(tempX, tempY, w, h)) {
+				if (p.collidesLeft(tempX,y, w, h)) {
 					vx = 0;
 					tempX = p.getX() + p.getW();
 					if (vy > 0) {
@@ -427,25 +446,9 @@ public class Player extends Actor {
 					}
 				}
 			}
-			if (vy > 0) {
-				if (p.collidesDown(tempX, tempY, w, h)) {
-					vy = 0;
-					tempY = p.getY() - h;
-					Game.playerTouchesPlatform();
-					Game.jumping = false;
-					canFall = false;
-				}
-			}
-			if (vy < 0) {
-				if (p.collidesUp(tempX, tempY, w, h)) {
-					vy = 0;
-					tempY = p.getY() + p.getH();
-					ay = 1;
-				}
-			}
+			
 		}
 		x = tempX;
-		y = tempY;
 	}
 	
 	public void takeDamage(int damage) {
