@@ -16,7 +16,7 @@ public class Player extends Actor {
 
 	//MOVEMENT
 	private float ax, vx, ay, vy;
-	private int dashCooldown, dashLength, dashCooldownTimer, rightDash, leftDash;
+	private int dashCooldown, dashLength, dashCooldownTimer, numDashes, maxDashes, rightDash, leftDash;
 	private boolean isRight, isLeft, isIdle, faceRight, faceLeft, canDash, canWallJump;
 	
 	//ANIMATION
@@ -52,6 +52,8 @@ public class Player extends Actor {
 		
 		//DASHING
 		canDash = false;
+		numDashes = 0;
+		maxDashes = 1;
 		dashCooldown = 28;
 		dashLength = 4;
 		dashCooldownTimer = 0;
@@ -301,8 +303,9 @@ public class Player extends Actor {
 		}
 
 		if ((Game.gc.getInput().isKeyDown(Game.gc.getInput().KEY_K))&&(dashCooldownTimer<=0)&&(faceRight)) {
-			if (canDash) {
+			if ((canDash)&&(numDashes<maxDashes)) {
 				rightDash = dashLength;
+				numDashes++;
 				dashCooldownTimer = dashCooldown;
 			}
 		}
@@ -319,8 +322,9 @@ public class Player extends Actor {
 		}
 
 		if ((Game.gc.getInput().isKeyDown(Game.gc.getInput().KEY_K))&&(dashCooldownTimer<=0)&&(faceLeft)) {
-			if (canDash) {
+			if ((canDash)&&(numDashes<maxDashes)) {
 				leftDash = dashLength;
+				numDashes++;
 				dashCooldownTimer = dashCooldown;
 			}
 		}
@@ -411,6 +415,7 @@ public class Player extends Actor {
 					vy = 0;
 					tempY = p.getY() - h;
 					Game.playerTouchesPlatform();
+					numDashes = 0;
 					Game.jumping = false;
 					canFall = false;
 				}
@@ -432,7 +437,10 @@ public class Player extends Actor {
 					tempX = p.getX() - w;
 					if (vy > 0) {
 						ay = Game.function.scaleY((float) 0.2);
-						if (canWallJump) Game.playerTouchesPlatform();
+						if (canWallJump) {
+							Game.playerTouchesPlatform();
+							numDashes = 0;
+						}
 					}
 				}
 			}
@@ -442,7 +450,10 @@ public class Player extends Actor {
 					tempX = p.getX() + p.getW();
 					if (vy > 0) {
 						ay = Game.function.scaleY((float) 0.2);
-						if (canWallJump) Game.playerTouchesPlatform();
+						if (canWallJump) {
+							Game.playerTouchesPlatform();
+							numDashes = 0;
+						}
 					}
 				}
 			}
