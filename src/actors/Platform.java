@@ -26,13 +26,13 @@ public class Platform {
 		this.h = h * Game.function.scaleY(64);
 		sizeW = w;
 		sizeH = h;
-			
+		
 		switch (type) {
-		case 0 : 	setImage("res/samplePlatform.png");
+		case 0 : 	setImage("res/Tilemaps/samplePlatform.png");
 					break;
-		case 1: 	setImage("res/samplePlatform2.png");
+		case 1: 	setImage("res/Tilemaps/samplePlatform2.png");
 					break;
-		case 2: 	setImage("res/weirdTerrain.png");
+		case 2: 	setImage("res/Tilemaps/weirdTerrain.png");
 					break;
 		}
 	}
