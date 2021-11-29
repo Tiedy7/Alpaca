@@ -57,6 +57,9 @@ public class Game extends BasicGameState
 	
 	public int healthValue;
 	
+	public static boolean pauseResume;
+	public static boolean skillTreeResume;
+	
 	public static Functions function = new Functions();
 	public static ArrayList<Actor> actors;
 	public static ArrayList<Platform> platforms;
@@ -95,9 +98,10 @@ public class Game extends BasicGameState
 		
 		numJumps = 0;
 		maxJumps = 1;
-
-
 		
+
+		pauseResume = false;
+		skillTreeResume = false;
 		
 		healthValue = 0;
 		
@@ -273,34 +277,52 @@ public class Game extends BasicGameState
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException 
 	{
 		// This code happens when you enter a gameState.  
-		x = 0;
-		y = 0;
-		xPos = 0;
-		yPos = 0;
-		back = false;
-
-		
-		healthValue = 0;
-		
-		walkLoop = 0;
-		time = 0;
-		
-		forward = false;
-		
-		jumping = false;
-		
-		walkRow = false;
-		walkRowNum = 0;
-		pause = false;
-		
-		skill = false;
-		
-//		playerX = player.getX();
-//		playerY = player.getY();
-//		playerW = player.getW();
-//		playerH = player.getH();
-		numJumps = 0;
-		
+		if (!pauseResume && !skillTreeResume) {
+			x = 0;
+			y = 0;
+			xPos = 0;
+			yPos = 0;
+			back = false;
+			
+			numJumps = 0;
+			maxJumps = 1;
+	
+			player = new Player();
+			actors.add(player);
+			playerX = player.getX();
+			playerY = player.getY();
+			playerW = player.getW();
+			playerH = player.getH();		
+			
+			healthValue = 0;
+			
+			walkLoop = 0;
+			time = 0;
+			
+			
+			forward = false;
+			
+			jumping = false;
+			
+			walkRow = false;
+			walkRowNum = 0;
+			pause = false;
+			
+			skill = false;
+			
+	//		playerX = player.getX();
+	//		playerY = player.getY();
+	//		playerW = player.getW();
+	//		playerH = player.getH();
+			numJumps = 0;
+			
+			
+			
+			//LOAD LEVEL 0
+			clearLevel();
+			level = new Level(0);
+			loadLevel();
+		}
 		
 		//player.setHealth((int) player.getMaxHealth());
 	}
@@ -320,7 +342,7 @@ public class Game extends BasicGameState
 	
 	public void keyPressed(int key, char c)
 	{
-		if (key == Input.KEY_SPACE) {
+		if (key == Input.KEY_W) {
 			if (numJumps < maxJumps) {
 				player.jump();
 				playerYSpeed = player.getPlayerVY();
@@ -329,18 +351,20 @@ public class Game extends BasicGameState
 		}
 		
 		
-//		if (key == Input.KEY_S) {
-//			back = true;
-//		}
+		if (key == Input.KEY_S) {
+			back = true;
+		}
 		if (key == Input.KEY_D) {
 			forward = true;
 		}
 		
 		if (key == Input.KEY_ESCAPE) {
+			pauseResume = false;
 			pause = true;
 		}
 		
 		if (key == Input.KEY_O) {
+			skillTreeResume = false;
 			skill = true;
 		}
 		
