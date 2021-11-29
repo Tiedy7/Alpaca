@@ -125,7 +125,6 @@ public class Player extends Actor {
 						armCycle.getSubImage(walkLoop, 0).drawEmbedded(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,w,h);
 						armCycle.endUse();
 					}
-					
 				}
 				
 				if (isLeft) {
@@ -350,6 +349,11 @@ public class Player extends Actor {
 		
 		//UPDATING MOVEMENT
 		vy += ay;
+		
+		//ATTACKS
+		if (Game.attackTimer < 12) {
+			sideAttack();
+		}
 		
 		//COLLISIONS
 		Game.jumping = true;
