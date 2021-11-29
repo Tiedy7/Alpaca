@@ -32,7 +32,7 @@ public class Player extends Actor {
 	//ATTACKING & COLLISIONS	
 	public float hitBoxX, hitBoxY, hitBoxW, hitBoxH;
 	private int swordDamage, invincibility, attackTimer, attackCycle;
-	private boolean isAttacking;
+	private boolean isAttacking, onWall;
 	
 	public Player() {
 	//SIZING
@@ -62,6 +62,7 @@ public class Player extends Actor {
 		
 		//JUMPING
 		canWallJump = false;
+		onWall = true;
 		
 		//ATTACKING, DAMAGE, & HEALTH
 		attackTimer = 1;
@@ -352,6 +353,7 @@ public class Player extends Actor {
 		
 		//COLLISIONS
 		Game.jumping = true;
+		onWall = false;
 		ay = Game.function.scaleY(1);
 		checkCollisions(Game.platforms);
 		
@@ -439,6 +441,7 @@ public class Player extends Actor {
 						ay = Game.function.scaleY((float) 0.2);
 						if (canWallJump) {
 							Game.playerTouchesPlatform();
+							onWall = true;
 							numDashes = 0;
 						}
 					}
@@ -452,6 +455,7 @@ public class Player extends Actor {
 						ay = Game.function.scaleY((float) 0.2);
 						if (canWallJump) {
 							Game.playerTouchesPlatform();
+							onWall = true;
 							numDashes = 0;
 						}
 					}
