@@ -14,8 +14,6 @@ import core.Game;
 
 public class DwayneBoss extends Enemy {
 
-
-	
 	private int walkLoop, walkRowNum;
 	private boolean walkRow;
 	
@@ -98,7 +96,7 @@ public class DwayneBoss extends Enemy {
 		vy = 0;
 		
 		if (attackTimer >= 90) {
-			Game.dwayneAttack(fireballNum, x, y);
+			Game.spawnFireball(x, y);
 			attackTimer = 0;
 		}
 		
