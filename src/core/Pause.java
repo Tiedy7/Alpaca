@@ -135,6 +135,7 @@ public class Pause extends BasicGameState
 			if (x > (Game.function.scaleX(1920/2)) - ((Game.function.scaleX(resumeButton.getWidth()/2)/2)) && x < (Game.function.scaleX(1920/2)) + ((Game.function.scaleX(resumeButton.getWidth()/2)/2)) && y > (Game.function.scaleY(1080/15)*5) && y < (Game.function.scaleY(1080/15)*5) +  Game.function.scaleY(resumeButton.getHeight()/2)){
 				
 				unpause = true; 
+				Game.pauseResume = true;
 			}
 			
 			if (x > (Game.function.scaleX(1920/2)) - ((Game.function.scaleX(restartButton.getWidth()/2)/2)) && x < (Game.function.scaleX(1920/2)) + ((Game.function.scaleX(restartButton.getWidth()/2)/2)) && y > (Game.function.scaleY(1080/15)*7) && y < (Game.function.scaleY(1080/15)*7) +  Game.function.scaleY(restartButton.getHeight()/2)){
