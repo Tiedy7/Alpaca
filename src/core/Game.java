@@ -57,9 +57,6 @@ public class Game extends BasicGameState
 	
 	public int healthValue;
 	
-	public static boolean pauseResume;
-	public static boolean skillTreeResume;
-	
 	public static Functions function = new Functions();
 	public static ArrayList<Actor> actors;
 	public static ArrayList<Platform> platforms;
@@ -68,14 +65,14 @@ public class Game extends BasicGameState
 	
 //	public static Fireball placejectile;
 	public static DwayneBoss dwayne;
-	public static Fireball fireball;
+	public static Fireball dFireball;
 	
 	public static float playerX, playerY, playerW, playerH;
 	
 	public static float playerXSpeed, playerYSpeed;
 	public static boolean playerCanFall;
 	
-	public static int numJumps, maxJumps;
+	public static int numJumps, maxJumps, attackTimer;
 	
 //	public static SpriteSheet character;
 	
@@ -98,10 +95,9 @@ public class Game extends BasicGameState
 		
 		numJumps = 0;
 		maxJumps = 1;
-		
+		attackTimer = 0;
 
-		pauseResume = false;
-		skillTreeResume = false;
+		
 		
 		healthValue = 0;
 		
@@ -197,6 +193,7 @@ public class Game extends BasicGameState
 		healthContainer.draw(Game.function.scaleX(30), Game.function.scaleY(30), Game.function.scaleX(64)*6, Game.function.scaleY(16)*2);
 		
 		level.minimapRender(g);
+		
 	}
 
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException
@@ -205,6 +202,10 @@ public class Game extends BasicGameState
 		x--;
 		y--;
 		time++;
+		
+		if (attackTimer < 12) {
+			attackTimer++;
+		}
 		
 		for (Pickup p : pickups) {
 			p.update();
@@ -277,52 +278,34 @@ public class Game extends BasicGameState
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException 
 	{
 		// This code happens when you enter a gameState.  
-		if (!pauseResume && !skillTreeResume) {
-			x = 0;
-			y = 0;
-			xPos = 0;
-			yPos = 0;
-			back = false;
-			
-			numJumps = 0;
-			maxJumps = 1;
-	
-			player = new Player();
-			actors.add(player);
-			playerX = player.getX();
-			playerY = player.getY();
-			playerW = player.getW();
-			playerH = player.getH();		
-			
-			healthValue = 0;
-			
-			walkLoop = 0;
-			time = 0;
-			
-			
-			forward = false;
-			
-			jumping = false;
-			
-			walkRow = false;
-			walkRowNum = 0;
-			pause = false;
-			
-			skill = false;
-			
-	//		playerX = player.getX();
-	//		playerY = player.getY();
-	//		playerW = player.getW();
-	//		playerH = player.getH();
-			numJumps = 0;
-			
-			
-			
-			//LOAD LEVEL 0
-			clearLevel();
-			level = new Level(0);
-			loadLevel();
-		}
+		x = 0;
+		y = 0;
+		xPos = 0;
+		yPos = 0;
+		back = false;
+
+		
+		healthValue = 0;
+		
+		walkLoop = 0;
+		time = 0;
+		
+		forward = false;
+		
+		jumping = false;
+		
+		walkRow = false;
+		walkRowNum = 0;
+		pause = false;
+		
+		skill = false;
+		
+//		playerX = player.getX();
+//		playerY = player.getY();
+//		playerW = player.getW();
+//		playerH = player.getH();
+		numJumps = 0;
+		
 		
 		//player.setHealth((int) player.getMaxHealth());
 	}
@@ -350,7 +333,6 @@ public class Game extends BasicGameState
 			}
 		}
 		
-		
 		if (key == Input.KEY_S) {
 			back = true;
 		}
@@ -359,12 +341,10 @@ public class Game extends BasicGameState
 		}
 		
 		if (key == Input.KEY_ESCAPE) {
-			pauseResume = false;
 			pause = true;
 		}
 		
 		if (key == Input.KEY_O) {
-			skillTreeResume = false;
 			skill = true;
 		}
 		
@@ -373,7 +353,9 @@ public class Game extends BasicGameState
 		}
 		
 		if (key == Input.KEY_J) {
-			player.sideAttack();
+			if (attackTimer == 12) {
+				player.sideAttack();
+			}
 		}
 		
 		if (key == Input.KEY_0) {
@@ -383,10 +365,10 @@ public class Game extends BasicGameState
 		}
 	}
 	
-	public static void spawnFireball(float dx, float dy) {
-		fireball = new Fireball(player.getX()+function.scaleX(8), player.getY()+function.scaleY(16), (dx+function.scaleX(8)), (dy+function.scaleY(16)));
+	public static void dwayneAttack(int number, float dx, float dy) {
+		dFireball = new Fireball(player.getX()+function.scaleX(8), player.getY()+function.scaleY(16), (dx+function.scaleX(8)), (dy+function.scaleY(16)));
 		// (dFireball!=null) {
-			projectiles.add(fireball);
+			projectiles.add(dFireball);
 		//}
 	}
 	
