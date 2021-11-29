@@ -75,7 +75,7 @@ public class Game extends BasicGameState
 	public static float playerXSpeed, playerYSpeed;
 	public static boolean playerCanFall;
 	
-	public static int numJumps, maxJumps;
+	public static int numJumps, maxJumps, attackTimer;
 	
 //	public static SpriteSheet character;
 	
@@ -99,6 +99,7 @@ public class Game extends BasicGameState
 		numJumps = 0;
 		maxJumps = 1;
 		
+		attackTimer = 0;
 
 		pauseResume = false;
 		skillTreeResume = false;
@@ -213,6 +214,8 @@ public class Game extends BasicGameState
 		if (player.getPlayerHealth() == 0) {
 			sbg.enterState(6);
 		}
+		
+		
 		if (player.getPlayerHealth() <= 0) {
 			sbg.enterState(6);;
 		}
@@ -254,6 +257,10 @@ public class Game extends BasicGameState
 		
 		for (Actor a : actors) {
 			a.update();
+		}
+		
+		if (attackTimer < 12) {
+			attackTimer++;
 		}
 		
 		for (Projectile p : projectiles) {
@@ -342,7 +349,7 @@ public class Game extends BasicGameState
 	
 	public void keyPressed(int key, char c)
 	{
-		if (key == Input.KEY_W) {
+		if (key == Input.KEY_SPACE) {
 			if (numJumps < maxJumps) {
 				player.jump();
 				playerYSpeed = player.getPlayerVY();
@@ -351,9 +358,9 @@ public class Game extends BasicGameState
 		}
 		
 		
-		if (key == Input.KEY_S) {
-			back = true;
-		}
+//		if (key == Input.KEY_S) {
+//			back = true;
+//		}
 		if (key == Input.KEY_D) {
 			forward = true;
 		}
@@ -373,7 +380,10 @@ public class Game extends BasicGameState
 		}
 		
 		if (key == Input.KEY_J) {
-			player.sideAttack();
+			if (attackTimer == 12) {
+				attackTimer = 0;
+				player.sideAttack();
+			}
 		}
 		
 		if (key == Input.KEY_0) {
