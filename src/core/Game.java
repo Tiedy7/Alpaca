@@ -65,7 +65,7 @@ public class Game extends BasicGameState
 	
 //	public static Fireball placejectile;
 	public static DwayneBoss dwayne;
-	public static Fireball dFireball;
+	public static Fireball fireball;
 	
 	public static float playerX, playerY, playerW, playerH;
 	
@@ -320,7 +320,7 @@ public class Game extends BasicGameState
 	
 	public void keyPressed(int key, char c)
 	{
-		if (key == Input.KEY_W) {
+		if (key == Input.KEY_SPACE) {
 			if (numJumps < maxJumps) {
 				player.jump();
 				playerYSpeed = player.getPlayerVY();
@@ -329,9 +329,9 @@ public class Game extends BasicGameState
 		}
 		
 		
-		if (key == Input.KEY_S) {
-			back = true;
-		}
+//		if (key == Input.KEY_S) {
+//			back = true;
+//		}
 		if (key == Input.KEY_D) {
 			forward = true;
 		}
@@ -359,10 +359,10 @@ public class Game extends BasicGameState
 		}
 	}
 	
-	public static void dwayneAttack(int number, float dx, float dy) {
-		dFireball = new Fireball(player.getX()+function.scaleX(8), player.getY()+function.scaleY(16), (dx+function.scaleX(8)), (dy+function.scaleY(16)));
+	public static void spawnFireball(float dx, float dy) {
+		fireball = new Fireball(player.getX()+function.scaleX(8), player.getY()+function.scaleY(16), (dx+function.scaleX(8)), (dy+function.scaleY(16)));
 		// (dFireball!=null) {
-			projectiles.add(dFireball);
+			projectiles.add(fireball);
 		//}
 	}
 	
