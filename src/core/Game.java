@@ -189,14 +189,17 @@ public class Game extends BasicGameState
 
 		}
 		
+		g.setColor(new Color(105,0,0));
+		g.fillRect(function.scaleX(30),function.scaleY(30), (function.scaleX(64) * 6), function.scaleY(16) * 2);
+		
 		setImage("res/HealthBar.png");
 		healthBar.setFilter(Image.FILTER_NEAREST);
-		healthBar.draw(Game.function.scaleX(30), Game.function.scaleY(30), (float) ((Game.function.scaleX(64)*6) - (Game.function.scaleX(player.getPlayerMaxHealth()-player.getPlayerHealth()) * Game.function.scaleX((384/player.getMaxHealth())))), Game.function.scaleY(16)*2);
-		
+		healthBar.draw(function.scaleX(30), function.scaleY(30), (float) ((function.scaleX(64)*6) - (function.scaleX(player.getPlayerMaxHealth()-player.getPlayerHealth()) * function.scaleX((384/player.getMaxHealth())))), function.scaleY(16)*2);
+
 		setImage("res/healthContainer.png");
 		healthContainer.setFilter(Image.FILTER_NEAREST);
-		healthContainer.draw(Game.function.scaleX(30), Game.function.scaleY(30), Game.function.scaleX(64)*6, Game.function.scaleY(16)*2);
-		
+		healthContainer.draw(function.scaleX(30), function.scaleY(30), function.scaleX(64)*6, function.scaleY(16)*2);
+
 		level.minimapRender(g);
 	}
 
