@@ -29,13 +29,6 @@ public class Enemy extends Actor {
 
 	
 	public Enemy() {
-		//DEFAULT Enemy SIZE (16 x 32)*4
-		/*
-		w = Game.function.scaleX(64);
-		h = Game.function.scaleY(128);
-		x = Engine.RESOLUTION_X / 2 - (w / 2);
-		y = (2 * Engine.RESOLUTION_Y / 3) - (h);
-		*/
 		
 		ay = Game.function.scaleY(1);
 		vy = 0;
@@ -53,7 +46,6 @@ public class Enemy extends Actor {
 	public void contactDamage(Player p, float x, float y, float w, float h) {
 		
 		if (collidesWith(p, x, y, w, h)) {
-//			p.takeDamage(damage);
 			p.takeDamage(damage);
 			
 		}
@@ -79,7 +71,7 @@ public class Enemy extends Actor {
 	}
 
 	public void update() {
-		
+		super.update();
 	}
 	
 //	public float getX() {
