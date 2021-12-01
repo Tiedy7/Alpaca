@@ -258,11 +258,19 @@ public class Game extends BasicGameState
 			skill = false;
 		}
 		
-		for (Actor a : actors) {
-			a.update();
+		int loopSize = actors.size();
+		for (int i = 0; i < loopSize; i++) {
+			actors.get(i).update();
+			if (actors.get(i).getIsEnemy()) {
+				if (actors.get(i).shouldRemove()) {
+					actors.remove(i);
+					i--;
+					loopSize--;
+				}
+			}
 		}
 		
-		if (attackTimer < 12) {
+		if (attackTimer < 13) {
 			attackTimer++;
 		}
 		
@@ -383,7 +391,7 @@ public class Game extends BasicGameState
 		}
 		
 		if (key == Input.KEY_J) {
-			if (attackTimer == 12) {
+			if (attackTimer == 13) {
 				attackTimer = 0;
 				player.sideAttack();
 			}
