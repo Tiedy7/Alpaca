@@ -48,34 +48,31 @@ public class SkillTree extends BasicGameState
 			s.render(g);
 		}
 		
-		g.drawString("Press 'O' to return to the game!", 300, 300);
-	
+		//g.drawString("Press 'O' to return to the game!", 300, 300);
 		
-		setImage("res/attack.png");
+		setImage("res/attack1.png");
 		Attack.setFilter(Image.FILTER_NEAREST);
-		Attack.draw(Game.gc.getWidth()/3 - (Game.function.scaleX(Attack.getWidth()/2)),Game.gc.getHeight()/4	,Game.function.scaleX(Attack.getWidth())/2,Game.function.scaleY(Attack.getHeight())/2);
+		Attack.draw((Game.gc.getWidth()/3 - (Game.function.scaleX(Attack.getWidth()/2)/2)), Game.gc.getHeight()/4, Game.function.scaleX(Attack.getWidth()/2), Game.function.scaleY(Attack.getHeight())/2);
 		
-		
-		setImage("res/health.png");
+		setImage("res/health1.png");
 		Health.setFilter(Image.FILTER_NEAREST);
-		Health.draw(Game.gc.getWidth()/3 - (Game.function.scaleX(Health.getWidth()/2)),Game.gc.getHeight()/4 * 2	,Game.function.scaleX(Health.getWidth())/2,Game.function.scaleY(Health.getHeight())/2);
+		Health.draw((Game.gc.getWidth()/3 - (Game.function.scaleX(Health.getWidth()/2)/2)), ((Game.gc.getHeight()/4)*2), Game.function.scaleX(Health.getWidth()/2), Game.function.scaleY(Health.getHeight())/2);
 		
-		
-//		setImage("res/dHolder.png");
-//		Defense.setFilter(Image.FILTER_NEAREST);
-//		Defense.draw(Game.gc.getWidth()/3 - (Game.function.scaleX(Defense.getWidth()/2)),Game.gc.getHeight()/4 * 3	,4*Game.function.scaleX(Defense.getWidth()),4*Game.function.scaleY(Defense.getHeight()));
+		setImage("res/defense1.png");
+		Defense.setFilter(Image.FILTER_NEAREST);
+		Defense.draw((Game.gc.getWidth()/3 - (Game.function.scaleX(Defense.getWidth()/2)/2)), ((Game.gc.getHeight()/4)*3), Game.function.scaleX(Defense.getWidth()/2), Game.function.scaleY(Defense.getHeight())/2);
 		
 		setImage("res/healthButton.png");
 		aPlus.setFilter(Image.FILTER_NEAREST);
-		aPlus.draw((Game.gc.getWidth()/4*2) - (Game.function.scaleX(aPlus.getWidth()/2)),Game.gc.getHeight()/4 + Game.function.scaleY(40)	,4*Game.function.scaleX(aPlus.getWidth()),4*Game.function.scaleY(aPlus.getHeight()));
+		aPlus.draw((Game.gc.getWidth()/4*2) - (Game.function.scaleX(aPlus.getWidth()/2)), ((Game.gc.getHeight()/4)+15), Game.function.scaleX(aPlus.getWidth())*4, (Game.function.scaleY(aPlus.getHeight())*4));
 		
 		setImage("res/healthButton.png");
 		hPlus.setFilter(Image.FILTER_NEAREST);
-		hPlus.draw((Game.gc.getWidth()/4*2) - (Game.function.scaleX(hPlus.getWidth()/2)),Game.gc.getHeight()/4 * 2	+ Game.function.scaleY(40),4*Game.function.scaleX(hPlus.getWidth()),4*Game.function.scaleY(hPlus.getHeight()));
+		hPlus.draw((Game.gc.getWidth()/4*2) - (Game.function.scaleX(hPlus.getWidth()/2)), (((Game.gc.getHeight()/4)*2)+12), Game.function.scaleX(hPlus.getWidth())*4, Game.function.scaleY(hPlus.getHeight())*4);
 		
-//		setImage("res/healthButton.png");
-//		dPlus.setFilter(Image.FILTER_NEAREST);
-//		dPlus.draw((Game.gc.getWidth()/4*2) - (Game.function.scaleX(dPlus.getWidth()/2)),Game.gc.getHeight()/4 * 3	,4*Game.function.scaleX(dPlus.getWidth()),4*Game.function.scaleY(dPlus.getHeight()));
+		setImage("res/healthButton.png");
+		dPlus.setFilter(Image.FILTER_NEAREST);
+		dPlus.draw((Game.gc.getWidth()/4*2) - (Game.function.scaleX(dPlus.getWidth()/2)), (((Game.gc.getHeight()/4)*3)+15), Game.function.scaleX(dPlus.getWidth())*4, Game.function.scaleY(dPlus.getHeight())*4);
 		
 		
 	}
@@ -108,9 +105,7 @@ public class SkillTree extends BasicGameState
 	public void keyPressed(int key, char c)
 	{
 		if (key == Input.KEY_O) {
-			Game.skillTreeResume = true;
 			back = true;
-			
 		}
 		
 	}
@@ -120,20 +115,20 @@ public class SkillTree extends BasicGameState
 				
 		if (button == Input.MOUSE_LEFT_BUTTON) {
 //			System.out.println(Game.function.scaleX(aPlus.getWidth()/2));
-			if (x > (Game.gc.getWidth()/4*2) - (Game.function.scaleX(aPlus.getWidth()/2)) && y > Game.gc.getHeight()/4 && x < (Game.gc.getWidth()/4*2) + 4*(Game.function.scaleX(aPlus.getWidth()/2)) && y < Game.gc.getHeight()/4 + 4*Game.function.scaleY(aPlus.getHeight())){
+			if (x > (Game.gc.getWidth()/4*2) - (Game.function.scaleX(aPlus.getWidth()/2)) && y > ((Game.gc.getHeight()/4)+15) && x < (Game.gc.getWidth()/4*2) + (Game.function.scaleX(aPlus.getWidth()*4)) && y < ((Game.gc.getHeight()/4)+15) + Game.function.scaleY(aPlus.getHeight())*4){
 				Game.player.attackBoost();
 				aBoost++;
 				System.out.println(aBoost);
 					
 			}
 			
-			if (x > (Game.gc.getWidth()/4*2) - (Game.function.scaleX(hPlus.getWidth()/2)) && y > Game.gc.getHeight()/4 * 2	&& x < (Game.gc.getWidth()/4*2) + 4*Game.function.scaleX(hPlus.getWidth()) && y < Game.gc.getHeight()/4 * 2 + 4*Game.function.scaleY(hPlus.getHeight())) {
+			if (x > (Game.gc.getWidth()/4*2) - (Game.function.scaleX(hPlus.getWidth()/2)) && y > (((Game.gc.getHeight()/4)*2)+12) && x < (Game.gc.getWidth()/4*2) + (Game.function.scaleX(hPlus.getWidth()*4)) && y < (((Game.gc.getHeight()/4)+12)*2) + Game.function.scaleY(hPlus.getHeight())*4) {
 				Game.player.healthBoost();
 				hBoost++;
 				System.out.println(hBoost);
 			}
 			
-			if (x > (Game.gc.getWidth()/4*2) - (Game.function.scaleX(dPlus.getWidth()/2)) && y > Game.gc.getHeight()/4 * 3	&& x < (Game.gc.getWidth()/4*2) + 4*Game.function.scaleX(dPlus.getWidth()) && y < Game.gc.getHeight()/4 * 3 + 4*Game.function.scaleY(dPlus.getHeight())) {
+			if (x > (Game.gc.getWidth()/4*2) - (Game.function.scaleX(dPlus.getWidth()/2)) && y > (((Game.gc.getHeight()/4)*3)+15) && x < (Game.gc.getWidth()/4*2) + (Game.function.scaleX(dPlus.getWidth()*4)) && y < (((Game.gc.getHeight()/4)+15)*3) + Game.function.scaleY(dPlus.getHeight())*4) {
 				Game.player.defenseBoost();
 				dBoost ++;
 				System.out.println(dBoost);
