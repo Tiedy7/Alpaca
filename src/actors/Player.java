@@ -71,6 +71,7 @@ public class Player extends Actor {
 		maxHealth = 10;
 		curHealth = maxHealth;
 		invincibility = 0;
+		swordDamage = 5;
 		
 		//MISC
 		isEnemy = false;
@@ -387,7 +388,7 @@ public class Player extends Actor {
 	}
 	
 	public void attackBoost() {
-		attackDamage++;
+		swordDamage++;
 	}
 
 	public void healthBoost() {
@@ -581,14 +582,11 @@ public class Player extends Actor {
 		if (faceLeft) {
 			hitBoxX = x - Game.function.scaleX(64);
 		}
-	
-		int size = Game.actors.size();
-		for (int i = 0; i < size; i++) {
-			if (Game.actors.get(i).getIsEnemy()) {
-				if (hitBoxCheck(Game.actors.get(i),hitBoxX,hitBoxY,hitBoxW,hitBoxH)) {
-					Game.actors.remove(Game.actors.get(i));
-					i--;
-					size = Game.actors.size();
+		
+		for (Actor a : Game.actors) {
+			if (a.getIsEnemy()) {
+				if (hitBoxCheck(a, hitBoxX, hitBoxY, hitBoxW, hitBoxH)) {
+					a.takeDamage(swordDamage);
 				}
 			}
 		}
