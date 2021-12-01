@@ -13,8 +13,6 @@ import core.Functions;
 import core.Game;
 
 public class GroundEnemy extends Enemy {
-
-
 	
 	private int walkLoop, walkRowNum;
 	private boolean walkRow;
@@ -29,12 +27,7 @@ public class GroundEnemy extends Enemy {
 	
 	private float ax, vx, ay, vy; //acceleration & velocity
 	
-	//COLOR JUST FOR TESTING
-	protected Color color = new Color((int)(Math.random()*255),(int)(Math.random()*255),(int)(Math.random())*255);
-
-	
 	public GroundEnemy(float sx, float sy) {
-		//DEFAULT Enemy SIZE (16 x 32)*4
 		w = Game.function.scaleX(64);
 		h = Game.function.scaleY(128);
 		x = sx;
@@ -45,7 +38,7 @@ public class GroundEnemy extends Enemy {
 		vx = 0;
 		ax = 0;
 		
-		maxHealth = 5;
+		maxHealth = 15;
 		curHealth = maxHealth;
 		
 		damage = 2;
@@ -81,6 +74,7 @@ public class GroundEnemy extends Enemy {
 	}
 	
 	public void update() {
+		super.update();
 		
 		if (Game.playerX > x + (w*0.1)) {
 			vx = 3;
@@ -154,44 +148,6 @@ public class GroundEnemy extends Enemy {
 		x = tempX;
 		y = tempY;
 	}
-		
-//	public void updateW(float w) {
-//		this.w = w;
-//	}
-//	
-//	public void updateH(float h) {
-//		this.h = h;
-//	}
-//	
-//	public void collidesDown(float newY) {
-//		vy = 1;
-//		ay = 0;
-//		y = newY - h;
-//	}
-//	
-//	public void collidesUp(float newY) {
-//		vy = 1;
-//		ay = 1;
-//		y = newY;
-//	}
-//	
-//	public void collidesRight(float newX) {
-//		vx = 0;
-//		x = newX - h;
-//	}
-//	
-//	public void fall() {
-//		ay = 1;
-//	}
-//	
-//	public void jump() {
-//		ay = Game.function.scaleX(1);
-//		vy = Game.function.scaleX(-22);
-//	}
-//	
-//	public void moveRight() {
-//		vx = Math.min(7, vx++);
-//	}
 	
 	public void setImage(String filepath)
 	{
