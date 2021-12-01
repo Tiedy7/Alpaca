@@ -51,7 +51,7 @@ public class DroneEnemy extends Enemy {
 		walkRow = false;
 		walkRowNum = 0;
 		
-		maxHealth = 5;
+		maxHealth = 12;
 		curHealth = maxHealth;
 		
 		isRight = false;
@@ -76,6 +76,7 @@ public class DroneEnemy extends Enemy {
 	}
 	
 	public void update() {
+		super.update();
 		if (Game.playerX > x + (w*0.1)) vx = 2;
 		else if (Game.playerX + Game.playerW < x + (w*0.9)) vx = -2;
 		else vx = 0;
@@ -115,38 +116,47 @@ public class DroneEnemy extends Enemy {
 	}
 	
 	protected void checkCollisions(ArrayList<Platform> platforms) {
-		float tempX = x + vx;
 		float tempY = y + vy;
-		boolean canFall = false;
+		boolean canFall = true;
 		for (Platform p : platforms) {
-			if (vx > 0) {
-				if (p.collidesRight(tempX,tempY,w,h)) {
-					vx = 0;
-					tempX = p.getX() - w;
-				}
-			}
-			if (vx < 0) {
-				if (p.collidesLeft(tempX, tempY, w, h)) {
-					vx = 0;
-					tempX = p.getX() + p.getW();
-				}
-			}
 			if (vy > 0) {
-				if (p.collidesDown(tempX, tempY, w, h)) {
+				if (p.collidesDown(x, tempY, w, h)) {
 					vy = 0;
 					tempY = p.getY() - h;
 				}
 			}
 			if (vy < 0) {
-				if (p.collidesUp(tempX, tempY, w, h)) {
+				if (p.collidesUp(x, tempY, w, h)) {
 					vy = 0;
 					tempY = p.getY() + p.getH();
 					ay = 1;
 				}
 			}
 		}
-		x = tempX;
 		y = tempY;
+		float tempX = x + vx;		
+		for (Platform p : platforms) {
+			if (vx > 0) {
+				if (p.collidesRight(tempX,y,w,h)) {
+					vx = 0;
+					tempX = p.getX() - w;
+					if (vy > 0) {
+						ay = Game.function.scaleY((float) 0.2);
+					}
+				}
+			}
+			if (vx < 0) {
+				if (p.collidesLeft(tempX,y, w, h)) {
+					vx = 0;
+					tempX = p.getX() + p.getW();
+					if (vy > 0) {
+						ay = Game.function.scaleY((float) 0.2);
+					}
+				}
+			}
+			
+		}
+		x = tempX;
 	}
 //	
 	public void collidesDown(float newY) {
