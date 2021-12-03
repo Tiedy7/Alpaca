@@ -22,21 +22,57 @@ public class Level {
 	private float levelW, levelH, miniXOffset, miniYOffset;
 	
 	public Level(int level) {
+		//Note: platforms are generated at x * Game.function.scaleX(64). Keep that in mind when placing other actors.
 		platforms = new ArrayList<Platform>();
 		actors = new ArrayList<Actor>();
 		pickups = new ArrayList<Pickup>();
 		switch (level) {
 		case 0:	//TUTORIAL LEVEL ??
-				platforms.add(new Platform(16,7,5,5,2));		
-				platforms.add(new Platform(3,12,24,3,1));
-				platforms.add(new Platform(28,8,23,3,0));
-				actors.add(new GroundEnemy(function.scaleX(300), function.scaleY(400)));
-				actors.add(new DroneEnemy(function.scaleX(300), function.scaleY(100)));
-				pickups.add(new Pickup(9,11,new Color(250,250,0),"doubleJump"));
-				levelW = 3392;
-				levelH = 1908;
+				int basic = 1;
+				//climbing out
+				platforms.add(new Platform(0, 40, 32, 16, basic));
+				platforms.add(new Platform(4, 37, 4, 3, basic));
+				platforms.add(new Platform(12, 34, 4, 1, basic));
+				platforms.add(new Platform(17, 31, 4, 1, basic));
+				platforms.add(new Platform(10, 28, 4, 1, basic));
+				platforms.add(new Platform(4, 26, 4, 2, basic));
+				platforms.add(new Platform(11, 24, 4, 1, basic));
+				platforms.add(new Platform(17, 23, 4, 1, basic));
+				platforms.add(new Platform(24, 22, 4, 2, basic));
+				platforms.add(new Platform(16, 19, 4, 1, basic));
+				platforms.add(new Platform(12, 16, 4, 1, basic));
+				platforms.add(new Platform(17, 13, 4, 1, basic));
+				platforms.add(new Platform(21, 10, 7, 2, basic));
+				platforms.add(new Platform(4, 8, 12, 2, basic));
+				platforms.add(new Platform(14, 7, 2, 1, basic));
+				platforms.add(new Platform(4, 6, 6, 2, basic));
+				//wall
+				platforms.add(new Platform(0, -10, 4, 50, basic));
+				platforms.add(new Platform(28, -10, 4, 50, basic));
+				//ceiling
+				platforms.add(new Platform(4, -10, 2, 12, basic));
+				platforms.add(new Platform(8, -10, 20, 12, basic));
+				//enemy
+				actors.add(new GroundEnemy((5*function.scaleX(64)), (4*function.scaleX(64))));
+				
+				
+				//levelW = 2048;
+				levelW = 1344;
+				levelH = 2112;
 				miniXOffset = 0;
-				miniYOffset = 500;
+				//miniYOffset = (64*7);
+				miniYOffset = (480);
+				
+//				platforms.add(new Platform(16,7,5,5,2));		
+//				platforms.add(new Platform(3,12,24,3,1));
+//				platforms.add(new Platform(28,8,23,3,0));
+//				actors.add(new GroundEnemy(function.scaleX(300), function.scaleY(400)));
+//				actors.add(new DroneEnemy(function.scaleX(300), function.scaleY(100)));
+//				pickups.add(new Pickup(9,11,new Color(250,250,0),"doubleJump"));
+//				levelW = 3392;
+//				levelH = 1908;
+//				miniXOffset = 0;
+//				miniYOffset = 500;
 				break;
 		case 1: //LEVEL 1?
 				platforms.add(new Platform(3,12,24,3,1));
