@@ -12,7 +12,6 @@ import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import actors.Player;
 import visuals.Star;
 
 public class SkillTree extends BasicGameState 
@@ -21,24 +20,15 @@ public class SkillTree extends BasicGameState
 	
 	private boolean back;
 	
-	private SpriteSheet attackNumbers = null;
-	private SpriteSheet healthNumbers = null;
-	private SpriteSheet defenseNumbers = null;
-	
-	private Image Attack, Defense, Health, aPlus, hPlus, dPlus;
+	private Image sShop, Attack, Defense, Health, aPlus, hPlus, dPlus;
 	
 	public int aBoost, hBoost, dBoost;
-	
-	private int attackCycle, time;
 	
 	SkillTree(int id) 
 	{
 		this.id = id;
 		
 		back = false;
-		
-		attackCycle = 0;
-		time = 0;
 	}
 
 	
@@ -60,17 +50,22 @@ public class SkillTree extends BasicGameState
 		
 		//g.drawString("Press 'O' to return to the game!", 300, 300);
 		
+		
+		setImage("res/skillShop.png");
+		sShop.setFilter(Image.FILTER_NEAREST);
+		sShop.draw((Game.gc.getWidth()/2 - (Game.function.scaleX(sShop.getWidth()/2)/2)), Game.gc.getHeight()/13, Game.function.scaleX(sShop.getWidth()/2), Game.function.scaleY(sShop.getHeight())/2);
+		
 		setImage("res/attack1.png");
 		Attack.setFilter(Image.FILTER_NEAREST);
-		Attack.draw((Game.gc.getWidth()/3) - Game.function.scaleX(300), Game.gc.getHeight()/4, Game.function.scaleX(Attack.getWidth()/2), Game.function.scaleY(Attack.getHeight())/2);
+		Attack.draw((Game.gc.getWidth()/3 - (Game.function.scaleX(Attack.getWidth()/2)/2)), Game.gc.getHeight()/4, Game.function.scaleX(Attack.getWidth()/2), Game.function.scaleY(Attack.getHeight())/2);
 		
 		setImage("res/health1.png");
 		Health.setFilter(Image.FILTER_NEAREST);
-		Health.draw((Game.gc.getWidth()/3) - Game.function.scaleX(310), ((Game.gc.getHeight()/4)*2), Game.function.scaleX(Health.getWidth()/2), Game.function.scaleY(Health.getHeight())/2);
+		Health.draw((Game.gc.getWidth()/3 - (Game.function.scaleX(Health.getWidth()/2)/2)), ((Game.gc.getHeight()/4)*2), Game.function.scaleX(Health.getWidth()/2), Game.function.scaleY(Health.getHeight())/2);
 		
 		setImage("res/defense1.png");
 		Defense.setFilter(Image.FILTER_NEAREST);
-		Defense.draw((Game.gc.getWidth()/3) - Game.function.scaleX(300), ((Game.gc.getHeight()/4)*3), Game.function.scaleX(Defense.getWidth()/2), Game.function.scaleY(Defense.getHeight())/2);
+		Defense.draw((Game.gc.getWidth()/3 - (Game.function.scaleX(Defense.getWidth()/2)/2)), ((Game.gc.getHeight()/4)*3), Game.function.scaleX(Defense.getWidth()/2), Game.function.scaleY(Defense.getHeight())/2);
 		
 		setImage("res/healthButton.png");
 		aPlus.setFilter(Image.FILTER_NEAREST);
@@ -84,11 +79,6 @@ public class SkillTree extends BasicGameState
 		dPlus.setFilter(Image.FILTER_NEAREST);
 		dPlus.draw((Game.gc.getWidth()/4*2) - (Game.function.scaleX(dPlus.getWidth()/2)), (((Game.gc.getHeight()/4)*3)+15), Game.function.scaleX(dPlus.getWidth())*4, Game.function.scaleY(dPlus.getHeight())*4);
 		
-		setImage("res/numberSheet (1).png");
-		attackNumbers.setFilter(Image.FILTER_NEAREST);
-		attackNumbers.startUse();
-		attackNumbers.getSubImage(attackCycle, 0).drawEmbedded((Game.gc.getWidth()/3) + Game.function.scaleX(600),((Game.gc.getHeight()/4)+20),Game.function.scaleX(64),Game.function.scaleY(64));
-		attackNumbers.endUse();
 		
 	}
 
@@ -104,43 +94,23 @@ public class SkillTree extends BasicGameState
 			s.update();
 			
 		}
-		
-		time++;
-//		if (time == 15) {
-//			time = 0;
-//			attackCycle++;
-//		}
-//		if (attackCycle == 10) {
-//			attackCycle = 0;
-//		}
-		
-		System.out.println(attackCycle);
-		
 	}
 
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException 
 	{
 		// This code happens when you enter a gameState.  
 		back = false;
-		attackCycle = Player.attackDamage();
 	}
 
-	public int getDamageIncrease() {
-		return (attackCycle - Player.attackDamage());
-	}
-	
 	public void leave(GameContainer gc, StateBasedGame sbg) 
 	{
 		// This code happens when you leave a gameState. 
-		Player.swordDamage = Player.swordDamage + getDamageIncrease();
-		
 	}
 	
 	public void keyPressed(int key, char c)
 	{
 		if (key == Input.KEY_O) {
 			back = true;
-			Game.skillTreeResume = true;
 		}
 		
 	}
@@ -152,7 +122,7 @@ public class SkillTree extends BasicGameState
 //			System.out.println(Game.function.scaleX(aPlus.getWidth()/2));
 			if (x > (Game.gc.getWidth()/4*2) - (Game.function.scaleX(aPlus.getWidth()/2)) && y > ((Game.gc.getHeight()/4)+15) && x < (Game.gc.getWidth()/4*2) + (Game.function.scaleX(aPlus.getWidth()*4)) && y < ((Game.gc.getHeight()/4)+15) + Game.function.scaleY(aPlus.getHeight())*4){
 				Game.player.attackBoost();
-				attackCycle++;
+				aBoost++;
 				System.out.println(aBoost);
 					
 			}
@@ -181,9 +151,8 @@ public class SkillTree extends BasicGameState
 			aPlus = new Image(filepath);
 			hPlus = new Image(filepath);
 			dPlus = new Image(filepath);
-			attackNumbers = new SpriteSheet(filepath, 150, 200);
-			healthNumbers = new SpriteSheet(filepath, 150, 200);
-			defenseNumbers = new SpriteSheet(filepath, 150, 200);
+			sShop = new Image(filepath);
+			
 		}
 		catch(SlickException e)		
 		{
