@@ -159,22 +159,34 @@ public class Player extends Actor {
 				
 				if (isIdle) {
 					if (faceLeft) {
-						setImage("res/Player Sprites/Idle/idleBody.png");
-						character.setFilter(Image.FILTER_NEAREST);
-						character.startUse();
-						character.getSubImage(0, 0).drawEmbedded(Engine.RESOLUTION_X / 2 + (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,-w,h);
-						character.endUse();
-						
+//						setImage("res/Player Sprites/Idle/idleBody.png");
+//						character.setFilter(Image.FILTER_NEAREST);
+//						character.startUse();
+//						character.getSubImage(walkLoop, 0).drawEmbedded(Engine.RESOLUTION_X / 2 + (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,-w,h);
+//						character.endUse();
 						
 						if (!isAttacking) {
-							setImage("res/Player Sprites/Idle/idleArms.png");
+							setImage("res/Player Sprites/Idle/idleBounceBody.png");
+							character.setFilter(Image.FILTER_NEAREST);
+							character.startUse();
+							character.getSubImage(walkLoop, 0).drawEmbedded(Engine.RESOLUTION_X / 2 + (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,-w,h);
+							character.endUse();
+							
+							setImage("res/Player Sprites/Idle/idleBounceArms.png");
 							armCycle.setFilter(Image.FILTER_NEAREST);
 							armCycle.startUse();
-							armCycle.getSubImage(0, 0).drawEmbedded(Engine.RESOLUTION_X / 2 + (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,-w,h);
+							armCycle.getSubImage(walkLoop, 0).drawEmbedded(Engine.RESOLUTION_X / 2 + (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,-w,h);
 							armCycle.endUse();
+							
 						}
 						
 						if (isAttacking) {
+							setImage("res/Player Sprites/Idle/idleBody.png");
+							character.setFilter(Image.FILTER_NEAREST);
+							character.startUse();
+							character.getSubImage(0, 0).drawEmbedded(Engine.RESOLUTION_X / 2 + (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,-w,h);
+							character.endUse();
+							
 							setImage("res/Player Sprites/Attack Animation/attackSide.png");
 							attackArmCycle.setFilter(Image.FILTER_NEAREST);
 							attackArmCycle.startUse();
@@ -184,21 +196,33 @@ public class Player extends Actor {
 					}
 					
 					if (faceRight) {
-						setImage("res/Player Sprites/Idle/idleBody.png");
-						character.setFilter(Image.FILTER_NEAREST);
-						character.startUse();
-						character.getSubImage(0, 0).drawEmbedded(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,w,h);
-						character.endUse();
+//						setImage("res/Player Sprites/Idle/idleBody.png");
+//						character.setFilter(Image.FILTER_NEAREST);
+//						character.startUse();
+//						character.getSubImage(0, 0).drawEmbedded(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,w,h);
+//						character.endUse();
 						
 						if (!isAttacking) {
-							setImage("res/Player Sprites/Idle/idleArms.png");
+							setImage("res/Player Sprites/Idle/idleBounceBody.png");
+							character.setFilter(Image.FILTER_NEAREST);
+							character.startUse();
+							character.getSubImage(walkLoop, 0).drawEmbedded(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,w,h);
+							character.endUse();
+							
+							setImage("res/Player Sprites/Idle/idleBounceArms.png");
 							armCycle.setFilter(Image.FILTER_NEAREST);
 							armCycle.startUse();
-							armCycle.getSubImage(0, 0).drawEmbedded(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,w,h);
+							armCycle.getSubImage(walkLoop, 0).drawEmbedded(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,w,h);
 							armCycle.endUse();
 						}
 						
 						if (isAttacking) {
+							setImage("res/Player Sprites/Idle/idleBody.png");
+							character.setFilter(Image.FILTER_NEAREST);
+							character.startUse();
+							character.getSubImage(0, 0).drawEmbedded(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,w,h);
+							character.endUse();
+							
 							setImage("res/Player Sprites/Attack Animation/attackSide.png");
 							attackArmCycle.setFilter(Image.FILTER_NEAREST);
 							attackArmCycle.startUse();
