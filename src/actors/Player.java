@@ -405,7 +405,7 @@ public class Player extends Actor {
 		}
 		
 		//ANIMATION STUFF
-		if (time % 12 == 0) {
+		if (time % 6 == 0) {
 			walkLoop++;
 			
 		}
@@ -569,6 +569,14 @@ public class Player extends Actor {
 	
 	public float getPlayerVY() {
 		return vy;
+	}
+	
+	public void setX(float newX) {
+		x = newX;
+	}
+	
+	public void setY(float newY) {
+		y = newY;
 	}
 	
 	public void updateW(float w) {
