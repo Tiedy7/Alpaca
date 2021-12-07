@@ -28,6 +28,8 @@ public class GroundEnemy extends Enemy {
 	private float ax, vx, ay, vy; //acceleration & velocity
 	
 	public GroundEnemy(float sx, float sy) {
+		setImage("res/Enemy Sprites/enemyPlaceholder.png");
+		
 		w = Game.function.scaleX(64);
 		h = Game.function.scaleY(128);
 		x = sx;
@@ -58,14 +60,12 @@ public class GroundEnemy extends Enemy {
 	
 	public void render(Graphics g, float difX, float difY) {
 		if (faceLeft) {
-			setImage("res/Enemy Sprites/enemyPlaceholder.png");
 			groundEnemy.setFilter(Image.FILTER_NEAREST);
 			groundEnemy.startUse();
 			groundEnemy.getSubImage(0, 0).drawEmbedded(x + difX + (w), y + difY, -w, h);
 			groundEnemy.endUse();
 		}
 		if (faceRight) {
-			setImage("res/Enemy Sprites/enemyPlaceholder.png");
 			groundEnemy.setFilter(Image.FILTER_NEAREST);
 			groundEnemy.startUse();
 			groundEnemy.getSubImage(0, 0).drawEmbedded(x + difX, y + difY, w, h);
