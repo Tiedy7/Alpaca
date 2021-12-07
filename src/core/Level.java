@@ -22,13 +22,12 @@ public class Level {
 	private float levelW, levelH, miniXOffset, miniYOffset;
 	
 	public Level(int level) {
-		//Note: platforms are generated at x * Game.function.scaleX(64). Keep that in mind when placing other actors.
 		platforms = new ArrayList<Platform>();
 		actors = new ArrayList<Actor>();
 		pickups = new ArrayList<Pickup>();
 		switch (level) {
-		case 0:	//TUTORIAL LEVEL ??
-				int basic = 1;
+			case 0:	//TUTORIAL LEVEL ??
+				int basic = 3;
 				//climbing out
 				platforms.add(new Platform(0, 40, 32, 16, basic));
 				platforms.add(new Platform(4, 37, 4, 3, basic));
@@ -54,46 +53,33 @@ public class Level {
 				platforms.add(new Platform(8, -10, 20, 12, basic));
 				//enemy
 				actors.add(new GroundEnemy((5*function.scaleX(64)), (4*function.scaleX(64))));
-				
-				
+	
+	
 				//levelW = 2048;
-				levelW = 1344;
-				levelH = 2112;
-				miniXOffset = 0;
-				//miniYOffset = (64*7);
-				miniYOffset = (480);
-				
-//				platforms.add(new Platform(16,7,5,5,2));		
-//				platforms.add(new Platform(3,12,24,3,1));
-//				platforms.add(new Platform(28,8,23,3,0));
-//				actors.add(new GroundEnemy(function.scaleX(300), function.scaleY(400)));
-//				actors.add(new DroneEnemy(function.scaleX(300), function.scaleY(100)));
-//				pickups.add(new Pickup(9,11,new Color(250,250,0),"doubleJump"));
-//				levelW = 3392;
-//				levelH = 1908;
-//				miniXOffset = 0;
-//				miniYOffset = 500;
-				break;
-		case 1: //LEVEL 1?
-				platforms.add(new Platform(3,12,24,3,1));
-				platforms.add(new Platform(6,7,5,5,0));
-				platforms.add(new Platform(28,-8,2,16,1));
-				pickups.add(new Pickup(8,6,new Color(125,225,0),"wallJump"));
-				pickups.add(new Pickup(19,11,new Color(0,250,0),"heal"));
-				pickups.add(new Pickup(8,4,new Color(0,0,250),"dash"));
-				actors.add(new DwayneBoss(function.scaleX(1500),function.scaleY(200)));
-				levelW = 2958;
-				levelH = 1664;
-				miniXOffset = 256;
+				levelW = 7509;
+				levelH = 4224;
+				miniXOffset = 2731;
 				miniYOffset = 640;
-				break;
+//			case 1: //LEVEL 1?
+//					platforms.add(new Platform(3,12,24,3,1));
+//					platforms.add(new Platform(6,7,5,5,0));
+//					platforms.add(new Platform(28,-8,2,16,1));
+//					pickups.add(new Pickup(8,6,new Color(125,225,0),"wallJump"));
+//					pickups.add(new Pickup(19,11,new Color(0,250,0),"heal"));
+//					pickups.add(new Pickup(8,4,new Color(0,0,250),"dash"));
+//					actors.add(new DwayneBoss(function.scaleX(1500),function.scaleY(200)));
+//					levelW = 2958;
+//					levelH = 1664;
+//					miniXOffset = 256;
+//					miniYOffset = 640;
+//					break;
 		}
 	}
 	
 	public void minimapRender(Graphics g) {
 		//MINIMAP BACKGROUDN
 		g.setColor(new Color(0,0,0,150));
-		g.fillRect(Game.function.scaleX(1920 - 414), Game.function.scaleY(30), 384, 216);
+		g.fillRect(Game.function.scaleX(1920 - 414), Game.function.scaleY(30), Game.function.scaleX(384), Game.function.scaleY(216));
 		
 		//RENDER PLATFORMS ONTO MINIMAP
 		g.setColor(new Color(100,100,100,150));
@@ -108,7 +94,9 @@ public class Level {
 		
 		
 		
-		//MINIMAP BORDER OUTLINE
+		//MINIMAP BORDER OUTLINES
+		g.setColor(new Color(255, 203, 31));
+		g.drawRect(Game.function.scaleX(Game.function.minimapScaleX(Game.playerX + miniXOffset + (Game.playerW / 2) - (Engine.RESOLUTION_X / 2), 384, levelW)) + Game.function.scaleX(1920 - 414),Game.function.scaleY(Game.function.minimapScaleY(Game.playerY + miniYOffset + Game.function.scaleY(30), 216, levelH)), Game.function.scaleX(Game.function.minimapScaleX(Engine.RESOLUTION_X, 384, levelW)), Game.function.scaleY(Game.function.minimapScaleY(Engine.RESOLUTION_Y, 216, levelH)));
 		g.setColor(new Color(255,255,255));
 		g.drawRect(Game.function.scaleX(1920 - 414), Game.function.scaleY(30), 384, 216);
 	}
