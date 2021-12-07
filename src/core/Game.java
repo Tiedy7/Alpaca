@@ -31,7 +31,6 @@ public class Game extends BasicGameState
 	public static GameContainer gc;
 	public boolean back;
 	
-	
 	private int x, xPos, y, yPos;
 	
 	private int time;
@@ -76,6 +75,8 @@ public class Game extends BasicGameState
 	public static boolean playerCanFall;
 	
 	public static int numJumps, maxJumps, attackTimer;
+	
+	public static boolean renderMinimap = false;
 	
 //	public static SpriteSheet character;
 	
@@ -200,7 +201,7 @@ public class Game extends BasicGameState
 		healthContainer.setFilter(Image.FILTER_NEAREST);
 		healthContainer.draw(function.scaleX(30), function.scaleY(30), function.scaleX(64)*6, function.scaleY(16)*2);
 
-		level.minimapRender(g);
+		if (renderMinimap) level.minimapRender(g);
 	}
 
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException
@@ -271,6 +272,7 @@ public class Game extends BasicGameState
 		}
 		
 		if (attackTimer < 13) {
+			System.out.println(attackTimer);
 			attackTimer++;
 		}
 		
@@ -393,7 +395,7 @@ public class Game extends BasicGameState
 		if (key == Input.KEY_J) {
 			if (attackTimer == 13) {
 				attackTimer = 0;
-				player.sideAttack();
+				player.attack();
 			}
 		}
 		
