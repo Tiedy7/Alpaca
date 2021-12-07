@@ -1,6 +1,7 @@
 package actors;
 
 import java.util.ArrayList;
+import java.util.function.Function;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -11,14 +12,12 @@ import org.newdawn.slick.SpriteSheet;
 import core.Engine;
 import core.Game;
 import core.Menu;
-import core.SkillTree;
 
 public class Player extends Actor {
 
 	//MOVEMENT
-	private float ax, vx, ay, vy;
 	private int dashCooldown, dashLength, dashCooldownTimer, numDashes, maxDashes, rightDash, leftDash;
-	private boolean isRight, isLeft, isIdle, faceRight, faceLeft, canDash, canWallJump;
+	private boolean isRight, isLeft, isIdle, faceRight, faceLeft, faceUp, faceDown, canDash, canWallJump;
 	
 	//ANIMATION
 	private int walkLoop, time;
@@ -32,10 +31,8 @@ public class Player extends Actor {
 	
 	//ATTACKING & COLLISIONS	
 	public float hitBoxX, hitBoxY, hitBoxW, hitBoxH;
-	private int invincibility, attackTimer, attackCycle;
+	private int swordDamage, invincibility, attackTimer, attackCycle;
 	private boolean isAttacking, onWall;
-	public static int swordDamage;
-	
 	
 	public Player() {
 	//SIZING
@@ -74,7 +71,6 @@ public class Player extends Actor {
 		maxHealth = 10;
 		curHealth = maxHealth;
 		invincibility = 0;
-		
 		swordDamage = 5;
 		
 		//MISC
@@ -85,9 +81,12 @@ public class Player extends Actor {
 		isIdle = true;
 		faceRight = true;
 		faceLeft = false;
+		faceUp = false;
+		faceDown = false;
 	}
 	
 	public void render(Graphics g, float difX, float difY) {
+		
 		
 		if (Menu.superDwayne) {
 			if (isRight || isIdle) {
@@ -159,34 +158,22 @@ public class Player extends Actor {
 				
 				if (isIdle) {
 					if (faceLeft) {
-//						setImage("res/Player Sprites/Idle/idleBody.png");
-//						character.setFilter(Image.FILTER_NEAREST);
-//						character.startUse();
-//						character.getSubImage(walkLoop, 0).drawEmbedded(Engine.RESOLUTION_X / 2 + (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,-w,h);
-//						character.endUse();
+						setImage("res/Player Sprites/Idle/idleBody.png");
+						character.setFilter(Image.FILTER_NEAREST);
+						character.startUse();
+						character.getSubImage(0, 0).drawEmbedded(Engine.RESOLUTION_X / 2 + (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,-w,h);
+						character.endUse();
+						
 						
 						if (!isAttacking) {
-							setImage("res/Player Sprites/Idle/idleBounceBody.png");
-							character.setFilter(Image.FILTER_NEAREST);
-							character.startUse();
-							character.getSubImage(walkLoop, 0).drawEmbedded(Engine.RESOLUTION_X / 2 + (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,-w,h);
-							character.endUse();
-							
-							setImage("res/Player Sprites/Idle/idleBounceArms.png");
+							setImage("res/Player Sprites/Idle/idleArms.png");
 							armCycle.setFilter(Image.FILTER_NEAREST);
 							armCycle.startUse();
-							armCycle.getSubImage(walkLoop, 0).drawEmbedded(Engine.RESOLUTION_X / 2 + (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,-w,h);
+							armCycle.getSubImage(0, 0).drawEmbedded(Engine.RESOLUTION_X / 2 + (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,-w,h);
 							armCycle.endUse();
-							
 						}
 						
 						if (isAttacking) {
-							setImage("res/Player Sprites/Idle/idleBody.png");
-							character.setFilter(Image.FILTER_NEAREST);
-							character.startUse();
-							character.getSubImage(0, 0).drawEmbedded(Engine.RESOLUTION_X / 2 + (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,-w,h);
-							character.endUse();
-							
 							setImage("res/Player Sprites/Attack Animation/attackSide.png");
 							attackArmCycle.setFilter(Image.FILTER_NEAREST);
 							attackArmCycle.startUse();
@@ -196,33 +183,21 @@ public class Player extends Actor {
 					}
 					
 					if (faceRight) {
-//						setImage("res/Player Sprites/Idle/idleBody.png");
-//						character.setFilter(Image.FILTER_NEAREST);
-//						character.startUse();
-//						character.getSubImage(0, 0).drawEmbedded(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,w,h);
-//						character.endUse();
+						setImage("res/Player Sprites/Idle/idleBody.png");
+						character.setFilter(Image.FILTER_NEAREST);
+						character.startUse();
+						character.getSubImage(0, 0).drawEmbedded(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,w,h);
+						character.endUse();
 						
 						if (!isAttacking) {
-							setImage("res/Player Sprites/Idle/idleBounceBody.png");
-							character.setFilter(Image.FILTER_NEAREST);
-							character.startUse();
-							character.getSubImage(walkLoop, 0).drawEmbedded(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,w,h);
-							character.endUse();
-							
-							setImage("res/Player Sprites/Idle/idleBounceArms.png");
+							setImage("res/Player Sprites/Idle/idleArms.png");
 							armCycle.setFilter(Image.FILTER_NEAREST);
 							armCycle.startUse();
-							armCycle.getSubImage(walkLoop, 0).drawEmbedded(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,w,h);
+							armCycle.getSubImage(0, 0).drawEmbedded(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,w,h);
 							armCycle.endUse();
 						}
 						
 						if (isAttacking) {
-							setImage("res/Player Sprites/Idle/idleBody.png");
-							character.setFilter(Image.FILTER_NEAREST);
-							character.startUse();
-							character.getSubImage(0, 0).drawEmbedded(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,w,h);
-							character.endUse();
-							
 							setImage("res/Player Sprites/Attack Animation/attackSide.png");
 							attackArmCycle.setFilter(Image.FILTER_NEAREST);
 							attackArmCycle.startUse();
@@ -311,7 +286,18 @@ public class Player extends Actor {
 			faceLeft = true;
 		}
 		
-		
+		faceUp = false;
+		faceDown = false;
+		if (Game.gc.getInput().isKeyDown(Game.gc.getInput().KEY_W)) {
+			faceUp = true;
+		}
+		if (Game.gc.getInput().isKeyDown(Game.gc.getInput().KEY_S)) { 
+			faceDown = true;
+		}
+		if (faceUp && faceDown) {
+			faceUp = false;
+			faceDown = false;
+		}
 		
 		if (isAttacking) {
 			attackTimer++;
@@ -383,7 +369,7 @@ public class Player extends Actor {
 		
 		//ATTACKS
 		if (Game.attackTimer < 12) {
-			sideAttack();
+			attack();
 		}
 		
 		//COLLISIONS
@@ -415,8 +401,6 @@ public class Player extends Actor {
 		}
 		
 		time++;
-		
-		
 	}
 	
 	public void attackBoost() {
@@ -428,10 +412,6 @@ public class Player extends Actor {
 		curHealth++;
 	}
 
-	public static int attackDamage() {
-		return swordDamage;
-	}
-	
 	public void defenseBoost() {
 		shielding++;
 	}
@@ -451,10 +431,11 @@ public class Player extends Actor {
 	
 	public void checkCollisions(ArrayList<Platform> platforms) {
 		float tempY = y + vy;
+		float tempX = x + vx;
 		boolean canFall = true;
 		for (Platform p : platforms) {
 			if (vy > 0) {
-				if (p.collidesDown(x, tempY, w, h)) {
+				if (p.collidesDown(x, tempY + Game.function.scaleY(16), w, h)) {
 					vy = 0;
 					tempY = p.getY() - h;
 					Game.playerTouchesPlatform();
@@ -464,15 +445,14 @@ public class Player extends Actor {
 				}
 			}
 			if (vy < 0) {
-				if (p.collidesUp(x, tempY, w, h)) {
+				if (p.collidesUp(x, tempY + Game.function.scaleY(16), w, h)) {
 					vy = 0;
 					tempY = p.getY() + p.getH();
 					ay = 1;
 				}
 			}
 		}
-		y = tempY;
-		float tempX = x + vx;		
+		y = tempY;		
 		for (Platform p : platforms) {
 			if (vx > 0) {
 				if (p.collidesRight(tempX,y,w,h)) {
@@ -605,10 +585,52 @@ public class Player extends Actor {
 		vy = Game.function.scaleY(-22);
 	}
 	
-
-	public void sideAttack() {
+	public void attack() {
+		if(Game.gc.getInput().isKeyDown(Game.gc.getInput().KEY_W)) {
+			upAttack();
+		} else
+		if(Game.gc.getInput().isKeyDown(Game.gc.getInput().KEY_S)) {
+			downAttack();
+		} else {
+			sideAttack();
+		}
+	}
+	
+	public void upAttack() {
+		System.out.println("Up Attack!");
 		isAttacking = true;
 		hitBoxX = x;
+		hitBoxY = y - Game.function.scaleY(64);
+		hitBoxW = Game.function.scaleX(64);
+		hitBoxH = Game.function.scaleY(64);
+		for (Actor a : Game.actors) {
+			if (a.getIsEnemy()) {
+				if (hitBoxCheck(a, hitBoxX, hitBoxY, hitBoxW, hitBoxH)) {
+					a.takeDamage(swordDamage, x, y);
+				}
+			}
+		}
+	}
+	
+	public void downAttack() {
+		System.out.println("Down Attack!");
+		isAttacking = true;
+		hitBoxX = x;
+		hitBoxY = y + Game.function.scaleY(128);
+		hitBoxW = Game.function.scaleX(64);
+		hitBoxH = Game.function.scaleY(64);
+		for (Actor a : Game.actors) {
+			if (a.getIsEnemy()) {
+				if (hitBoxCheck(a, hitBoxX, hitBoxY, hitBoxW, hitBoxH)) {
+					a.takeDamage(swordDamage, x, y);
+				}
+			}
+		}
+	}
+
+	public void sideAttack() {
+		System.out.println("Side Attack!");
+		isAttacking = true;
 		hitBoxY = y;
 		hitBoxW = Game.function.scaleX(64);
 		hitBoxH = Game.function.scaleY(128);
@@ -618,11 +640,11 @@ public class Player extends Actor {
 		if (faceLeft) {
 			hitBoxX = x - Game.function.scaleX(64);
 		}
-	
+		
 		for (Actor a : Game.actors) {
 			if (a.getIsEnemy()) {
 				if (hitBoxCheck(a, hitBoxX, hitBoxY, hitBoxW, hitBoxH)) {
-					a.takeDamage(swordDamage);
+					a.takeDamage(swordDamage, x, y);
 				}
 			}
 		}
