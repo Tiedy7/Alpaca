@@ -1,9 +1,10 @@
 package actors;
 
+import java.util.function.Function;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 
@@ -34,6 +35,8 @@ public class Platform {
 					break;
 		case 2: 	setImage("res/Tilemaps/weirdTerrain.png");
 					break;
+		case 3: 	setImage("res/Tilemaps/platform1NEW.png");
+					break;
 		}
 	}
 	
@@ -42,6 +45,29 @@ public class Platform {
 		platform.startUse();
 		for (int i = 0; i < sizeW; i++) {
 			for (int b = 0; b < sizeH; b++) {
+				if (sizeH == 1 && sizeW == 1) {
+					platform.getSubImage(4,1).drawEmbedded(this.x + difX + i * Game.function.scaleX(64), y + difY + b * Game.function.scaleY(64), Game.function.scaleX(64), Game.function.scaleY(64));
+				} else
+				if (sizeH == 1) {
+					if (i == 0) {
+						platform.getSubImage(3, 1).drawEmbedded(this.x + difX + i * Game.function.scaleX(64), y + difY + b * Game.function.scaleY(64), Game.function.scaleX(64), Game.function.scaleY(64));
+					} else
+					if (i == sizeW - 1) {
+						platform.getSubImage(5, 1).drawEmbedded(this.x + difX + i * Game.function.scaleX(64), y + difY + b * Game.function.scaleY(64), Game.function.scaleX(64), Game.function.scaleY(64));
+					} else {
+						platform.getSubImage(3, 0).drawEmbedded(this.x + difX + i * Game.function.scaleX(64), y + difY + b * Game.function.scaleY(64), Game.function.scaleX(64), Game.function.scaleY(64));
+					}
+				} else
+				if (sizeW == 1) {
+					if (i == 0) {
+						platform.getSubImage(4, 0).drawEmbedded(this.x + difX + i * Game.function.scaleX(64), y + difY + b * Game.function.scaleY(64), Game.function.scaleX(64), Game.function.scaleY(64));
+					} else
+					if (i == sizeW - 1) {
+						platform.getSubImage(4, 2).drawEmbedded(this.x + difX + i * Game.function.scaleX(64), y + difY + b * Game.function.scaleY(64), Game.function.scaleX(64), Game.function.scaleY(64));
+					} else {
+						platform.getSubImage(5, 0).drawEmbedded(this.x + difX + i * Game.function.scaleX(64), y + difY + b * Game.function.scaleY(64), Game.function.scaleX(64), Game.function.scaleY(64));
+					}
+				} else
 				if (b == 0) {
 					if (i == 0) {
 						platform.getSubImage(0, 0).drawEmbedded(this.x + difX + i * Game.function.scaleX(64), y + difY + b * Game.function.scaleY(64), Game.function.scaleX(64), Game.function.scaleY(64));
