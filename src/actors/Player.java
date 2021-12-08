@@ -12,14 +12,13 @@ import core.Engine;
 import core.Game;
 import core.Menu;
 import core.SkillTree;
-import java.util.function.Function;
 
 public class Player extends Actor {
 
 	//MOVEMENT
 	private float ax, vx, ay, vy;
 	private int dashCooldown, dashLength, dashCooldownTimer, numDashes, maxDashes, rightDash, leftDash;
-	private boolean isRight, isLeft, isIdle, faceRight, faceLeft, faceUp, faceDown, canDash, canWallJump;
+	private boolean isRight, isLeft, isIdle, faceRight, faceLeft, canDash, canWallJump;
 	
 	//ANIMATION
 	private int walkLoop, time;
@@ -29,7 +28,6 @@ public class Player extends Actor {
 	private SpriteSheet armCycle = null;
 	private SpriteSheet dwayne = null;
 	public SpriteSheet attackArmCycle = null;
-	private SpriteSheet upAttackCycle;
 	private boolean walkRow;
 	
 	//ATTACKING & COLLISIONS	
@@ -37,7 +35,6 @@ public class Player extends Actor {
 	private int invincibility, attackTimer, attackCycle;
 	private boolean isAttacking, onWall;
 	public static int swordDamage;
-	private boolean isUpAttack, isDownAttack, isSideAttack;
 	
 	
 	public Player() {
@@ -88,13 +85,6 @@ public class Player extends Actor {
 		isIdle = true;
 		faceRight = true;
 		faceLeft = false;
-		faceUp = false;
-		faceDown = false;
-		
-		isUpAttack = false;
-		isDownAttack = false;
-		isSideAttack = false;
-		
 	}
 	
 	public void render(Graphics g, float difX, float difY) {
@@ -126,20 +116,11 @@ public class Player extends Actor {
 					character.endUse();
 					
 					if (isAttacking) {
-						if (isSideAttack && !isUpAttack) {
-							setImage("res/Player Sprites/Attack Animation/attackSide.png");
-							attackArmCycle.setFilter(Image.FILTER_NEAREST);
-							attackArmCycle.startUse();
-							attackArmCycle.getSubImage(attackCycle, 0).drawEmbedded(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,w*2,h);
-							attackArmCycle.endUse();
-						}
-						if (isUpAttack) {
-							setImage("res/Player Sprites/Attack Animation/attackUp.png");
-							upAttackCycle.setFilter(Image.FILTER_NEAREST);
-							upAttackCycle.startUse();
-							upAttackCycle.getSubImage(attackCycle, 0).drawEmbedded(Engine.RESOLUTION_X / 2 - (w / 2)-Game.function.scaleX(4),(2 * Engine.RESOLUTION_Y / 3) -(h)-Game.function.scaleX(56),w+Game.function.scaleX(8),h+Game.function.scaleX(52));
-							upAttackCycle.endUse();
-						}
+						setImage("res/Player Sprites/Attack Animation/attackSide.png");
+						attackArmCycle.setFilter(Image.FILTER_NEAREST);
+						attackArmCycle.startUse();
+						attackArmCycle.getSubImage(attackCycle, 0).drawEmbedded(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,w*2,h);
+						attackArmCycle.endUse();
 					}
 					
 					if (!isAttacking) {
@@ -159,22 +140,12 @@ public class Player extends Actor {
 					character.endUse();
 					
 					if (isAttacking) {
-						if (isSideAttack && !isUpAttack) {
-							setImage("res/Player Sprites/Attack Animation/attackSide.png");
-							attackArmCycle.setFilter(Image.FILTER_NEAREST);
-							attackArmCycle.startUse();
-							attackArmCycle.getSubImage(attackCycle, 0).drawEmbedded(Engine.RESOLUTION_X / 2 + (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,-(w*2),h);
-							attackArmCycle.endUse();
-						}
-						if (isUpAttack) {
-							setImage("res/Player Sprites/Attack Animation/attackUp.png");
-							upAttackCycle.setFilter(Image.FILTER_NEAREST);
-							upAttackCycle.startUse();
-							upAttackCycle.getSubImage(attackCycle, 0).drawEmbedded(Engine.RESOLUTION_X / 2 + (w / 2)+Game.function.scaleX(4),(2 * Engine.RESOLUTION_Y / 3) -(h)-Game.function.scaleX(56),-(w+Game.function.scaleX(8)),h+Game.function.scaleX(52));
-							upAttackCycle.endUse();
-						}
-					
-				}
+						setImage("res/Player Sprites/Attack Animation/attackSide.png");
+						attackArmCycle.setFilter(Image.FILTER_NEAREST);
+						attackArmCycle.startUse();
+						attackArmCycle.getSubImage(attackCycle, 0).drawEmbedded(Engine.RESOLUTION_X / 2 + (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,-(w*2),h);
+						attackArmCycle.endUse();
+					}
 					
 					if (!isAttacking) {
 						setImage("res/Player Sprites/Walk Animation/walkCycleArms.png");
@@ -188,70 +159,75 @@ public class Player extends Actor {
 				
 				if (isIdle) {
 					if (faceLeft) {
-						setImage("res/Player Sprites/Idle/idleBody.png");
-						character.setFilter(Image.FILTER_NEAREST);
-						character.startUse();
-						character.getSubImage(0, 0).drawEmbedded(Engine.RESOLUTION_X / 2 + (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,-w,h);
-						character.endUse();
-						
+//						setImage("res/Player Sprites/Idle/idleBody.png");
+//						character.setFilter(Image.FILTER_NEAREST);
+//						character.startUse();
+//						character.getSubImage(walkLoop, 0).drawEmbedded(Engine.RESOLUTION_X / 2 + (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,-w,h);
+//						character.endUse();
 						
 						if (!isAttacking) {
-							setImage("res/Player Sprites/Idle/idleArms.png");
+							setImage("res/Player Sprites/Idle/idleBounceBody.png");
+							character.setFilter(Image.FILTER_NEAREST);
+							character.startUse();
+							character.getSubImage(walkLoop, 0).drawEmbedded(Engine.RESOLUTION_X / 2 + (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,-w,h);
+							character.endUse();
+							
+							setImage("res/Player Sprites/Idle/idleBounceArms.png");
 							armCycle.setFilter(Image.FILTER_NEAREST);
 							armCycle.startUse();
-							armCycle.getSubImage(0, 0).drawEmbedded(Engine.RESOLUTION_X / 2 + (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,-w,h);
+							armCycle.getSubImage(walkLoop, 0).drawEmbedded(Engine.RESOLUTION_X / 2 + (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,-w,h);
 							armCycle.endUse();
+							
 						}
 						
 						if (isAttacking) {
-							if (isSideAttack && !isUpAttack) {
-								setImage("res/Player Sprites/Attack Animation/attackSide.png");
-								attackArmCycle.setFilter(Image.FILTER_NEAREST);
-								attackArmCycle.startUse();
-								attackArmCycle.getSubImage(attackCycle, 0).drawEmbedded(Engine.RESOLUTION_X / 2 + (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,-(w*2),h);
-								attackArmCycle.endUse();
-							}
-							if (isUpAttack) {
-								setImage("res/Player Sprites/Attack Animation/attackUp.png");
-								upAttackCycle.setFilter(Image.FILTER_NEAREST);
-								upAttackCycle.startUse();
-								upAttackCycle.getSubImage(attackCycle, 0).drawEmbedded(Engine.RESOLUTION_X / 2 + (w / 2)+Game.function.scaleX(4),(2 * Engine.RESOLUTION_Y / 3) -(h)-Game.function.scaleX(56),-(w+Game.function.scaleX(8)),h+Game.function.scaleX(52));
-								upAttackCycle.endUse();
-							}
-						
+							setImage("res/Player Sprites/Idle/idleBody.png");
+							character.setFilter(Image.FILTER_NEAREST);
+							character.startUse();
+							character.getSubImage(0, 0).drawEmbedded(Engine.RESOLUTION_X / 2 + (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,-w,h);
+							character.endUse();
+							
+							setImage("res/Player Sprites/Attack Animation/attackSide.png");
+							attackArmCycle.setFilter(Image.FILTER_NEAREST);
+							attackArmCycle.startUse();
+							attackArmCycle.getSubImage(attackCycle, 0).drawEmbedded(Engine.RESOLUTION_X / 2 + (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,-(w*2),h);
+							attackArmCycle.endUse();
 						}
 					}
 					
 					if (faceRight) {
-						setImage("res/Player Sprites/Idle/idleBody.png");
-						character.setFilter(Image.FILTER_NEAREST);
-						character.startUse();
-						character.getSubImage(0, 0).drawEmbedded(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,w,h);
-						character.endUse();
+//						setImage("res/Player Sprites/Idle/idleBody.png");
+//						character.setFilter(Image.FILTER_NEAREST);
+//						character.startUse();
+//						character.getSubImage(0, 0).drawEmbedded(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,w,h);
+//						character.endUse();
 						
 						if (!isAttacking) {
-							setImage("res/Player Sprites/Idle/idleArms.png");
+							setImage("res/Player Sprites/Idle/idleBounceBody.png");
+							character.setFilter(Image.FILTER_NEAREST);
+							character.startUse();
+							character.getSubImage(walkLoop, 0).drawEmbedded(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,w,h);
+							character.endUse();
+							
+							setImage("res/Player Sprites/Idle/idleBounceArms.png");
 							armCycle.setFilter(Image.FILTER_NEAREST);
 							armCycle.startUse();
-							armCycle.getSubImage(0, 0).drawEmbedded(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,w,h);
+							armCycle.getSubImage(walkLoop, 0).drawEmbedded(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,w,h);
 							armCycle.endUse();
 						}
 						
 						if (isAttacking) {
-							if (isSideAttack && !isUpAttack) {
-								setImage("res/Player Sprites/Attack Animation/attackSide.png");
-								attackArmCycle.setFilter(Image.FILTER_NEAREST);
-								attackArmCycle.startUse();
-								attackArmCycle.getSubImage(attackCycle, 0).drawEmbedded(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,w*2,h);
-								attackArmCycle.endUse();
-							}
-							if (isUpAttack) {
-								setImage("res/Player Sprites/Attack Animation/attackUp.png");
-								upAttackCycle.setFilter(Image.FILTER_NEAREST);
-								upAttackCycle.startUse();
-								upAttackCycle.getSubImage(attackCycle, 0).drawEmbedded(Engine.RESOLUTION_X / 2 - (w / 2)-Game.function.scaleX(4),(2 * Engine.RESOLUTION_Y / 3) -(h)-Game.function.scaleX(56),w+Game.function.scaleX(8),h+Game.function.scaleX(52));
-								upAttackCycle.endUse();
-							}
+							setImage("res/Player Sprites/Idle/idleBody.png");
+							character.setFilter(Image.FILTER_NEAREST);
+							character.startUse();
+							character.getSubImage(0, 0).drawEmbedded(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,w,h);
+							character.endUse();
+							
+							setImage("res/Player Sprites/Attack Animation/attackSide.png");
+							attackArmCycle.setFilter(Image.FILTER_NEAREST);
+							attackArmCycle.startUse();
+							attackArmCycle.getSubImage(attackCycle, 0).drawEmbedded(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,w*2,h);
+							attackArmCycle.endUse();
 						}
 					}
 					
@@ -274,23 +250,15 @@ public class Player extends Actor {
 					}
 					
 					if (isAttacking) {
-						if (isSideAttack && !isUpAttack) {
-							setImage("res/Player Sprites/Attack Animation/attackSide.png");
-							attackArmCycle.setFilter(Image.FILTER_NEAREST);
-							attackArmCycle.startUse();
-							attackArmCycle.getSubImage(attackCycle, 0).drawEmbedded(Engine.RESOLUTION_X / 2 + (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,-(w*2),h);
-							attackArmCycle.endUse();
-						}
-						if (isUpAttack) {
-							setImage("res/Player Sprites/Attack Animation/attackUp.png");
-							upAttackCycle.setFilter(Image.FILTER_NEAREST);
-							upAttackCycle.startUse();
-							upAttackCycle.getSubImage(attackCycle, 0).drawEmbedded(Engine.RESOLUTION_X / 2 + (w / 2)+Game.function.scaleX(4),(2 * Engine.RESOLUTION_Y / 3) -(h)-Game.function.scaleX(56),-(w+Game.function.scaleX(8)),h+Game.function.scaleX(52));
-							upAttackCycle.endUse();
-						}
+						setImage("res/Player Sprites/Attack Animation/attackSide.png");
+						attackArmCycle.setFilter(Image.FILTER_NEAREST);
+						attackArmCycle.startUse();
+						attackArmCycle.getSubImage(attackCycle, 0).drawEmbedded(Engine.RESOLUTION_X / 2 + (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,-(w*2),h);
+						attackArmCycle.endUse();
+					}
 					
 				}
-				}
+				
 				if (faceRight) {
 					setImage("res/Player Sprites/Jump/jumpBody.png");
 					armCycle.setFilter(Image.FILTER_NEAREST);
@@ -307,23 +275,13 @@ public class Player extends Actor {
 					}
 					
 					if (isAttacking) {
-						if (isSideAttack && !isUpAttack) {
-							setImage("res/Player Sprites/Attack Animation/attackSide.png");
-							attackArmCycle.setFilter(Image.FILTER_NEAREST);
-							attackArmCycle.startUse();
-							attackArmCycle.getSubImage(attackCycle, 0).drawEmbedded(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,w*2,h);
-							attackArmCycle.endUse();
-						}
-						if (isUpAttack) {
-							setImage("res/Player Sprites/Attack Animation/attackUp.png");
-							upAttackCycle.setFilter(Image.FILTER_NEAREST);
-							upAttackCycle.startUse();
-							upAttackCycle.getSubImage(attackCycle, 0).drawEmbedded(Engine.RESOLUTION_X / 2 - (w / 2)-Game.function.scaleX(4),(2 * Engine.RESOLUTION_Y / 3) -(h)-Game.function.scaleX(56),w+Game.function.scaleX(8),h+Game.function.scaleX(52));
-							upAttackCycle.endUse();
-						}
+						setImage("res/Player Sprites/Attack Animation/attackSide.png");
+						attackArmCycle.setFilter(Image.FILTER_NEAREST);
+						attackArmCycle.startUse();
+						attackArmCycle.getSubImage(attackCycle, 0).drawEmbedded(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,w*2,h);
+						attackArmCycle.endUse();
 					}
 				}
-			
 			}
 		}
 	}
@@ -352,18 +310,7 @@ public class Player extends Actor {
 			faceRight = false;
 			faceLeft = true;
 		}
-		faceUp = false;
-		faceDown = false;
-		if (Game.gc.getInput().isKeyDown(Game.gc.getInput().KEY_W)) {
-			faceUp = true;
-		}
-		if (Game.gc.getInput().isKeyDown(Game.gc.getInput().KEY_S)) { 
-			faceDown = true;
-		}
-		if (faceUp && faceDown) {
-			faceUp = false;
-			faceDown = false;
-		}
+		
 		
 		
 		if (isAttacking) {
@@ -376,8 +323,6 @@ public class Player extends Actor {
 		
 		if (attackCycle == 8) {
 			isAttacking = false;
-			isUpAttack = false;
-			isSideAttack = false;
 			attackTimer = 1;
 			attackCycle = 0;
 		}
@@ -438,7 +383,7 @@ public class Player extends Actor {
 		
 		//ATTACKS
 		if (Game.attackTimer < 12) {
-			attack();
+			sideAttack();
 		}
 		
 		//COLLISIONS
@@ -460,7 +405,7 @@ public class Player extends Actor {
 		}
 		
 		//ANIMATION STUFF
-		if (time % 12 == 0) {
+		if (time % 6 == 0) {
 			walkLoop++;
 			
 		}
@@ -477,7 +422,6 @@ public class Player extends Actor {
 	public void attackBoost() {
 		swordDamage++;
 	}
-	
 
 	public void healthBoost() {
 		maxHealth++;
@@ -507,11 +451,10 @@ public class Player extends Actor {
 	
 	public void checkCollisions(ArrayList<Platform> platforms) {
 		float tempY = y + vy;
-		float tempX = x + vx;
 		boolean canFall = true;
 		for (Platform p : platforms) {
 			if (vy > 0) {
-				if (p.collidesDown(x, tempY + Game.function.scaleY(16), w, h)) {
+				if (p.collidesDown(x, tempY, w, h)) {
 					vy = 0;
 					tempY = p.getY() - h;
 					Game.playerTouchesPlatform();
@@ -521,14 +464,15 @@ public class Player extends Actor {
 				}
 			}
 			if (vy < 0) {
-				if (p.collidesUp(x, tempY + Game.function.scaleY(16), w, h)) {
+				if (p.collidesUp(x, tempY, w, h)) {
 					vy = 0;
 					tempY = p.getY() + p.getH();
 					ay = 1;
 				}
 			}
 		}
-		y = tempY;		
+		y = tempY;
+		float tempX = x + vx;		
 		for (Platform p : platforms) {
 			if (vx > 0) {
 				if (p.collidesRight(tempX,y,w,h)) {
@@ -627,6 +571,14 @@ public class Player extends Actor {
 		return vy;
 	}
 	
+	public void setX(float newX) {
+		x = newX;
+	}
+	
+	public void setY(float newY) {
+		y = newY;
+	}
+	
 	public void updateW(float w) {
 		this.w = w;
 	}
@@ -660,56 +612,11 @@ public class Player extends Actor {
 		ay = Game.function.scaleY(1);
 		vy = Game.function.scaleY(-22);
 	}
-	public void attack() {
-		if(Game.gc.getInput().isKeyDown(Game.gc.getInput().KEY_W)) {
-			upAttack();
-		} else
-		if(Game.gc.getInput().isKeyDown(Game.gc.getInput().KEY_S)) {
-			downAttack();
-		} else {
-			sideAttack();
-		}
-	}
-
-	public void upAttack() {
-		System.out.println("Up Attack!");
-		isUpAttack = true;
-		isAttacking = true;
-		hitBoxX = x;
-		hitBoxY = y - Game.function.scaleY(64);
-		hitBoxW = Game.function.scaleX(64);
-		hitBoxH = Game.function.scaleY(64);
-		for (Actor a : Game.actors) {
-			if (a.getIsEnemy()) {
-				if (hitBoxCheck(a, hitBoxX, hitBoxY, hitBoxW, hitBoxH)) {
-					a.takeDamage(swordDamage, x, y);
-				}
-			}
-		}
-	}
-
-	public void downAttack() {
-		System.out.println("Down Attack!");
-		isDownAttack = true;
-		isAttacking = true;
-		hitBoxX = x;
-		hitBoxY = y + Game.function.scaleY(128);
-		hitBoxW = Game.function.scaleX(64);
-		hitBoxH = Game.function.scaleY(64);
-		for (Actor a : Game.actors) {
-			if (a.getIsEnemy()) {
-				if (hitBoxCheck(a, hitBoxX, hitBoxY, hitBoxW, hitBoxH)) {
-					a.takeDamage(swordDamage, x, y);
-				}
-			}
-		}
-	}
 	
 
 	public void sideAttack() {
-		System.out.println("Side Attack!");
 		isAttacking = true;
-		isSideAttack = true;
+		hitBoxX = x;
 		hitBoxY = y;
 		hitBoxW = Game.function.scaleX(64);
 		hitBoxH = Game.function.scaleY(128);
@@ -723,7 +630,7 @@ public class Player extends Actor {
 		for (Actor a : Game.actors) {
 			if (a.getIsEnemy()) {
 				if (hitBoxCheck(a, hitBoxX, hitBoxY, hitBoxW, hitBoxH)) {
-					a.takeDamage(swordDamage, x, y);
+					a.takeDamage(swordDamage);
 				}
 			}
 		}
@@ -750,14 +657,6 @@ public class Player extends Actor {
 		vx = Math.min(Game.function.scaleX(7), vx++);
 	}
 	
-	public void setX(float newX) {
-		x = newX;
-	}
-
-	public void setY(float newY) {
-		y = newY;
-	}
-	
 	public void setImage(String filepath)
 	{
 		try
@@ -766,7 +665,6 @@ public class Player extends Actor {
 			armCycle = new SpriteSheet(filepath, 16, 32);
 			dwayne = new SpriteSheet(filepath, 32, 64);
 			attackArmCycle = new SpriteSheet(filepath, 32, 32);
-			upAttackCycle = new SpriteSheet(filepath, 16, 48);
 		}
 		catch(SlickException e)		
 		{
