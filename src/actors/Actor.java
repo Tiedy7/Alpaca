@@ -9,14 +9,19 @@ import core.Game;
 public class Actor {
 
 	protected float x, y, w, h;
-	protected float xSpeed, ySpeed;
-	protected int maxHealth, curHealth, attackDamage, shielding, damageTimer;
-	
+	protected float ax, vx, ay, vy;
+	protected int maxHealth;
+	protected int curHealth;
+	protected int attackDamage;
+	protected int shielding;
+	protected int damageTimer;
+	protected float F;
 	
 	protected boolean isPlayer, isProjectile, isEnemy;
 	
 	public Actor() {
 		damageTimer = 0;
+		F = 10;
 	}
 	
 	public void render(Graphics g, float difX, float difY) {
@@ -32,11 +37,13 @@ public class Actor {
 	}
 	
 
-	public void takeDamage(int damage) {
+	public void takeDamage(int damage, float px, float py) {
 		if (damageTimer >= 12) {
 			curHealth -= damage;
 			damageTimer = 0;
 		}
+		//		x += F * (float) Math.cos(Math.atan((y - py)/(x - px)));
+//		y += F * (float) Math.sin(Math.atan((y - py)/(x - px))); 
 	}
 	
 	public boolean shouldRemove() {
