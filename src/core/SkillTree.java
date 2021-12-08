@@ -21,6 +21,7 @@ public class SkillTree extends BasicGameState
 	
 	private boolean back;
 	
+
 	private SpriteSheet attackNumbers = null;
 	private SpriteSheet healthNumbers = null;
 	private SpriteSheet defenseNumbers = null;
@@ -29,7 +30,13 @@ public class SkillTree extends BasicGameState
 	
 	public int aBoost, hBoost, dBoost;
 	
-	private int attackCycle, time;
+	private int attackCycle, healthCycle, time;
+	
+	private int cycle1, cycle2;
+	
+	private int cycleH, cycleH2;
+	
+	private String numSub, healthSub;
 	
 	SkillTree(int id) 
 	{
@@ -38,7 +45,17 @@ public class SkillTree extends BasicGameState
 		back = false;
 		
 		attackCycle = 0;
+		healthCycle = 0;
 		time = 0;
+		
+		cycleH = 0;
+		cycleH2 = 0;
+		
+		numSub = (" ");
+		healthSub = (" ");
+		
+		cycle1 = 0;
+		cycle2 = 0;
 	}
 
 	
@@ -49,6 +66,7 @@ public class SkillTree extends BasicGameState
 		
 	}
 
+	
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException 
 	{
 		// Sets background to the specified RGB color
@@ -62,34 +80,57 @@ public class SkillTree extends BasicGameState
 		
 		setImage("res/attack1.png");
 		Attack.setFilter(Image.FILTER_NEAREST);
-		Attack.draw((Game.gc.getWidth()/3) - Game.function.scaleX(300), Game.gc.getHeight()/4, Game.function.scaleX(Attack.getWidth()/2), Game.function.scaleY(Attack.getHeight())/2);
+		Attack.draw((Game.gc.getWidth()/3 - (Functions.scaleX(Attack.getWidth()/2)/2)), Game.gc.getHeight()/4, Functions.scaleX(Attack.getWidth()/2), Functions.scaleY(Attack.getHeight()/2));
 		
 		setImage("res/health1.png");
 		Health.setFilter(Image.FILTER_NEAREST);
-		Health.draw((Game.gc.getWidth()/3) - Game.function.scaleX(310), ((Game.gc.getHeight()/4)*2), Game.function.scaleX(Health.getWidth()/2), Game.function.scaleY(Health.getHeight())/2);
-		
+		Health.draw((Game.gc.getWidth()/3 - (Functions.scaleX(Health.getWidth()/2)/2)), ((Game.gc.getHeight()/4)*2), Functions.scaleX(Health.getWidth()/2), Functions.scaleY(Health.getHeight()/2));
+
 		setImage("res/defense1.png");
 		Defense.setFilter(Image.FILTER_NEAREST);
-		Defense.draw((Game.gc.getWidth()/3) - Game.function.scaleX(300), ((Game.gc.getHeight()/4)*3), Game.function.scaleX(Defense.getWidth()/2), Game.function.scaleY(Defense.getHeight())/2);
-		
+		Defense.draw((Game.gc.getWidth()/3 - (Functions.scaleX(Defense.getWidth()/2)/2)), ((Game.gc.getHeight()/4)*3), Functions.scaleX(Defense.getWidth()/2), Functions.scaleY(Defense.getHeight()/2));
+
 		setImage("res/healthButton.png");
 		aPlus.setFilter(Image.FILTER_NEAREST);
-		aPlus.draw((Game.gc.getWidth()/4*2) - (Game.function.scaleX(aPlus.getWidth()/2)), ((Game.gc.getHeight()/4)+15), Game.function.scaleX(aPlus.getWidth())*4, (Game.function.scaleY(aPlus.getHeight())*4));
+		aPlus.draw((Game.gc.getWidth()/4*2) - (Functions.scaleX(aPlus.getWidth()/2)), ((Game.gc.getHeight()/4)+ Functions.scaleY(15)), Functions.scaleX(aPlus.getWidth()*4), (Functions.scaleY(aPlus.getHeight()*4)));
 		
+		
+	
 		setImage("res/healthButton.png");
 		hPlus.setFilter(Image.FILTER_NEAREST);
-		hPlus.draw((Game.gc.getWidth()/4*2) - (Game.function.scaleX(hPlus.getWidth()/2)), (((Game.gc.getHeight()/4)*2)+12), Game.function.scaleX(hPlus.getWidth())*4, Game.function.scaleY(hPlus.getHeight())*4);
+		hPlus.draw((Game.gc.getWidth()/4*2) - (Functions.scaleX(hPlus.getWidth()/2)), (((Game.gc.getHeight()/4)*2)+Functions.scaleY(12)), Functions.scaleX(hPlus.getWidth()*4), Functions.scaleY(hPlus.getHeight()*4));
 		
 		setImage("res/healthButton.png");
 		dPlus.setFilter(Image.FILTER_NEAREST);
-		dPlus.draw((Game.gc.getWidth()/4*2) - (Game.function.scaleX(dPlus.getWidth()/2)), (((Game.gc.getHeight()/4)*3)+15), Game.function.scaleX(dPlus.getWidth())*4, Game.function.scaleY(dPlus.getHeight())*4);
+		dPlus.draw((Game.gc.getWidth()/4*2) - (Functions.scaleX(dPlus.getWidth()/2)), (((Game.gc.getHeight()/4)*3)+Functions.scaleY(15)), Functions.scaleX(dPlus.getWidth()*4), Functions.scaleY(dPlus.getHeight()*4));
 		
 		setImage("res/numberSheet (1).png");
 		attackNumbers.setFilter(Image.FILTER_NEAREST);
 		attackNumbers.startUse();
-		attackNumbers.getSubImage(attackCycle, 0).drawEmbedded((Game.gc.getWidth()/3) + Game.function.scaleX(600),((Game.gc.getHeight()/4)+20),Game.function.scaleX(64),Game.function.scaleY(64));
+		attackNumbers.getSubImage(cycle1, 0).drawEmbedded((Game.gc.getWidth()/3) + Functions.scaleX(600),((Game.gc.getHeight()/4)+20),Functions.scaleX(64),Functions.scaleY(64));
 		attackNumbers.endUse();
 		
+		if (attackCycle >= 10) {
+			setImage("res/numberSheet (1).png");
+			attackNumbers.setFilter(Image.FILTER_NEAREST);
+			attackNumbers.startUse();
+			attackNumbers.getSubImage(cycle2, 0).drawEmbedded((Game.gc.getWidth()/3) + Functions.scaleX(600) + Functions.scaleX(64),((Game.gc.getHeight()/4)+20),Functions.scaleX(64),Functions.scaleY(64));
+			attackNumbers.endUse();
+		}
+		
+		setImage("res/numberSheet (1).png");
+		healthNumbers.setFilter(Image.FILTER_NEAREST);
+		healthNumbers.startUse();
+		healthNumbers.getSubImage(cycleH, 0).drawEmbedded((Game.gc.getWidth()/3) + Functions.scaleX(600),((Game.gc.getHeight()/4*2)+20),Functions.scaleX(64),Functions.scaleY(64));
+		healthNumbers.endUse();
+		
+		if (healthCycle >= 10) {
+			setImage("res/numberSheet (1).png");
+			healthNumbers.setFilter(Image.FILTER_NEAREST);
+			healthNumbers.startUse();
+			healthNumbers.getSubImage(cycleH2, 0).drawEmbedded((Game.gc.getWidth()/3) + Functions.scaleX(600) + Functions.scaleX(64),((Game.gc.getHeight()/4*2)+20),Functions.scaleX(64),Functions.scaleY(64));
+			healthNumbers.endUse();
+		}
 	}
 
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException
@@ -98,6 +139,26 @@ public class SkillTree extends BasicGameState
 		if (back) {
 			sbg.enterState(1);
 			back = false;
+		}
+		
+		if (numSub.length() >= 2) {
+			cycle1 = Integer.parseInt(numSub.substring(0,1));
+			cycle2 = Integer.parseInt(numSub.substring(1,2));
+			
+		}
+		
+		if (numSub.length() < 2) {
+			cycle1 = Integer.parseInt(numSub.substring(0,1));
+		}
+		
+		if (healthSub.length() >= 2) {
+			cycleH = Integer.parseInt(healthSub.substring(0,1));
+			cycleH2 = Integer.parseInt(healthSub.substring(1,2));
+			
+		}
+		
+		if (healthSub.length() < 2) {
+			cycleH = Integer.parseInt(healthSub.substring(0,1));
 		}
 		
 		for (Star s: IntroScreen.stars) {
@@ -114,7 +175,10 @@ public class SkillTree extends BasicGameState
 //			attackCycle = 0;
 //		}
 		
-		System.out.println(attackCycle);
+//		System.out.println(attackCycle);
+		
+	
+
 		
 	}
 
@@ -123,16 +187,26 @@ public class SkillTree extends BasicGameState
 		// This code happens when you enter a gameState.  
 		back = false;
 		attackCycle = Player.attackDamage();
+		healthCycle = (int) Game.player.getMaxHealth();
+		numSub = String.valueOf(Player.attackDamage());
+		healthSub = String.valueOf(Game.player.getMaxHealth());
+		System.out.println(healthSub);
+		
+	
 	}
 
 	public int getDamageIncrease() {
 		return (attackCycle - Player.attackDamage());
 	}
 	
+	public int getHealthIncrease() {
+		return (int) (healthCycle - Game.player.getMaxHealth());
+	}
+//	
 	public void leave(GameContainer gc, StateBasedGame sbg) 
 	{
 		// This code happens when you leave a gameState. 
-		Player.swordDamage = Player.swordDamage + getDamageIncrease();
+
 		
 	}
 	
@@ -149,25 +223,31 @@ public class SkillTree extends BasicGameState
 	{
 				
 		if (button == Input.MOUSE_LEFT_BUTTON) {
-//			System.out.println(Game.function.scaleX(aPlus.getWidth()/2));
-			if (x > (Game.gc.getWidth()/4*2) - (Game.function.scaleX(aPlus.getWidth()/2)) && y > ((Game.gc.getHeight()/4)+15) && x < (Game.gc.getWidth()/4*2) + (Game.function.scaleX(aPlus.getWidth()*4)) && y < ((Game.gc.getHeight()/4)+15) + Game.function.scaleY(aPlus.getHeight())*4){
+			
+			if (x > (Game.gc.getWidth()/4*2) - (Functions.scaleX(72)) && y > ((Game.gc.getHeight()/4)+ Functions.scaleY(15)) && x < (Game.gc.getWidth()/4*2) + (Game.function.scaleX(72)) && y < ((Game.gc.getHeight()/4)+ Functions.scaleY(15)) + (Functions.scaleY(72))) {
+				
 				Game.player.attackBoost();
-				attackCycle++;
-				System.out.println(aBoost);
+				attackCycle++; 
+				numSub = String.valueOf(attackCycle);
+				
 					
 			}
 			
-			if (x > (Game.gc.getWidth()/4*2) - (Game.function.scaleX(hPlus.getWidth()/2)) && y > (((Game.gc.getHeight()/4)*2)+12) && x < (Game.gc.getWidth()/4*2) + (Game.function.scaleX(hPlus.getWidth()*4)) && y < (((Game.gc.getHeight()/4)+12)*2) + Game.function.scaleY(hPlus.getHeight())*4) {
-				Game.player.healthBoost();
-				hBoost++;
-				System.out.println(hBoost);
-			}
+			if (x > (Game.gc.getWidth()/4*2) - (Functions.scaleX(72)) && y > ((Game.gc.getHeight()/4*2)+ Functions.scaleY(15)) && x < (Game.gc.getWidth()/4*2) + (Game.function.scaleX(72)) && y < ((Game.gc.getHeight()/4*2)+ Functions.scaleY(15)) + (Functions.scaleY(72))) {
 			
-			if (x > (Game.gc.getWidth()/4*2) - (Game.function.scaleX(dPlus.getWidth()/2)) && y > (((Game.gc.getHeight()/4)*3)+15) && x < (Game.gc.getWidth()/4*2) + (Game.function.scaleX(dPlus.getWidth()*4)) && y < (((Game.gc.getHeight()/4)+15)*3) + Game.function.scaleY(dPlus.getHeight())*4) {
-				Game.player.defenseBoost();
-				dBoost ++;
-				System.out.println(dBoost);
+				Game.player.healthBoost();
+				healthCycle++; 
+				healthSub = String.valueOf(healthCycle);
+				
+				
+				
 			}
+//			
+//			if (x > (Game.gc.getWidth()/4*2) - (Functions.scaleX(dPlus.getWidth()/2)) && y > (((Game.gc.getHeight()/4)*3)+15) && x < (Game.gc.getWidth()/4*2) + (Functions.scaleX(dPlus.getWidth()*4)) && y < (((Game.gc.getHeight()/4)+15)*3) + Functions.scaleY(dPlus.getHeight())*4) {
+//				Game.player.defenseBoost();
+//				
+//				System.out.println(dBoost);
+//			}
 		}
 	}
 
