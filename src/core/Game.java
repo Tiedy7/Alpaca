@@ -18,6 +18,7 @@ import actors.Actor;
 import actors.Platform;
 import actors.Player;
 import actors.Enemy;
+import actors.GoombaEnemy;
 import actors.Fireball;
 import actors.Projectile;
 import actors.GroundEnemy;
@@ -75,6 +76,8 @@ public class Game extends BasicGameState
 	public static float playerXSpeed, playerYSpeed;
 	public static boolean playerCanFall;
 	
+	public static boolean renderMinimap = true;
+	
 	public static int numJumps, maxJumps, attackTimer;
 	
 //	public static SpriteSheet character;
@@ -95,6 +98,8 @@ public class Game extends BasicGameState
 		xPos = 0;
 		yPos = 0;
 		back = false;
+		
+		
 		
 		numJumps = 0;
 		maxJumps = 1;
@@ -200,7 +205,7 @@ public class Game extends BasicGameState
 		healthContainer.setFilter(Image.FILTER_NEAREST);
 		healthContainer.draw(function.scaleX(30), function.scaleY(30), function.scaleX(64)*6, function.scaleY(16)*2);
 
-		level.minimapRender(g);
+		if (renderMinimap) level.minimapRender(g);
 	}
 
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException
@@ -290,6 +295,8 @@ public class Game extends BasicGameState
 		playerYSpeed = player.getPlayerVY();
 		
 		playerXSpeed = player.getPlayerVX();
+		
+		levelTransitions();
 	}
 	
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException 
@@ -337,9 +344,9 @@ public class Game extends BasicGameState
 			
 			
 			//LOAD LEVEL 0
-			clearLevel();
-			level = new Level(0);
-			loadLevel();
+//			clearLevel();
+//			level = new Level(0);
+//			loadLevel();
 		}
 		
 		//player.setHealth((int) player.getMaxHealth());
@@ -356,6 +363,38 @@ public class Game extends BasicGameState
 	
 	public static void doubleJump() {
 		maxJumps = 2;
+	}
+	
+	public void levelTransitions() {
+		if ((Level.getLevel()==0)&&(player.getX()>(42*function.scaleX(64)))) {
+			changeLevel(1);
+			player.setY(function.scaleY(64*38));
+		}
+		if (Level.getLevel()==1) {
+			if (player.getY()<(1*function.scaleY(64))) {
+				changeLevel(2);
+				player.setX(function.scaleX(64*9));
+				player.setY(function.scaleY(64*38));
+			}
+		}
+		if (Level.getLevel()==2) {
+			if (player.getY()<(1*function.scaleY(64))) {
+				changeLevel(2);
+				//player.setX(function.scaleX(64*9));
+				//player.setY(function.scaleY(64*38));
+			}
+			if (player.getY()>(41*function.scaleY(64))) {
+				changeLevel(1);
+				player.setX(function.scaleX(64*7));
+				player.setY(function.scaleY(64*2));
+			}
+		}
+	}
+
+	public void changeLevel(int newLevel) {
+		clearLevel();
+		level = new Level(newLevel);
+		loadLevel();
 	}
 	
 	public void keyPressed(int key, char c)
@@ -393,14 +432,14 @@ public class Game extends BasicGameState
 		if (key == Input.KEY_J) {
 			if (attackTimer == 13) {
 				attackTimer = 0;
-				player.sideAttack();
+				player.attack();
 			}
 		}
 		
 		if (key == Input.KEY_0) {
-			clearLevel();
-			level = new Level(1);
-			loadLevel();
+			if (Level.getLevel()==0) {
+				changeLevel(1);
+			}
 		}
 	}
 	
