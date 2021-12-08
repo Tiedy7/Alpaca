@@ -31,7 +31,7 @@ public class Level {
 		int basic;
 		switch (level) {
 		case 0:	//TUTORIAL LEVEL ??
-			basic = 1;
+			basic = 3;
 			curLevel = 0;
 			//floor
 			platforms.add(new Platform(10, 12, 51, 30, basic));
@@ -51,7 +51,7 @@ public class Level {
 			break;
 			
 		case 1:	//Abyss Climb
-				basic = 1;
+				basic = 3;
 				curLevel = 1;
 				//climbing out
 				platforms.add(new Platform(0, 40, 32, 16, basic));
@@ -101,7 +101,7 @@ public class Level {
 //				miniYOffset = 500;
 				break;
 		case 2: //Abyss Climb 2
-				basic = 1;
+				basic = 3;
 				curLevel = 2;
 				//climbing out
 				platforms.add(new Platform(4, 40, 2, 16, basic));
@@ -155,7 +155,8 @@ public class Level {
 	public void minimapRender(Graphics g) {
 		//MINIMAP BACKGROUDN
 		g.setColor(new Color(0,0,0,150));
-		g.fillRect(Game.function.scaleX(1920 - 414), Game.function.scaleY(30), 384, 216);
+		g.fillRect(Game.function.scaleX(1920 - 414), Game.function.scaleY(30), Game.function.scaleX(384), Game.function.scaleY(216));
+
 		
 		//RENDER PLATFORMS ONTO MINIMAP
 		g.setColor(new Color(100,100,100,150));
