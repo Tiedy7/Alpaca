@@ -61,7 +61,15 @@ public class Game extends BasicGameState
 	public static boolean pauseResume;
 	public static boolean skillTreeResume;
 	
-	private Image aMove, dRight, escPause, jAttack, kDash, oTree, sDown, spaceJump, wUp;
+	private Image aMove = null;
+	private Image dRight = null;
+	private Image escPause = null;
+	private Image jAttack = null;
+	private Image kDash = null;
+	private Image oTree = null;
+	private Image sDown = null;
+	private Image spaceJump = null;
+	private Image wUp = null;
 	
 //	private Image aMove = res/Tutorial Instructions (1)/aToLeft.png;
 	
@@ -128,6 +136,29 @@ public class Game extends BasicGameState
 		pause = false;
 		
 		skill = false;
+		
+		//IMAGES
+		aMove = new Image("res/Tutorial Instructions (1)/aToLeft.png");
+		aMove.setFilter(Image.FILTER_NEAREST);
+		dRight = new Image("res/Tutorial Instructions (1)/dToRight.png");
+		dRight.setFilter(Image.FILTER_NEAREST);
+		escPause = new Image("res/Tutorial Instructions (1)/escForPause.png");
+		escPause.setFilter(Image.FILTER_NEAREST);
+		jAttack = new Image("res/Tutorial Instructions (1)/jToAttack.png");
+		jAttack.setFilter(Image.FILTER_NEAREST);
+		oTree = new Image("res/Tutorial Instructions (1)/oForTree.png");
+		oTree.setFilter(Image.FILTER_NEAREST);
+		wUp = new Image("res/Tutorial Instructions (1)/wToUp.png");
+		wUp.setFilter(Image.FILTER_NEAREST);
+		sDown = new Image("res/Tutorial Instructions (1)/sToDown.png");
+		sDown.setFilter(Image.FILTER_NEAREST);
+		spaceJump = new Image("res/Tutorial Instructions (1)/spaceToJump.png");
+		spaceJump.setFilter(Image.FILTER_NEAREST);
+		healthBar = new Image("res/HealthBar.png");
+		healthBar.setFilter(Image.FILTER_NEAREST);
+		healthContainer = new Image("res/healthContainer.png");
+		healthContainer.setFilter(Image.FILTER_NEAREST);
+		
 		
 		//INITIALIZING ARRAYLISTS
 		actors = new ArrayList<Actor>();
@@ -201,53 +232,20 @@ public class Game extends BasicGameState
 		g.setColor(new Color(105,0,0));
 		g.fillRect(function.scaleX(30),function.scaleY(30), (function.scaleX(64) * 6), function.scaleY(16) * 2);
 		
-		setImage("res/HealthBar.png");
-		healthBar.setFilter(Image.FILTER_NEAREST);
 		healthBar.draw(function.scaleX(30), function.scaleY(30), (float) ((function.scaleX(64)*6) - (function.scaleX(player.getPlayerMaxHealth()-player.getPlayerHealth()) * function.scaleX((384/player.getMaxHealth())))), function.scaleY(16)*2);
-
-		setImage("res/healthContainer.png");
-		healthContainer.setFilter(Image.FILTER_NEAREST);
 		healthContainer.draw(function.scaleX(30), function.scaleY(30), function.scaleX(64)*6, function.scaleY(16)*2);
 
 		if (renderMinimap) level.minimapRender(g);
 		
 		if (Level.getLevel() == 0) {
-			setImage("res/Tutorial Instructions (1)/aToLeft.png");
-			aMove.setFilter(Image.FILTER_NEAREST);
 			aMove.draw(Functions.scaleX((Game.gc.getWidth()/2)-(aMove.getWidth()/6)),Functions.scaleY(Game.gc.getHeight()/15),Functions.scaleX(aMove.getWidth()/3),Functions.scaleY(aMove.getHeight()/3));
-
-			setImage("res/Tutorial Instructions (1)/dToRight.png");
-			dRight.setFilter(Image.FILTER_NEAREST);
 			dRight.draw(Functions.scaleX((Game.gc.getWidth()/2)-(dRight.getWidth()/6)),Functions.scaleY((Game.gc.getHeight()/15)*2),Functions.scaleX(dRight.getWidth()/3),Functions.scaleY(dRight.getHeight()/3));
-
-			setImage("res/Tutorial Instructions (1)/escForPause.png");
-			escPause.setFilter(Image.FILTER_NEAREST);
 			escPause.draw(Functions.scaleX((Game.gc.getWidth()/2)-(escPause.getWidth()/6)),Functions.scaleY((Game.gc.getHeight()/15)*3),Functions.scaleX(escPause.getWidth()/3),Functions.scaleY(escPause.getHeight()/3));
-
-			setImage("res/Tutorial Instructions (1)/jToAttack.png");
-			jAttack.setFilter(Image.FILTER_NEAREST);
 			jAttack.draw(Functions.scaleX((Game.gc.getWidth()/2)-(jAttack.getWidth()/6)),Functions.scaleY((Game.gc.getHeight()/15)*4),Functions.scaleX(jAttack.getWidth()/3),Functions.scaleY(jAttack.getHeight()/3));
-
-//			setImage("res/Tutorial Instructions (1)/kForDash.png");
-//			kDash.setFilter(Image.FILTER_NEAREST);
-//			kDash.draw(Functions.scaleX((Game.gc.getWidth()/2)-(kDash.getWidth()/6)),Functions.scaleY((Game.gc.getHeight()/15)*5),Functions.scaleX(kDash.getWidth()/3),Functions.scaleY(kDash.getHeight()/3));
-
-			setImage("res/Tutorial Instructions (1)/oForTree.png");
-			oTree.setFilter(Image.FILTER_NEAREST);
 			oTree.draw(Functions.scaleX((Game.gc.getWidth()/2)-(oTree.getWidth()/6)),Functions.scaleY((Game.gc.getHeight()/15)*5),Functions.scaleX(oTree.getWidth()/3),Functions.scaleY(oTree.getHeight()/3));
-
-			setImage("res/Tutorial Instructions (1)/wToUp.png");
-			wUp.setFilter(Image.FILTER_NEAREST);
 			wUp.draw(Functions.scaleX((Game.gc.getWidth()/2)-(oTree.getWidth()/6)),Functions.scaleY((Game.gc.getHeight()/15)*6),Functions.scaleX(wUp.getWidth()/3),Functions.scaleY(wUp.getHeight()/3));
-
-			setImage("res/Tutorial Instructions (1)/sToDown.png");
-			sDown.setFilter(Image.FILTER_NEAREST);
 			sDown.draw(Functions.scaleX((Game.gc.getWidth()/2)-(sDown.getWidth()/6)),Functions.scaleY((Game.gc.getHeight()/15)*7),Functions.scaleX(sDown.getWidth()/3),Functions.scaleY(sDown.getHeight()/3));
-
-			setImage("res/Tutorial Instructions (1)/spaceToJump.png");
-			spaceJump.setFilter(Image.FILTER_NEAREST);
 			spaceJump.draw(Functions.scaleX((Game.gc.getWidth()/2)-(spaceJump.getWidth()/6)),Functions.scaleY((Game.gc.getHeight()/15)*8),Functions.scaleX(spaceJump.getWidth()/3),Functions.scaleY(spaceJump.getHeight()/3));
-
 		}
 	}
 
@@ -493,28 +491,28 @@ public class Game extends BasicGameState
 		//}
 	}
 	
-	public void setImage(String filepath)
-	{
-		try
-		{
-			character = new SpriteSheet(filepath, 16, 32);
-			healthContainer = new Image(filepath);
-			healthBar = new Image (filepath);
-			aMove = new Image(filepath);
-			dRight = new Image(filepath);
-			escPause = new Image(filepath);
-			jAttack= new Image(filepath);
-			kDash = new Image(filepath);
-			oTree = new Image(filepath);
-			sDown = new Image(filepath);
-			spaceJump = new Image(filepath);
-			wUp = new Image(filepath);
-		}
-		catch(SlickException e)		
-		{
-			System.out.println("Image not found!");
-		}
-	}
+//	public void setImage(String filepath)
+//	{
+//		try
+//		{
+//			character = new SpriteSheet(filepath, 16, 32);
+//			healthContainer = new Image(filepath);
+//			healthBar = new Image (filepath);
+//			aMove = new Image(filepath);
+//			dRight = new Image(filepath);
+//			escPause = new Image(filepath);
+//			jAttack= new Image(filepath);
+//			kDash = new Image(filepath);
+//			oTree = new Image(filepath);
+//			sDown = new Image(filepath);
+//			spaceJump = new Image(filepath);
+//			wUp = new Image(filepath);
+//		}
+//		catch(SlickException e)		
+//		{
+//			System.out.println("Image not found!");
+//		}
+//	}
 
 	
 	
