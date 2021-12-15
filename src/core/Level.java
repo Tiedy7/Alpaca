@@ -17,14 +17,13 @@ public class Level {
 
 	private ArrayList<Platform> platforms;
 	private ArrayList<Actor> actors;
-	private ArrayList<Pickup> pickups;
+	private static ArrayList<Pickup> pickups;
 	private Functions function = Game.function;
 	
 	static int curLevel;
 	private float levelW, levelH, miniXOffset, miniYOffset;
 	
-	private int minX, minY, maxX, maxY;
-	
+	public static int minX, minY, maxX, maxY;
 	public static boolean[][] tiles;
 	
 	public Level(int level) {
@@ -123,6 +122,27 @@ public class Level {
 				miniYOffset = 608;
 				break;
 		}
+		
+		minX = Integer.MAX_VALUE;
+		minY = Integer.MAX_VALUE;
+		maxX = Integer.MIN_VALUE;
+		maxY = Integer.MIN_VALUE;
+		for (Platform p : platforms) {
+			minX = Math.min(p.getTileX(), minX);
+			minY = Math.min(p.getTileY(), minY);
+			maxX = Math.max(p.getTileX() + p.getSizeW(), maxX);
+			maxY = Math.max(p.getTileY() + p.getSizeH(), maxY);
+		}
+		
+		tiles = new boolean[maxX - minX + 2][maxY - minY + 2];
+		
+		for (Platform p : platforms) {
+			for (int i = 0; i < p.getSizeW(); i++) {
+				for (int b = 0; b < p.getSizeH(); b++) {
+					tiles[p.getTileX() + i - minX + 1][p.getTileY() + b - minY + 1] = true;
+				}
+			}
+		}
 	}
 	
 	public void minimapRender(Graphics g) {
@@ -147,6 +167,11 @@ public class Level {
 		//MINIMAP BORDER OUTLINE
 		g.setColor(new Color(255,255,255));
 		g.drawRect(Game.function.scaleX(1920 - 414), Game.function.scaleY(30), 384, 216);
+	}
+	
+	public static void generateCoin(float x, float y) {
+		pickups.add(new Pickup((int) x / 64, (int) y / 64, "heal"));
+		Game.pickups.add(pickups.get(pickups.size() - 1));
 	}
 	
 	public static int getLevel() {
