@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.newdawn.slick.Graphics;
 
+import core.Functions;
 import core.Game;
 
 public class Actor {
@@ -47,7 +48,10 @@ public class Actor {
 	}
 	
 	public boolean shouldRemove() {
-		if (curHealth <= 0) return true;
+		if (curHealth <= 0) {
+			Game.level.generateCoin(x,y + Functions.scaleY(64));
+			return true;
+		}
 		return false;
 	}
 	
