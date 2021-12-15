@@ -44,12 +44,9 @@ public class Game extends BasicGameState
 	
 	public static ArrayList<Projectile> projectiles;
 	
-	
 	public static ArrayList<Pickup> pickups;
 	
 	public static boolean jumping;
-	
-//	public static Projectile placejectile;
 	
 	private Image walk = null;
 	private SpriteSheet character = null;
@@ -77,7 +74,7 @@ public class Game extends BasicGameState
 	public static ArrayList<Actor> actors;
 	public static ArrayList<Platform> platforms;
 	public static Player player;
-	public static Level level;
+	Level level;
 	
 //	public static Fireball placejectile;
 	public static DwayneBoss dwayne;
@@ -226,7 +223,6 @@ public class Game extends BasicGameState
 		
 		for(Projectile p : projectiles) {
 			p.render(g, px, py);
-
 		}
 		
 		g.setColor(new Color(105,0,0));
@@ -322,11 +318,6 @@ public class Game extends BasicGameState
 		
 		for (Projectile p : projectiles) {
 			p.update();
-			/*
-			if (p.getTime()>60) {
-				p = null;
-			}
-			*/
 		}
 		
 		playerX = player.getX();
@@ -420,14 +411,45 @@ public class Game extends BasicGameState
 		}
 		if (Level.getLevel()==2) {
 			if (player.getY()<(1*function.scaleY(64))) {
-				changeLevel(2);
+				changeLevel(3);
 				//player.setX(function.scaleX(64*9));
-				//player.setY(function.scaleY(64*38));
+				player.setY(function.scaleY(64*38));
 			}
 			if (player.getY()>(41*function.scaleY(64))) {
 				changeLevel(1);
-				player.setX(function.scaleX(64*7));
+				player.setX(function.scaleX(64*9));
 				player.setY(function.scaleY(64*2));
+			}
+		}
+		if (Level.getLevel()==3) {
+			if (player.getY()>(42*function.scaleY(64))) {
+				changeLevel(2);
+				player.setX(function.scaleX(64*16));
+				player.setY(function.scaleY(64*2));
+			}
+			if (player.getX()<(0*function.scaleX(64))) {
+				changeLevel(4);
+				player.setX(function.scaleX(64*49));
+				player.setY(function.scaleY(64*38));
+			}
+			if (player.getX()>(50*function.scaleX(64))) {
+				changeLevel(5);
+				player.setX(function.scaleX(64*1));
+				player.setY(function.scaleY(64*29));
+			}
+		}
+		if (Level.getLevel()==4) {
+			if (player.getX()>(50*function.scaleX(64))) {
+				changeLevel(3);
+				player.setX(function.scaleX(64*1));
+				player.setY(function.scaleY(64*38));
+			}
+		}
+		if (Level.getLevel()==5) {
+			if (player.getX()<(0*function.scaleX(64))) {
+				changeLevel(3);
+				player.setX(function.scaleX(64*47));
+				player.setY(function.scaleY(64*29));
 			}
 		}
 	}
@@ -479,7 +501,7 @@ public class Game extends BasicGameState
 		
 		if (key == Input.KEY_0) {
 			if (Level.getLevel()==0) {
-				changeLevel(1);
+				changeLevel(3);
 			}
 		}
 	}
