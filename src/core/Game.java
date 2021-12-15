@@ -77,7 +77,7 @@ public class Game extends BasicGameState
 	public static ArrayList<Actor> actors;
 	public static ArrayList<Platform> platforms;
 	public static Player player;
-	Level level;
+	public static Level level;
 	
 //	public static Fireball placejectile;
 	public static DwayneBoss dwayne;
