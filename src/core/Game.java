@@ -44,12 +44,9 @@ public class Game extends BasicGameState
 	
 	public static ArrayList<Projectile> projectiles;
 	
-	
 	public static ArrayList<Pickup> pickups;
 	
 	public static boolean jumping;
-	
-//	public static Projectile placejectile;
 	
 	private Image walk = null;
 	private SpriteSheet character = null;
@@ -77,7 +74,7 @@ public class Game extends BasicGameState
 	public static ArrayList<Actor> actors;
 	public static ArrayList<Platform> platforms;
 	public static Player player;
-	public static Level level;
+	Level level;
 	
 //	public static Fireball placejectile;
 	public static DwayneBoss dwayne;
@@ -90,7 +87,7 @@ public class Game extends BasicGameState
 	
 	public static boolean renderMinimap = true;
 	
-	public static int numJumps, maxJumps, attackTimer;
+	public static int attackTimer;
 	
 //	public static SpriteSheet character;
 	
@@ -110,11 +107,6 @@ public class Game extends BasicGameState
 		xPos = 0;
 		yPos = 0;
 		back = false;
-		
-		
-		
-		numJumps = 0;
-		maxJumps = 1;
 		
 		attackTimer = 0;
 
@@ -172,7 +164,6 @@ public class Game extends BasicGameState
 		playerY = player.getY();
 		playerW = player.getW();
 		playerH = player.getH();
-		numJumps = 0;
 		
 		
 		//LOAD LEVEL 0
@@ -201,7 +192,7 @@ public class Game extends BasicGameState
 		pickups.clear();
 		actors.clear();
 		actors.add(player);
-		player.resetPosition();
+		//player.resetPosition();
 	}
 	
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException 
@@ -226,7 +217,6 @@ public class Game extends BasicGameState
 		
 		for(Projectile p : projectiles) {
 			p.render(g, px, py);
-
 		}
 		
 		g.setColor(new Color(105,0,0));
@@ -322,11 +312,6 @@ public class Game extends BasicGameState
 		
 		for (Projectile p : projectiles) {
 			p.update();
-			/*
-			if (p.getTime()>60) {
-				p = null;
-			}
-			*/
 		}
 		
 		playerX = player.getX();
@@ -350,8 +335,7 @@ public class Game extends BasicGameState
 			yPos = 0;
 			back = false;
 			
-			numJumps = 0;
-			maxJumps = 1;
+			player.setAirJumps(player.getMaxAirJumps());
 	
 			player = new Player();
 			actors.add(player);
@@ -380,7 +364,7 @@ public class Game extends BasicGameState
 	//		playerY = player.getY();
 	//		playerW = player.getW();
 	//		playerH = player.getH();
-			numJumps = 0;
+			player.setAirJumps(player.getMaxAirJumps());
 			
 			
 			
@@ -399,35 +383,67 @@ public class Game extends BasicGameState
 	}
 
 	public static void playerTouchesPlatform() {
-		numJumps = 0;
+		player.setAirJumps(0);
 	}
 	
 	public static void doubleJump() {
-		maxJumps = 2;
+		player.setMaxAirJumps(1);
 	}
 	
 	public void levelTransitions() {
-		if ((Level.getLevel()==0)&&(player.getX()>(42*function.scaleX(64)))) {
-			changeLevel(1);
+		if ((Level.getLevel()==000)&&(player.getX()>(42*function.scaleX(64)))) {
+			changeLevel(100);
+			player.setX(function.scaleX(64*12));
 			player.setY(function.scaleY(64*38));
 		}
-		if (Level.getLevel()==1) {
+		if (Level.getLevel()==100) {
 			if (player.getY()<(1*function.scaleY(64))) {
-				changeLevel(2);
+				changeLevel(101);
 				player.setX(function.scaleX(64*9));
 				player.setY(function.scaleY(64*38));
 			}
 		}
-		if (Level.getLevel()==2) {
+		if (Level.getLevel()==101) {
 			if (player.getY()<(1*function.scaleY(64))) {
-				changeLevel(2);
+				changeLevel(102);
 				//player.setX(function.scaleX(64*9));
-				//player.setY(function.scaleY(64*38));
+				player.setY(function.scaleY(64*38));
 			}
 			if (player.getY()>(41*function.scaleY(64))) {
-				changeLevel(1);
-				player.setX(function.scaleX(64*7));
+				changeLevel(100);
+				//player.setX(function.scaleX(64*8));
 				player.setY(function.scaleY(64*2));
+			}
+		}
+		if (Level.getLevel()==102) {
+			if (player.getY()>(42*function.scaleY(64))) {
+				changeLevel(101);
+				player.setX((function.scaleX(64*3))+player.getX());
+				player.setY(function.scaleY(64*2));
+			}
+			if (player.getX()<(0*function.scaleX(64))) {
+				changeLevel(103);
+				player.setX(function.scaleX(64*49));
+				//player.setY(function.scaleY(64*38));
+			}
+			if (player.getX()>(50*function.scaleX(64))) {
+				changeLevel(300);
+				player.setX(function.scaleX(64*1));
+				//player.setY(function.scaleY(64*29));
+			}
+		}
+		if (Level.getLevel()==103) {
+			if (player.getX()>(50*function.scaleX(64))) {
+				changeLevel(102);
+				player.setX(function.scaleX(64*1));
+				//player.setY(function.scaleY(64*38));
+			}
+		}
+		if (Level.getLevel()==300) {
+			if (player.getX()<(0*function.scaleX(64))) {
+				changeLevel(102);
+				player.setX(function.scaleX(64*47));
+				//player.setY(function.scaleY(64*29));
 			}
 		}
 	}
@@ -441,11 +457,7 @@ public class Game extends BasicGameState
 	public void keyPressed(int key, char c)
 	{
 		if (key == Input.KEY_SPACE) {
-			if (numJumps < maxJumps) {
-				player.jump();
-				playerYSpeed = player.getPlayerVY();
-				numJumps++;
-			}
+			player.tryJump();
 		}
 		
 		
@@ -477,9 +489,9 @@ public class Game extends BasicGameState
 			}
 		}
 		
-		if (key == Input.KEY_0) {
+		if (key == Input.KEY_7) {
 			if (Level.getLevel()==0) {
-				changeLevel(1);
+				changeLevel(102);
 			}
 		}
 	}
