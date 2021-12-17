@@ -18,7 +18,7 @@ public class Player extends Actor {
 
 	//MOVEMENT
 	private float ax, vx, ay, vy;
-	private int dashCooldown, dashLength, dashCooldownTimer, numDashes, maxDashes, rightDash, leftDash;
+	private int dashCooldown, dashLength, dashCooldownTimer, numDashes, maxDashes, rightDash, leftDash, airJumps, maxAirJumps;
 	private boolean isRight, isLeft, isIdle, faceRight, faceLeft, faceUp, faceDown, canDash, canWallJump;
 	
 	//ANIMATION
@@ -35,7 +35,7 @@ public class Player extends Actor {
 	//ATTACKING & COLLISIONS	
 	public float hitBoxX, hitBoxY, hitBoxW, hitBoxH;
 	private int invincibility, attackTimer, attackCycle;
-	private boolean isAttacking, onWall;
+	private boolean isAttacking, onWall, onGround;
 	public static int swordDamage;
 	private boolean isUpAttack, isDownAttack, isSideAttack;
 	
@@ -61,7 +61,7 @@ public class Player extends Actor {
 		numDashes = 0;
 		maxDashes = 1;
 		dashCooldown = 28;
-		dashLength = 4;
+		dashLength = 6;
 		dashCooldownTimer = 0;
 		rightDash = 0;
 		leftDash = 0;
@@ -69,6 +69,7 @@ public class Player extends Actor {
 		//JUMPING
 		canWallJump = false;
 		onWall = true;
+		maxAirJumps = 0;
 		
 		//ATTACKING, DAMAGE, & HEALTH
 		attackTimer = 1;
@@ -449,8 +450,12 @@ public class Player extends Actor {
 		
 		checkPickups(Game.pickups);
 		
-		if (vx > 0) vx--;
-		if (vx < 0) vx++;
+		//if (vx > 1) vx-= 1;
+		if (vx > 0) vx-= 1;
+		if (vx > 0) vx-= 1;
+		//if (vx < 1) vx+= 1;
+		if (vx < 0) vx+= 1;
+		if (vx < 0) vx+= 1;
 		if (Math.abs(vx) < 1) vx = 0;
 		
 		
@@ -509,12 +514,14 @@ public class Player extends Actor {
 		float tempY = y + vy;
 		float tempX = x + vx;
 		boolean canFall = true;
+		onGround = false;
 		for (Platform p : platforms) {
 			if (vy > 0) {
 				if (p.collidesDown(x, tempY + Game.function.scaleY(16), w, h)) {
 					vy = 0;
 					tempY = p.getY() - h;
 					Game.playerTouchesPlatform();
+					onGround = true;
 					numDashes = 0;
 					Game.jumping = false;
 					canFall = false;
@@ -534,28 +541,34 @@ public class Player extends Actor {
 				if (p.collidesRight(tempX,y,w,h)) {
 					vx = 0;
 					tempX = p.getX() - w;
-					if (vy > 0) {
-						ay = Game.function.scaleY((float) 0.2);
+					//if (vy > 0) {
+						//ay = Game.function.scaleY((float) 0.2);
 						if (canWallJump) {
 							Game.playerTouchesPlatform();
 							onWall = true;
 							numDashes = 0;
+							if (vy > Game.function.scaleY(5)) {
+								vy = Game.function.scaleY(5);
+							}
 						}
-					}
+					//}
 				}
 			}
 			if (vx < 0) {
 				if (p.collidesLeft(tempX,y, w, h)) {
 					vx = 0;
 					tempX = p.getX() + p.getW();
-					if (vy > 0) {
-						ay = Game.function.scaleY((float) 0.2);
+					//if (vy > 0) {
+						//ay = Game.function.scaleY((float) 0.2);
 						if (canWallJump) {
 							Game.playerTouchesPlatform();
 							onWall = true;
 							numDashes = 0;
+							if (vy > Game.function.scaleY(5)) {
+								vy = Game.function.scaleY(5);
+							}
 						}
-					}
+					//}
 				}
 			}
 			
@@ -656,6 +669,15 @@ public class Player extends Actor {
 		ay = 1;
 	}
 	
+	public void tryJump() {
+		if (onGround||onWall) {
+			jump();
+		} else if (airJumps<maxAirJumps) {
+			jump();
+			airJumps++;
+		}
+	}
+	
 	public void jump() {
 		ay = Game.function.scaleY(1);
 		vy = Game.function.scaleY(-22);
@@ -683,6 +705,7 @@ public class Player extends Actor {
 			if (a.getIsEnemy()) {
 				if (hitBoxCheck(a, hitBoxX, hitBoxY, hitBoxW, hitBoxH)) {
 					a.takeDamage(swordDamage, x, y);
+					//Game.spawnFlash(Game.function.scaleX(x), Game.function.scaleY(y));
 				}
 			}
 		}
@@ -700,6 +723,7 @@ public class Player extends Actor {
 			if (a.getIsEnemy()) {
 				if (hitBoxCheck(a, hitBoxX, hitBoxY, hitBoxW, hitBoxH)) {
 					a.takeDamage(swordDamage, x, y);
+					//Game.spawnFlash(Game.function.scaleX(x), Game.function.scaleY(y));
 				}
 			}
 		}
@@ -724,6 +748,7 @@ public class Player extends Actor {
 			if (a.getIsEnemy()) {
 				if (hitBoxCheck(a, hitBoxX, hitBoxY, hitBoxW, hitBoxH)) {
 					a.takeDamage(swordDamage, x, y);
+					//Game.spawnFlash(100, 100);
 				}
 			}
 		}
@@ -756,6 +781,18 @@ public class Player extends Actor {
 
 	public void setY(float newY) {
 		y = newY;
+	}
+	
+	public void setAirJumps(int newJumps) {
+		airJumps = newJumps;
+	}
+	
+	public void setMaxAirJumps(int newJumps) {
+		maxAirJumps = newJumps;
+	}
+	
+	public int getMaxAirJumps() {
+		return maxAirJumps;
 	}
 	
 	public void setImage(String filepath)
