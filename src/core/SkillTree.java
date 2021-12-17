@@ -36,6 +36,16 @@ public class SkillTree extends BasicGameState
 	
 	private int cycleH, cycleH2;
 	
+	private int cycleC1, cycleC2;
+	
+	private int coinNumber;
+	
+	private Image coin;
+	
+	private String coinTransfer;
+	
+	private SpriteSheet coinValue, coinValue2;
+	
 	private String numSub, healthSub;
 	
 	SkillTree(int id) 
@@ -54,6 +64,8 @@ public class SkillTree extends BasicGameState
 		numSub = (" ");
 		healthSub = (" ");
 		
+		coinTransfer = "";
+		
 		cycle1 = 0;
 		cycle2 = 0;
 	}
@@ -63,7 +75,14 @@ public class SkillTree extends BasicGameState
 	{
 		// This code happens when you enter a game state for the *first time.*
 		gc.setShowFPS(true);
+		coin = new Image("res/coin.png");
+		coin.setFilter(Image.FILTER_NEAREST);
 		
+		coinValue = new SpriteSheet("res/numberSheet (1).png", 150, 200);
+		coinValue.setFilter(Image.FILTER_NEAREST);
+		
+		coinValue2 = new SpriteSheet("res/numberSheet (1).png", 150, 200);
+		coinValue2.setFilter(Image.FILTER_NEAREST);
 	}
 
 	
@@ -86,9 +105,9 @@ public class SkillTree extends BasicGameState
 		Health.setFilter(Image.FILTER_NEAREST);
 		Health.draw((Game.gc.getWidth()/3 - (Functions.scaleX(Health.getWidth()/2)/2)), ((Game.gc.getHeight()/4)*2), Functions.scaleX(Health.getWidth()/2), Functions.scaleY(Health.getHeight()/2));
 
-		setImage("res/defense1.png");
-		Defense.setFilter(Image.FILTER_NEAREST);
-		Defense.draw((Game.gc.getWidth()/3 - (Functions.scaleX(Defense.getWidth()/2)/2)), ((Game.gc.getHeight()/4)*3), Functions.scaleX(Defense.getWidth()/2), Functions.scaleY(Defense.getHeight()/2));
+//		setImage("res/defense1.png");
+//		Defense.setFilter(Image.FILTER_NEAREST);
+//		Defense.draw((Game.gc.getWidth()/3 - (Functions.scaleX(Defense.getWidth()/2)/2)), ((Game.gc.getHeight()/4)*3), Functions.scaleX(Defense.getWidth()/2), Functions.scaleY(Defense.getHeight()/2));
 
 		setImage("res/healthButton.png");
 		aPlus.setFilter(Image.FILTER_NEAREST);
@@ -100,10 +119,10 @@ public class SkillTree extends BasicGameState
 		hPlus.setFilter(Image.FILTER_NEAREST);
 		hPlus.draw((Game.gc.getWidth()/4*2) - (Functions.scaleX(hPlus.getWidth()/2)), (((Game.gc.getHeight()/4)*2)+Functions.scaleY(12)), Functions.scaleX(hPlus.getWidth()*4), Functions.scaleY(hPlus.getHeight()*4));
 		
-		setImage("res/healthButton.png");
-		dPlus.setFilter(Image.FILTER_NEAREST);
-		dPlus.draw((Game.gc.getWidth()/4*2) - (Functions.scaleX(dPlus.getWidth()/2)), (((Game.gc.getHeight()/4)*3)+Functions.scaleY(15)), Functions.scaleX(dPlus.getWidth()*4), Functions.scaleY(dPlus.getHeight()*4));
-		
+//		setImage("res/healthButton.png");
+//		dPlus.setFilter(Image.FILTER_NEAREST);
+//		dPlus.draw((Game.gc.getWidth()/4*2) - (Functions.scaleX(dPlus.getWidth()/2)), (((Game.gc.getHeight()/4)*3)+Functions.scaleY(15)), Functions.scaleX(dPlus.getWidth()*4), Functions.scaleY(dPlus.getHeight()*4));
+//		
 		setImage("res/numberSheet (1).png");
 		attackNumbers.setFilter(Image.FILTER_NEAREST);
 		attackNumbers.startUse();
@@ -131,6 +150,25 @@ public class SkillTree extends BasicGameState
 			healthNumbers.getSubImage(cycleH2, 0).drawEmbedded((Game.gc.getWidth()/3) + Functions.scaleX(600) + Functions.scaleX(64),((Game.gc.getHeight()/4*2)+20),Functions.scaleX(64),Functions.scaleY(64));
 			healthNumbers.endUse();
 		}
+		
+		coin.draw(Game.gc.getWidth()/2 - 2*Functions.scaleX(4*coin.getWidth()),Game.gc.getHeight()/4*3,Functions.scaleX(4*coin.getWidth()),Functions.scaleY(4*coin.getHeight()));
+		
+		if (coinNumber <= 9) {
+			
+			coinValue.startUse();
+			coinValue.getSubImage(cycleC1, 0).drawEmbedded(Game.gc.getWidth()/2,Game.gc.getHeight()/4*3,Functions.scaleX(64),Functions.scaleY(64));
+			coinValue.endUse();
+		}
+		if (coinNumber > 9) {
+			coinValue.startUse();
+			coinValue.getSubImage(cycleC1, 0).drawEmbedded(Game.gc.getWidth()/2,Game.gc.getHeight()/4*3,Functions.scaleX(64),Functions.scaleY(64));
+			coinValue.endUse();
+			
+			coinValue2.startUse();
+			coinValue2.getSubImage(cycleC2, 0).drawEmbedded(Game.gc.getWidth()/2 + Functions.scaleX(64),Game.gc.getHeight()/4*3,Functions.scaleX(64),Functions.scaleY(64));
+			coinValue2.endUse();
+		}
+		
 	}
 
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException
@@ -161,6 +199,14 @@ public class SkillTree extends BasicGameState
 			cycleH = Integer.parseInt(healthSub.substring(0,1));
 		}
 		
+		if (coinNumber <= 9) {
+			cycleC1 = Integer.parseInt(coinTransfer.substring(0,1));
+		}
+		if (coinNumber > 9) {
+			cycleC1 = Integer.parseInt(coinTransfer.substring(0,1));
+			cycleC2 = Integer.parseInt(coinTransfer.substring(1,2));
+		}
+		
 		for (Star s: IntroScreen.stars) {
 			s.update();
 			
@@ -184,14 +230,16 @@ public class SkillTree extends BasicGameState
 
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException 
 	{
-		// This code happens when you enter a gameState.  
+		// This code happens when you enter a gameState.
+		Game.skillTreeResume = false;
 		back = false;
 		attackCycle = Player.attackDamage();
 		healthCycle = (int) Game.player.getMaxHealth();
 		numSub = String.valueOf(Player.attackDamage());
 		healthSub = String.valueOf(Game.player.getMaxHealth());
 		System.out.println(healthSub);
-		
+		coinNumber = Game.player.coinAmount;
+		coinTransfer = String.valueOf(Game.player.coinAmount);
 	
 	}
 
@@ -206,7 +254,7 @@ public class SkillTree extends BasicGameState
 	public void leave(GameContainer gc, StateBasedGame sbg) 
 	{
 		// This code happens when you leave a gameState. 
-
+		
 		
 	}
 	
@@ -225,20 +273,33 @@ public class SkillTree extends BasicGameState
 		if (button == Input.MOUSE_LEFT_BUTTON) {
 			
 			if (x > (Game.gc.getWidth()/4*2) - (Functions.scaleX(72)) && y > ((Game.gc.getHeight()/4)+ Functions.scaleY(15)) && x < (Game.gc.getWidth()/4*2) + (Game.function.scaleX(72)) && y < ((Game.gc.getHeight()/4)+ Functions.scaleY(15)) + (Functions.scaleY(72))) {
+				if (coinNumber >= 3) {
+					Game.player.attackBoost();
+					attackCycle++; 
+					numSub = String.valueOf(attackCycle);
+					for (int i = 0; i < 3; i++) {
+						Game.player.loseCoin();
+						coinNumber = Game.player.coinAmount;
+						coinTransfer = String.valueOf(Game.player.coinAmount);
+					}
+				}
 				
-				Game.player.attackBoost();
-				attackCycle++; 
-				numSub = String.valueOf(attackCycle);
+				
 				
 					
 			}
 			
 			if (x > (Game.gc.getWidth()/4*2) - (Functions.scaleX(72)) && y > ((Game.gc.getHeight()/4*2)+ Functions.scaleY(15)) && x < (Game.gc.getWidth()/4*2) + (Game.function.scaleX(72)) && y < ((Game.gc.getHeight()/4*2)+ Functions.scaleY(15)) + (Functions.scaleY(72))) {
-			
-				Game.player.healthBoost();
-				healthCycle++; 
-				healthSub = String.valueOf(healthCycle);
-				
+				if (coinNumber >=3 ) {
+					Game.player.healthBoost();
+					healthCycle++; 
+					healthSub = String.valueOf(healthCycle);
+					for (int i = 0; i < 3; i++) {
+						Game.player.loseCoin();
+						coinNumber = Game.player.coinAmount;
+						coinTransfer = String.valueOf(Game.player.coinAmount);
+					}
+				}
 				
 				
 			}
@@ -264,6 +325,8 @@ public class SkillTree extends BasicGameState
 			attackNumbers = new SpriteSheet(filepath, 150, 200);
 			healthNumbers = new SpriteSheet(filepath, 150, 200);
 			defenseNumbers = new SpriteSheet(filepath, 150, 200);
+			
+//			coin = new Image(filepath);
 		}
 		catch(SlickException e)		
 		{
