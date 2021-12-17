@@ -143,7 +143,7 @@ public class Fireball extends Projectile {
 	
 	public void contactDamage(Player p, float x, float y, float w, float h) {
 		if (collidesWith(p, x, y, w, h)) {
-			p.takeDamage(damage);
+			p.takeDamage(damage, x);
 		}
 	}
 	
