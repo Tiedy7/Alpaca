@@ -9,6 +9,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 
 import core.Engine;
+import core.Functions;
 import core.Game;
 import core.Menu;
 import core.SkillTree;
@@ -18,7 +19,7 @@ public class Player extends Actor {
 
 	//MOVEMENT
 	private float ax, vx, ay, vy;
-	private int dashCooldown, dashLength, dashCooldownTimer, numDashes, maxDashes, rightDash, leftDash;
+	private int dashCooldown, dashLength, dashCooldownTimer, numDashes, maxDashes, rightDash, leftDash, airJumps, maxAirJumps;
 	private boolean isRight, isLeft, isIdle, faceRight, faceLeft, faceUp, faceDown, canDash, canWallJump;
 	
 	//ANIMATION
@@ -29,16 +30,17 @@ public class Player extends Actor {
 	private SpriteSheet armCycle = null;
 	private SpriteSheet dwayne = null;
 	public SpriteSheet attackArmCycle = null;
-	private SpriteSheet upAttackCycle;
+	private SpriteSheet upAttackCycle, downAttackCycle;
 	private boolean walkRow;
 	
 	//ATTACKING & COLLISIONS	
 	public float hitBoxX, hitBoxY, hitBoxW, hitBoxH;
 	private int invincibility, attackTimer, attackCycle;
-	private boolean isAttacking, onWall;
+	private boolean isAttacking, onWall, onGround;
 	public static int swordDamage;
 	private boolean isUpAttack, isDownAttack, isSideAttack;
 	
+	public static int coinAmount;
 	
 	public Player() {
 	//SIZING
@@ -61,10 +63,14 @@ public class Player extends Actor {
 		numDashes = 0;
 		maxDashes = 1;
 		dashCooldown = 28;
-		dashLength = 4;
+		dashLength = 6;
 		dashCooldownTimer = 0;
 		rightDash = 0;
 		leftDash = 0;
+		
+		coinAmount = 0;
+		
+		maxAirJumps = 0;
 		
 		//JUMPING
 		canWallJump = false;
@@ -126,7 +132,7 @@ public class Player extends Actor {
 					character.endUse();
 					
 					if (isAttacking) {
-						if (isSideAttack && !isUpAttack) {
+						if (isSideAttack && !isUpAttack && !isDownAttack) {
 							setImage("res/Player Sprites/Attack Animation/attackSide.png");
 							attackArmCycle.setFilter(Image.FILTER_NEAREST);
 							attackArmCycle.startUse();
@@ -139,6 +145,13 @@ public class Player extends Actor {
 							upAttackCycle.startUse();
 							upAttackCycle.getSubImage(attackCycle, 0).drawEmbedded(Engine.RESOLUTION_X / 2 - (w / 2)-Game.function.scaleX(4),(2 * Engine.RESOLUTION_Y / 3) -(h)-Game.function.scaleX(56),w+Game.function.scaleX(8),h+Game.function.scaleX(52));
 							upAttackCycle.endUse();
+						}
+						if (isDownAttack) {
+							setImage("res/Player Sprites/Attack Animation/attackDown.png");
+							downAttackCycle.setFilter(Image.FILTER_NEAREST);
+							downAttackCycle.startUse();
+							downAttackCycle.getSubImage(attackCycle, 0).drawEmbedded(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h + Functions.scaleY(4),w,h+Functions.scaleY(50));
+							downAttackCycle.endUse();
 						}
 					}
 					
@@ -159,7 +172,7 @@ public class Player extends Actor {
 					character.endUse();
 					
 					if (isAttacking) {
-						if (isSideAttack && !isUpAttack) {
+						if (isSideAttack && !isUpAttack && !isDownAttack) {
 							setImage("res/Player Sprites/Attack Animation/attackSide.png");
 							attackArmCycle.setFilter(Image.FILTER_NEAREST);
 							attackArmCycle.startUse();
@@ -172,6 +185,13 @@ public class Player extends Actor {
 							upAttackCycle.startUse();
 							upAttackCycle.getSubImage(attackCycle, 0).drawEmbedded(Engine.RESOLUTION_X / 2 + (w / 2)+Game.function.scaleX(4),(2 * Engine.RESOLUTION_Y / 3) -(h)-Game.function.scaleX(56),-(w+Game.function.scaleX(8)),h+Game.function.scaleX(52));
 							upAttackCycle.endUse();
+						}
+						if (isDownAttack) {
+							setImage("res/Player Sprites/Attack Animation/attackDown.png");
+							downAttackCycle.setFilter(Image.FILTER_NEAREST);
+							downAttackCycle.startUse();
+							downAttackCycle.getSubImage(attackCycle, 0).drawEmbedded(Engine.RESOLUTION_X / 2 + (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h + Functions.scaleY(4),-w,h+Functions.scaleY(50));
+							downAttackCycle.endUse();
 						}
 					
 				}
@@ -188,23 +208,23 @@ public class Player extends Actor {
 				
 				if (isIdle) {
 					if (faceLeft) {
-						setImage("res/Player Sprites/Idle/idleBody.png");
+						setImage("res/Player Sprites/Idle/idleBounceBody.png");
 						character.setFilter(Image.FILTER_NEAREST);
 						character.startUse();
-						character.getSubImage(0, 0).drawEmbedded(Engine.RESOLUTION_X / 2 + (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,-w,h);
+						character.getSubImage(walkLoop, 0).drawEmbedded(Engine.RESOLUTION_X / 2 + (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,-w,h);
 						character.endUse();
 						
 						
 						if (!isAttacking) {
-							setImage("res/Player Sprites/Idle/idleArms.png");
+							setImage("res/Player Sprites/Idle/idleBounceArms.png");
 							armCycle.setFilter(Image.FILTER_NEAREST);
 							armCycle.startUse();
-							armCycle.getSubImage(0, 0).drawEmbedded(Engine.RESOLUTION_X / 2 + (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,-w,h);
+							armCycle.getSubImage(walkLoop, 0).drawEmbedded(Engine.RESOLUTION_X / 2 + (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,-w,h);
 							armCycle.endUse();
 						}
 						
 						if (isAttacking) {
-							if (isSideAttack && !isUpAttack) {
+							if (isSideAttack && !isUpAttack && !isDownAttack) {
 								setImage("res/Player Sprites/Attack Animation/attackSide.png");
 								attackArmCycle.setFilter(Image.FILTER_NEAREST);
 								attackArmCycle.startUse();
@@ -218,27 +238,34 @@ public class Player extends Actor {
 								upAttackCycle.getSubImage(attackCycle, 0).drawEmbedded(Engine.RESOLUTION_X / 2 + (w / 2)+Game.function.scaleX(4),(2 * Engine.RESOLUTION_Y / 3) -(h)-Game.function.scaleX(56),-(w+Game.function.scaleX(8)),h+Game.function.scaleX(52));
 								upAttackCycle.endUse();
 							}
+							if (isDownAttack) {
+								setImage("res/Player Sprites/Attack Animation/attackDown.png");
+								downAttackCycle.setFilter(Image.FILTER_NEAREST);
+								downAttackCycle.startUse();
+								downAttackCycle.getSubImage(attackCycle, 0).drawEmbedded(Engine.RESOLUTION_X / 2 + (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h + Functions.scaleY(4),-w,h+Functions.scaleY(50));
+								downAttackCycle.endUse();
+							}
 						
 						}
 					}
 					
 					if (faceRight) {
-						setImage("res/Player Sprites/Idle/idleBody.png");
+						setImage("res/Player Sprites/Idle/idleBounceBody.png");
 						character.setFilter(Image.FILTER_NEAREST);
 						character.startUse();
-						character.getSubImage(0, 0).drawEmbedded(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,w,h);
+						character.getSubImage(walkLoop, 0).drawEmbedded(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,w,h);
 						character.endUse();
 						
 						if (!isAttacking) {
-							setImage("res/Player Sprites/Idle/idleArms.png");
+							setImage("res/Player Sprites/Idle/idleBounceArms.png");
 							armCycle.setFilter(Image.FILTER_NEAREST);
 							armCycle.startUse();
-							armCycle.getSubImage(0, 0).drawEmbedded(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,w,h);
+							armCycle.getSubImage(walkLoop, 0).drawEmbedded(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h,w,h);
 							armCycle.endUse();
 						}
 						
 						if (isAttacking) {
-							if (isSideAttack && !isUpAttack) {
+							if (isSideAttack && !isUpAttack && !isDownAttack) {
 								setImage("res/Player Sprites/Attack Animation/attackSide.png");
 								attackArmCycle.setFilter(Image.FILTER_NEAREST);
 								attackArmCycle.startUse();
@@ -251,6 +278,13 @@ public class Player extends Actor {
 								upAttackCycle.startUse();
 								upAttackCycle.getSubImage(attackCycle, 0).drawEmbedded(Engine.RESOLUTION_X / 2 - (w / 2)-Game.function.scaleX(4),(2 * Engine.RESOLUTION_Y / 3) -(h)-Game.function.scaleX(56),w+Game.function.scaleX(8),h+Game.function.scaleX(52));
 								upAttackCycle.endUse();
+							}
+							if (isDownAttack) {
+								setImage("res/Player Sprites/Attack Animation/attackDown.png");
+								downAttackCycle.setFilter(Image.FILTER_NEAREST);
+								downAttackCycle.startUse();
+								downAttackCycle.getSubImage(attackCycle, 0).drawEmbedded(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h + Functions.scaleY(4),w,h+Functions.scaleY(50));
+								downAttackCycle.endUse();
 							}
 						}
 					}
@@ -274,7 +308,7 @@ public class Player extends Actor {
 					}
 					
 					if (isAttacking) {
-						if (isSideAttack && !isUpAttack) {
+						if (isSideAttack && !isUpAttack && !isDownAttack) {
 							setImage("res/Player Sprites/Attack Animation/attackSide.png");
 							attackArmCycle.setFilter(Image.FILTER_NEAREST);
 							attackArmCycle.startUse();
@@ -287,6 +321,13 @@ public class Player extends Actor {
 							upAttackCycle.startUse();
 							upAttackCycle.getSubImage(attackCycle, 0).drawEmbedded(Engine.RESOLUTION_X / 2 + (w / 2)+Game.function.scaleX(4),(2 * Engine.RESOLUTION_Y / 3) -(h)-Game.function.scaleX(56),-(w+Game.function.scaleX(8)),h+Game.function.scaleX(52));
 							upAttackCycle.endUse();
+						}
+						if (isDownAttack) {
+							setImage("res/Player Sprites/Attack Animation/attackDown.png");
+							downAttackCycle.setFilter(Image.FILTER_NEAREST);
+							downAttackCycle.startUse();
+							downAttackCycle.getSubImage(attackCycle, 0).drawEmbedded(Engine.RESOLUTION_X / 2 + (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h + Functions.scaleY(4),-w,h+Functions.scaleY(50));
+							downAttackCycle.endUse();
 						}
 					
 				}
@@ -307,7 +348,7 @@ public class Player extends Actor {
 					}
 					
 					if (isAttacking) {
-						if (isSideAttack && !isUpAttack) {
+						if (isSideAttack && !isUpAttack && !isDownAttack) {
 							setImage("res/Player Sprites/Attack Animation/attackSide.png");
 							attackArmCycle.setFilter(Image.FILTER_NEAREST);
 							attackArmCycle.startUse();
@@ -320,6 +361,13 @@ public class Player extends Actor {
 							upAttackCycle.startUse();
 							upAttackCycle.getSubImage(attackCycle, 0).drawEmbedded(Engine.RESOLUTION_X / 2 - (w / 2)-Game.function.scaleX(4),(2 * Engine.RESOLUTION_Y / 3) -(h)-Game.function.scaleX(56),w+Game.function.scaleX(8),h+Game.function.scaleX(52));
 							upAttackCycle.endUse();
+						}
+						if (isDownAttack) {
+							setImage("res/Player Sprites/Attack Animation/attackDown.png");
+							downAttackCycle.setFilter(Image.FILTER_NEAREST);
+							downAttackCycle.startUse();
+							downAttackCycle.getSubImage(attackCycle, 0).drawEmbedded(Engine.RESOLUTION_X / 2 - (w / 2),(2 * Engine.RESOLUTION_Y / 3) - h + Functions.scaleY(4),w,h+Functions.scaleY(50));
+							downAttackCycle.endUse();
 						}
 					}
 				}
@@ -378,6 +426,7 @@ public class Player extends Actor {
 			isAttacking = false;
 			isUpAttack = false;
 			isSideAttack = false;
+			isDownAttack = false;
 			attackTimer = 1;
 			attackCycle = 0;
 		}
@@ -449,8 +498,12 @@ public class Player extends Actor {
 		
 		checkPickups(Game.pickups);
 		
-		if (vx > 0) vx--;
-		if (vx < 0) vx++;
+		//if (vx > 1) vx-= 1;
+		if (vx > 0) vx-= 1;
+		if (vx > 0) vx-= 1;
+		//if (vx < 1) vx+= 1;
+		if (vx < 0) vx+= 1;
+		if (vx < 0) vx+= 1;
 		if (Math.abs(vx) < 1) vx = 0;
 		
 		
@@ -509,15 +562,18 @@ public class Player extends Actor {
 		float tempY = y + vy;
 		float tempX = x + vx;
 		boolean canFall = true;
+		onGround = false;
 		for (Platform p : platforms) {
 			if (vy > 0) {
 				if (p.collidesDown(x, tempY + Game.function.scaleY(16), w, h)) {
 					vy = 0;
 					tempY = p.getY() - h;
 					Game.playerTouchesPlatform();
+					onGround = true;
 					numDashes = 0;
 					Game.jumping = false;
 					canFall = false;
+					
 				}
 			}
 			if (vy < 0) {
@@ -534,27 +590,33 @@ public class Player extends Actor {
 				if (p.collidesRight(tempX,y,w,h)) {
 					vx = 0;
 					tempX = p.getX() - w;
-					if (vy > 0) {
-						ay = Game.function.scaleY((float) 0.2);
+//					if (vy > 0) {
+//						ay = Game.function.scaleY((float) 0.2);
 						if (canWallJump) {
 							Game.playerTouchesPlatform();
 							onWall = true;
 							numDashes = 0;
+							if (vy > Game.function.scaleY(5)) {
+								vy = Game.function.scaleY(5);
+							}
 						}
-					}
+					
 				}
 			}
 			if (vx < 0) {
 				if (p.collidesLeft(tempX,y, w, h)) {
 					vx = 0;
 					tempX = p.getX() + p.getW();
-					if (vy > 0) {
-						ay = Game.function.scaleY((float) 0.2);
-						if (canWallJump) {
-							Game.playerTouchesPlatform();
-							onWall = true;
-							numDashes = 0;
+					//if (vy > 0) {
+					//ay = Game.function.scaleY((float) 0.2);
+					if (canWallJump) {
+						Game.playerTouchesPlatform();
+						onWall = true;
+						numDashes = 0;
+						if (vy > Game.function.scaleY(5)) {
+							vy = Game.function.scaleY(5);
 						}
+						
 					}
 				}
 			}
@@ -563,12 +625,28 @@ public class Player extends Actor {
 		x = tempX;
 	}
 	
-	public void takeDamage(int damage) {
+	public void takeDamage(int damage, float enemyX) {
 		if (invincibility == 0) {
 			curHealth -= damage;
 			invincibility = 60;
+			System.out.println(x);
+			if (x < enemyX) {
+				System.out.println(enemyX);
+				knockback("left");
+//				vx = -25;
+			}
 		}
 	}
+	
+	public void tryJump() {
+		if (onGround||onWall) {
+			jump();
+		} else if (airJumps<maxAirJumps) {
+			jump();
+			airJumps++;
+		}
+	}
+
 	
 	public boolean pickupsBoxCheck(Pickup p, float x, float y, float w, float h) {
 		return 	cornerCheck(p.getX(), p.getY(), x, y, w, h) ||
@@ -633,6 +711,18 @@ public class Player extends Actor {
 	
 	public void updateH(float h) {
 		this.h = h;
+	}
+	
+	public void setAirJumps(int newJumps) {
+		airJumps = newJumps;
+	}
+
+	public void setMaxAirJumps(int newJumps) {
+		maxAirJumps = newJumps;
+	}
+
+	public int getMaxAirJumps() {
+		return maxAirJumps;
 	}
 	
 	public void collidesDown(float newY) {
@@ -750,6 +840,15 @@ public class Player extends Actor {
 		vx = Math.min(Game.function.scaleX(7), vx++);
 	}
 	
+	public static void gainCoin() {
+		coinAmount++;
+		System.out.println(coinAmount);
+	}
+	
+	public static void loseCoin() {
+		coinAmount--;
+	}
+	
 	public void setX(float newX) {
 		x = newX;
 	}
@@ -767,6 +866,7 @@ public class Player extends Actor {
 			dwayne = new SpriteSheet(filepath, 32, 64);
 			attackArmCycle = new SpriteSheet(filepath, 32, 32);
 			upAttackCycle = new SpriteSheet(filepath, 16, 48);
+			downAttackCycle = new SpriteSheet(filepath, 16, 48);
 		}
 		catch(SlickException e)		
 		{
