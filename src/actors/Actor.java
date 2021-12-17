@@ -42,6 +42,7 @@ public class Actor {
 		if (damageTimer >= 12) {
 			curHealth -= damage;
 			damageTimer = 0;
+			
 		}
 		//		x += F * (float) Math.cos(Math.atan((y - py)/(x - px)));
 //		y += F * (float) Math.sin(Math.atan((y - py)/(x - px))); 
@@ -61,6 +62,22 @@ public class Actor {
 	
 	public float getY() {
 		return y;
+	}
+	
+	public void knockback(String direction) {
+		this.vx = vx;
+		if (direction == "up") {
+			vy = -25;
+		}
+		if (direction == "down") {
+			vy = 25;
+		}
+		if (direction == "right") {
+			vx  = 25;
+		}
+		if (direction == "left") {
+			vx = -25;
+		}
 	}
 
 	public float getW() {
