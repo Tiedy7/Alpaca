@@ -37,6 +37,10 @@ public class Platform {
 					break;
 		case 3: 	setImage("res/Tilemaps/platform1NEW.png");
 					break;
+		case 4:     setImage("res/Tilemaps/platform 2.png");
+					break;
+		case 5:		setImage("res/Tilemaps/grass.png");
+					break;
 		}
 	}
 	
