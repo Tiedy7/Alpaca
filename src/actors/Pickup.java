@@ -17,7 +17,7 @@ public class Pickup {
 	
 	protected String type;
 	
-	public Pickup(int x, int y, Color color, String type) {
+	public Pickup(int x, int y, String type) {
 		//X, Y, W, H VALUES GIVEN IN INTS BY NUMBER OF TILES (EACH TILE IS 64 x 64 PIXELS)
 		this.x = x * Game.function.scaleX(64) - Game.function.scaleX(4);
 		this.y = y * Game.function.scaleY(64) - Game.function.scaleY(20);
@@ -38,6 +38,7 @@ public class Pickup {
 							break;
 		case "dash":		setImage("res/Pickups/dashPickup.png");
 							break;
+		case "coin": 		setImage("res/coin.png");
 		}
 	}
 	
@@ -60,6 +61,8 @@ public class Pickup {
 			case "dash":		Game.player.enableDash();
 								break;
 			case "wallJump": 	Game.player.enableWallJump();
+								break;
+			case "coin":		Game.player.gainCoin();
 								break;
 			default : 			System.out.println("Invalid pickup type.");
 								break;
