@@ -35,11 +35,13 @@ public class Platform {
 					break;
 		case 2: 	setImage("res/Tilemaps/weirdTerrain.png");
 					break;
-		case 3: 	setImage("res/Tilemaps/platform1NEW.png");
+		case 3: 	setImage("res/Tilemaps/platform1NEW.png"); //crash zone
 					break;
-		case 4:     setImage("res/Tilemaps/platform 2.png");
+		case 4:     setImage("res/Tilemaps/platform 2.png"); //unused
 					break;
-		case 5:		setImage("res/Tilemaps/grass.png");
+		case 5:		setImage("res/Tilemaps/grass1.png"); //plains
+					break;
+		case 6:		setImage("res/Tilemaps/spaceship.png"); //ship
 					break;
 		}
 	}
