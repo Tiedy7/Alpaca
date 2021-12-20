@@ -161,7 +161,7 @@ public class Game extends BasicGameState
 		spaceJump.setFilter(Image.FILTER_NEAREST);
 		healthBar = new Image("res/HealthBar.png");
 		healthBar.setFilter(Image.FILTER_NEAREST);
-		healthContainer = new Image("res/Health Case Update (1).png");
+		healthContainer = new Image("res/healthContainer.png");
 		healthContainer.setFilter(Image.FILTER_NEAREST);
 		
 		
@@ -463,6 +463,30 @@ public class Game extends BasicGameState
 				player.setX(function.scaleX(64*1));
 				//player.setY(function.scaleY(64*38));
 			}
+			if (player.getX()<(0*function.scaleX(64))) {
+				changeLevel(104);
+				player.setX(function.scaleX(64*54));
+				//player.setY(function.scaleY(64*38));
+			}
+		}
+		if (Level.getLevel()==104) {
+			if (player.getX()>(55*function.scaleX(64))) {
+				changeLevel(103);
+				player.setX(function.scaleX(64*1));
+				//player.setY(function.scaleY(64*38));
+			}
+			if (player.getX()<(-15*function.scaleX(64))) {
+				changeLevel(105);
+				player.setX(function.scaleX(64*52));
+				player.setY((function.scaleY(64*20))+player.getY());
+			}
+		}
+		if (Level.getLevel()==105) {
+			if (player.getX()>(52*function.scaleX(64))) {
+				changeLevel(104);
+				player.setX(function.scaleX(64*-15));
+				player.setY(-(function.scaleY(64*20))+player.getY());
+			}
 		}
 		if (Level.getLevel()==300) {
 			if (player.getX()<(0*function.scaleX(64))) {
@@ -517,7 +541,7 @@ public class Game extends BasicGameState
 		
 		if (key == Input.KEY_7) {
 			if (Level.getLevel()==0) {
-				changeLevel(102);
+				changeLevel(105);
 			}
 		}
 	}
