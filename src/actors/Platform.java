@@ -8,12 +8,13 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 import java.util.function.Function;
 
+import core.Functions;
 import core.Game;
 
 public class Platform {
 
 	protected float x, y, w, h;
-	protected int sizeW, sizeH;
+	protected int tileX, tileY, sizeW, sizeH;
 	private SpriteSheet platform = null;
 	
 	//THIS COLOR IS TEMPORARY JSUT FOR TESTING
@@ -21,10 +22,12 @@ public class Platform {
 	
 	public Platform(int x, int y, int w, int h, int type) {
 		//X, Y, W, H VALUES GIVEN IN INTS BY NUMBER OF TILES (EACH TILE IS 64 x 64 PIXELS)
-		this.x = x * Game.function.scaleX(64);
-		this.y = y * Game.function.scaleY(64);
-		this.w = w * Game.function.scaleX(64);
-		this.h = h * Game.function.scaleY(64);
+		this.x = x * Functions.scaleX(64);
+		this.y = y * Functions.scaleY(64);
+		this.w = w * Functions.scaleX(64);
+		this.h = h * Functions.scaleY(64);
+		tileX = x;
+		tileY = y;
 		sizeW = w;
 		sizeH = h;
 		
@@ -37,10 +40,6 @@ public class Platform {
 					break;
 		case 3: 	setImage("res/Tilemaps/platform1NEW.png");
 					break;
-		case 4:     setImage("res/Tilemaps/platform 2.png");
-					break;
-		case 5:		setImage("res/Tilemaps/grass.png");
-					break;
 		}
 	}
 	
@@ -48,57 +47,108 @@ public class Platform {
 		platform.setFilter(Image.FILTER_NEAREST);
 		platform.startUse();
 		for (int i = 0; i < sizeW; i++) {
-			for (int b = 0; b < sizeH; b++) {
+			for (int b = 0; b < sizeH; b++) {	
 				if (sizeH == 1 && sizeW == 1) {
-					platform.getSubImage(4,1).drawEmbedded(this.x + difX + i * Game.function.scaleX(64), y + difY + b * Game.function.scaleY(64), Game.function.scaleX(64), Game.function.scaleY(64));
+					platform.getSubImage(4,1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
 				} else
 				if (sizeH == 1) {
 					if (i == 0) {
-						platform.getSubImage(3, 1).drawEmbedded(this.x + difX + i * Game.function.scaleX(64), y + difY + b * Game.function.scaleY(64), Game.function.scaleX(64), Game.function.scaleY(64));
+						platform.getSubImage(3, 1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
 					} else
 					if (i == sizeW - 1) {
-						platform.getSubImage(5, 1).drawEmbedded(this.x + difX + i * Game.function.scaleX(64), y + difY + b * Game.function.scaleY(64), Game.function.scaleX(64), Game.function.scaleY(64));
+						platform.getSubImage(5, 1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
 					} else {
-						platform.getSubImage(3, 0).drawEmbedded(this.x + difX + i * Game.function.scaleX(64), y + difY + b * Game.function.scaleY(64), Game.function.scaleX(64), Game.function.scaleY(64));
+						platform.getSubImage(3, 0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
 					}
 				} else
 				if (sizeW == 1) {
 					if (i == 0) {
-						platform.getSubImage(4, 0).drawEmbedded(this.x + difX + i * Game.function.scaleX(64), y + difY + b * Game.function.scaleY(64), Game.function.scaleX(64), Game.function.scaleY(64));
+						platform.getSubImage(4, 0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
 					} else
 					if (i == sizeW - 1) {
-						platform.getSubImage(4, 2).drawEmbedded(this.x + difX + i * Game.function.scaleX(64), y + difY + b * Game.function.scaleY(64), Game.function.scaleX(64), Game.function.scaleY(64));
+						platform.getSubImage(4, 2).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
 					} else {
-						platform.getSubImage(5, 0).drawEmbedded(this.x + difX + i * Game.function.scaleX(64), y + difY + b * Game.function.scaleY(64), Game.function.scaleX(64), Game.function.scaleY(64));
+						platform.getSubImage(5, 0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
 					}
 				} else
 				if (b == 0) {
 					if (i == 0) {
-						platform.getSubImage(0, 0).drawEmbedded(this.x + difX + i * Game.function.scaleX(64), y + difY + b * Game.function.scaleY(64), Game.function.scaleX(64), Game.function.scaleY(64));
+						if (Game.level.tiles[tileX - Game.level.minX + i][tileY - Game.level.minY + b + 1]) {
+							platform.getSubImage(1, 0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+						} else {
+						platform.getSubImage(0, 0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+						}
 					} else
 					if (i == sizeW - 1) {
-						platform.getSubImage(2, 0).drawEmbedded(this.x + difX + i * Game.function.scaleX(64), y + difY + b * Game.function.scaleY(64), Game.function.scaleX(64), Game.function.scaleY(64));
+						if (Game.level.tiles[tileX - Game.level.minX + i + 2][tileY - Game.level.minY + b + 1]) {
+							if (Game.level.tiles[tileX - Game.level.minX + i + 1][tileY - Game.level.minY + b]) {
+								platform.getSubImage(1, 1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+							} else {
+								platform.getSubImage(1, 0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+							}
+						} else {
+							platform.getSubImage(2, 0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+						}
 					} else {
-						platform.getSubImage(1, 0).drawEmbedded(this.x + difX + i * Game.function.scaleX(64), y + difY + b * Game.function.scaleY(64), Game.function.scaleX(64), Game.function.scaleY(64));
+						if (Game.level.tiles[tileX - Game.level.minX + i + 1][tileY - Game.level.minY + b]) {
+							platform.getSubImage(1, 1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+						} else  {
+							platform.getSubImage(1, 0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+						}
 					}
 				} else
 				if (b == sizeH - 1) {
 					if (i == 0) {
-						platform.getSubImage(0, 2).drawEmbedded(this.x + difX + i * Game.function.scaleX(64), y + difY + b * Game.function.scaleY(64), Game.function.scaleX(64), Game.function.scaleY(64));
+						if (Game.level.tiles[tileX - Game.level.minX + i][tileY - Game.level.minY + b + 1]) {
+							if (Game.level.tiles[tileX - Game.level.minX + i + 1][tileY - Game.level.minY + b + 2]) {
+								platform.getSubImage(1, 1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+							} else {
+								platform.getSubImage(1, 2).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+							}
+						} else
+						if (Game.level.tiles[tileX - Game.level.minX + i + 1][tileY - Game.level.minY + b + 2]) {
+							platform.getSubImage(0, 1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+						} else {
+							platform.getSubImage(0, 2).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+						}
 					} else
 					if (i == sizeW - 1) {
-						platform.getSubImage(2, 2).drawEmbedded(this.x + difX + i * Game.function.scaleX(64), y + difY + b * Game.function.scaleY(64), Game.function.scaleX(64), Game.function.scaleY(64));
+						if (Game.level.tiles[tileX - Game.level.minX + i + 2][tileY - Game.level.minY + b + 1]) {
+							if (Game.level.tiles[tileX - Game.level.minX + i + 1][tileY - Game.level.minY + b + 2]) {
+								platform.getSubImage(1, 1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+							} else {
+							platform.getSubImage(1, 2).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+							}
+						} else 
+						if (Game.level.tiles[tileX - Game.level.minX + i + 1][tileY - Game.level.minY + b + 2]) {
+							platform.getSubImage(2, 1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+						} else {
+							platform.getSubImage(2, 2).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+
+						}
 					} else {
-						platform.getSubImage(1, 2).drawEmbedded(this.x + difX + i * Game.function.scaleX(64), y + difY + b * Game.function.scaleY(64), Game.function.scaleX(64), Game.function.scaleY(64));
+						if (Game.level.tiles[tileX - Game.level.minX + i + 1][tileY - Game.level.minY + b + 2]) {
+							platform.getSubImage(1, 1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+						} else {
+							platform.getSubImage(1, 2).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+						}
 					}
 				} else {
 					if (i == 0) {
-						platform.getSubImage(0, 1).drawEmbedded(this.x + difX + i * Game.function.scaleX(64), y + difY + b * Game.function.scaleY(64), Game.function.scaleX(64), Game.function.scaleY(64));
+						if (Game.level.tiles[tileX - Game.level.minX + i][tileY - Game.level.minY + b + 1]) {
+							platform.getSubImage(1, 1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+						} else {
+							platform.getSubImage(0, 1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+						}
 					} else
 					if (i == sizeW - 1) {
-						platform.getSubImage(2, 1).drawEmbedded(this.x + difX + i * Game.function.scaleX(64), y + difY + b * Game.function.scaleY(64), Game.function.scaleX(64), Game.function.scaleY(64));
+						if (Game.level.tiles[tileX - Game.level.minX + i + 2][tileY - Game.level.minY + b + 1]) {
+							platform.getSubImage(1, 1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+						} else {
+							platform.getSubImage(2, 1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+						}
 					} else {
-						platform.getSubImage(1, 1).drawEmbedded(this.x + difX + i * Game.function.scaleX(64), y + difY + b * Game.function.scaleY(64), Game.function.scaleX(64), Game.function.scaleY(64));
+						platform.getSubImage(1, 1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
 					}
 				}
 			}
@@ -166,4 +216,9 @@ public class Platform {
 	public float getW() {
 		return w;
 	}
+	
+	public int getTileX() { return tileX; }
+	public int getTileY() { return tileY; }
+	public int getSizeW() { return sizeW; }
+	public int getSizeH() { return sizeH; }
 }
