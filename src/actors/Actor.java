@@ -16,6 +16,7 @@ public class Actor {
 	protected int attackDamage;
 	protected int shielding;
 	protected int damageTimer;
+	protected boolean invincible = false;
 	protected float F;
 	
 	protected boolean isPlayer, isProjectile, isEnemy;
@@ -39,13 +40,15 @@ public class Actor {
 	
 
 	public void takeDamage(int damage, float px, float py) {
-		if (damageTimer >= 12) {
-			curHealth -= damage;
-			damageTimer = 0;
-			
+		if (invincible==false) {
+			if (damageTimer >= 12) {
+				curHealth -= damage;
+				damageTimer = 0;
+				
+			}
 		}
-		//		x += F * (float) Math.cos(Math.atan((y - py)/(x - px)));
-//		y += F * (float) Math.sin(Math.atan((y - py)/(x - px))); 
+		//x += F * (float) Math.cos(Math.atan((y - py)/(x - px)));
+		//y += F * (float) Math.sin(Math.atan((y - py)/(x - px))); 
 	}
 	
 	public boolean shouldRemove() {
