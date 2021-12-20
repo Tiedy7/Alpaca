@@ -513,7 +513,7 @@ public class Player extends Actor {
 		}
 		
 		//ANIMATION STUFF
-		if (time % 12 == 0) {
+		if (time % 8 == 0) {
 			walkLoop++;
 			
 		}
