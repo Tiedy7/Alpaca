@@ -53,20 +53,36 @@ public class Platform {
 				} else
 				if (sizeH == 1) {
 					if (i == 0) {
-						platform.getSubImage(3, 1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+						if (Game.level.tiles[tileX - Game.level.minX + i][tileY - Game.level.minY + b + 1]) {
+							platform.getSubImage(3, 0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+						} else {
+							platform.getSubImage(3, 1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+						}
 					} else
 					if (i == sizeW - 1) {
-						platform.getSubImage(5, 1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+						if (Game.level.tiles[tileX - Game.level.minX + i + 2][tileY - Game.level.minY + b + 1]) {
+							platform.getSubImage(3, 0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+						} else {
+							platform.getSubImage(5, 1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+						}
 					} else {
 						platform.getSubImage(3, 0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
 					}
 				} else
 				if (sizeW == 1) {
 					if (i == 0) {
-						platform.getSubImage(4, 0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+						if (Game.level.tiles[tileX - Game.level.minX + i + 1][tileY - Game.level.minY + b]) {
+							platform.getSubImage(5, 0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+						} else {
+							platform.getSubImage(4, 0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+						}
 					} else
 					if (i == sizeW - 1) {
-						platform.getSubImage(4, 2).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+						if (Game.level.tiles[tileX - Game.level.minX + i + 1][tileY - Game.level.minY + b + 2]) {
+							platform.getSubImage(5, 0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+						} else {
+							platform.getSubImage(4, 0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+						}
 					} else {
 						platform.getSubImage(5, 0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
 					}
@@ -74,9 +90,17 @@ public class Platform {
 				if (b == 0) {
 					if (i == 0) {
 						if (Game.level.tiles[tileX - Game.level.minX + i][tileY - Game.level.minY + b + 1]) {
-							platform.getSubImage(1, 0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+							if (Game.level.tiles[tileX - Game.level.minX + i + 1][tileY - Game.level.minY + b]) {
+								platform.getSubImage(0, 0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+							} else {
+								platform.getSubImage(1, 0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+							}
 						} else {
-						platform.getSubImage(0, 0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+							if (Game.level.tiles[tileX - Game.level.minX + i + 1][tileY - Game.level.minY + b] && Game.level.tiles[tileX - Game.level.minX + i + 1][tileY - Game.level.minY + b + 2]) {
+								platform.getSubImage(0, 1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+							} else {
+								platform.getSubImage(0, 0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+							}
 						}
 					} else
 					if (i == sizeW - 1) {
@@ -87,7 +111,11 @@ public class Platform {
 								platform.getSubImage(1, 0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
 							}
 						} else {
-							platform.getSubImage(2, 0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+							if (Game.level.tiles[tileX - Game.level.minX + i + 1][tileY - Game.level.minY + b] && Game.level.tiles[tileX - Game.level.minX + i + 1][tileY - Game.level.minY + b + 2]) {
+								platform.getSubImage(2, 1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+							} else {
+								platform.getSubImage(2, 0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+							}
 						}
 					} else {
 						if (Game.level.tiles[tileX - Game.level.minX + i + 1][tileY - Game.level.minY + b]) {
