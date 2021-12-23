@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.newdawn.slick.Graphics;
 
+import core.Direction;
 import core.Functions;
 import core.Game;
 
@@ -16,6 +17,7 @@ public class Actor {
 	protected int attackDamage;
 	protected int shielding;
 	protected int damageTimer;
+	protected boolean invincible = false;
 	protected float F;
 	
 	protected boolean isPlayer, isProjectile, isEnemy;
@@ -39,10 +41,18 @@ public class Actor {
 	
 
 	public void takeDamage(int damage, float px, float py) {
-		if (damageTimer >= 12) {
-			curHealth -= damage;
-			damageTimer = 0;
-			
+//		if (damageTimer >= 12) {
+//			
+//			curHealth -= damage;
+//			damageTimer = 0;
+//			
+//		}
+		if (invincible==false) {
+			if (damageTimer >= 12) {
+				curHealth -= damage;
+				damageTimer = 0;
+
+			}
 		}
 		//		x += F * (float) Math.cos(Math.atan((y - py)/(x - px)));
 //		y += F * (float) Math.sin(Math.atan((y - py)/(x - px))); 
@@ -64,18 +74,23 @@ public class Actor {
 		return y;
 	}
 	
-	public void knockback(String direction) {
-		this.vx = vx;
-		if (direction == "up") {
+	public void knockback(Direction d) {
+		
+		if (d == Direction.UP) {
+			
 			vy = -25;
 		}
-		if (direction == "down") {
+		if (d == Direction.DOWN) {
+			
 			vy = 25;
 		}
-		if (direction == "right") {
+		if (d == Direction.RIGHT) {
+			
 			vx  = 25;
+			
 		}
-		if (direction == "left") {
+		if (d == Direction.LEFT) {
+			
 			vx = -25;
 		}
 	}
