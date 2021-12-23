@@ -20,7 +20,7 @@ public class Enemy extends Actor {
 	
 	private boolean isRight, isLeft, isJump, isIdle, faceRight, faceLeft;
 	
-	private float ax, vx, ay, vy; //acceleration & velocity
+//	private float ax, vx, ay, vy; 
 	
 	protected int damage = 1;
 	
@@ -72,6 +72,7 @@ public class Enemy extends Actor {
 
 	public void update() {
 		super.update();
+		
 	}
 	
 //	public float getX() {
