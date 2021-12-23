@@ -8,6 +8,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 
+import core.Direction;
 import core.Engine;
 import core.Functions;
 import core.Game;
@@ -26,7 +27,7 @@ public class GoombaEnemy extends Enemy {
 	private boolean goLeft;
 	private  float leftBound, rightBound;
 	
-	private float ax, vx, ay, vy; //acceleration & velocity
+	 //acceleration & velocity
 	
 	public GoombaEnemy(float sx, float sy, float left, float right, boolean startLeft) {
 		setImage("res/Enemy Sprites/enemyPlaceholder.png");
@@ -115,6 +116,18 @@ public class GoombaEnemy extends Enemy {
 		}
 		
 		time++;
+		
+		if (Player.hitEnemyLeft) {
+			knockback(Direction.RIGHT);
+			vy = -5;
+			Player.hitEnemyLeft = false;
+		}
+		
+		if (Player.hitEnemyRight) {
+			knockback(Direction.LEFT);
+			vy = -5;
+			Player.hitEnemyRight = false;
+		}
 		
 		if (walkRow) {
 			walkRowNum = 1;
