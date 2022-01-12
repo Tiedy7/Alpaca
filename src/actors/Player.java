@@ -8,7 +8,6 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 
-import core.Direction;
 import core.Engine;
 import core.Functions;
 import core.Game;
@@ -19,7 +18,7 @@ import java.util.function.Function;
 public class Player extends Actor {
 
 	//MOVEMENT
-//	private float ax, vx, ay, vy;
+	private float ax, vx, ay, vy;
 	private int dashCooldown, dashLength, dashCooldownTimer, numDashes, maxDashes, rightDash, leftDash, airJumps, maxAirJumps;
 	private boolean isRight, isLeft, isIdle, faceRight, faceLeft, faceUp, faceDown, canDash, canWallJump;
 	
@@ -33,8 +32,6 @@ public class Player extends Actor {
 	public SpriteSheet attackArmCycle = null;
 	private SpriteSheet upAttackCycle, downAttackCycle;
 	private boolean walkRow;
-	
-	public static boolean hitEnemyLeft, hitEnemyRight;
 	
 	//ATTACKING & COLLISIONS	
 	public float hitBoxX, hitBoxY, hitBoxW, hitBoxH;
@@ -66,7 +63,7 @@ public class Player extends Actor {
 		numDashes = 0;
 		maxDashes = 1;
 		dashCooldown = 28;
-		dashLength = 6;
+		dashLength = 5;
 		dashCooldownTimer = 0;
 		rightDash = 0;
 		leftDash = 0;
@@ -88,9 +85,6 @@ public class Player extends Actor {
 		invincibility = 0;
 		
 		swordDamage = 5;
-		
-		hitEnemyLeft = true;
-		hitEnemyRight = true;
 		
 		//MISC
 		isEnemy = false;
@@ -452,8 +446,9 @@ public class Player extends Actor {
 		}
 		
 		if (rightDash>0) {
-			vx = Game.function.scaleX(26);
+			vx = Game.function.scaleX(32);
 			vy = 0;
+			y = y-Game.function.scaleY(1);
 			isRight = true;
 			isLeft = false;
 			isIdle = false;
@@ -471,8 +466,9 @@ public class Player extends Actor {
 		}
 
 		if (leftDash>0) {
-			vx = Game.function.scaleX(-26);
+			vx = Game.function.scaleX(-32);
 			vy = 0;
+			y = y-Game.function.scaleY(1);
 			isRight = false;
 			isLeft = true;
 			isIdle = false;
@@ -482,7 +478,10 @@ public class Player extends Actor {
 		}
 
 		if (dashCooldownTimer>0) {
-			if ((vx > 13)||(vx < -13)) {
+//			if ((vx > 13)||(vx < -13)) {
+//				vy = 0;
+//			}
+			if (dashCooldownTimer>((2*dashCooldown)/3)) {
 				vy = 0;
 			}
 			dashCooldownTimer--;
@@ -519,7 +518,7 @@ public class Player extends Actor {
 		}
 		
 		//ANIMATION STUFF
-		if (time % 8 == 0) {
+		if (time % 6 == 0) {
 			walkLoop++;
 			
 		}
@@ -637,16 +636,10 @@ public class Player extends Actor {
 			invincibility = 60;
 			System.out.println(x);
 			if (x < enemyX) {
-//				System.out.println(enemyX);
-				knockback(Direction.LEFT);
+				System.out.println(enemyX);
+				knockback("left");
 //				vx = -25;
 			}
-			if (x > enemyX) {
-//				System.out.println(enemyX);
-				knockback(Direction.RIGHT);
-//				vx = -25;
-			}
-			vy = Functions.scaleY(-10);
 		}
 	}
 	
@@ -785,7 +778,6 @@ public class Player extends Actor {
 			if (a.getIsEnemy()) {
 				if (hitBoxCheck(a, hitBoxX, hitBoxY, hitBoxW, hitBoxH)) {
 					a.takeDamage(swordDamage, x, y);
-					a.knockback(Direction.LEFT);
 				}
 			}
 		}
@@ -803,9 +795,6 @@ public class Player extends Actor {
 			if (a.getIsEnemy()) {
 				if (hitBoxCheck(a, hitBoxX, hitBoxY, hitBoxW, hitBoxH)) {
 					a.takeDamage(swordDamage, x, y);
-//					if (a.x > x) {
-//						vx = -25;
-//					}
 				}
 			}
 		}
@@ -824,21 +813,12 @@ public class Player extends Actor {
 		} else
 		if (faceLeft) {
 			hitBoxX = x - Game.function.scaleX(64);
-			
 		}
 	
 		for (Actor a : Game.actors) {
 			if (a.getIsEnemy()) {
 				if (hitBoxCheck(a, hitBoxX, hitBoxY, hitBoxW, hitBoxH)) {
 					a.takeDamage(swordDamage, x, y);
-					if (x < a.x) {
-						hitEnemyLeft = true;
-					}
-					if (x > a.x) {
-						hitEnemyRight = true;
-					}
-				
-					
 				}
 			}
 		}
