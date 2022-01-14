@@ -579,7 +579,9 @@ public class Player extends Actor {
 					numDashes = 0;
 					Game.jumping = false;
 					canFall = false;
-					
+				}
+				if (p.collidesDown(x, tempY + Game.function.scaleY(16) + 3, w, h)) {
+					onGround = true;
 				}
 			}
 			if (vy < 0) {
