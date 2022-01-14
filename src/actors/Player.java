@@ -34,7 +34,7 @@ public class Player extends Actor {
 	private SpriteSheet upAttackCycle, downAttackCycle;
 	private boolean walkRow;
 	
-	public static boolean hitEnemyLeft, hitEnemyRight;
+	public static boolean hitEnemyLeft, hitEnemyRight, hitEnemyUp, hitEnemyDown;
 	
 	//ATTACKING & COLLISIONS	
 	public float hitBoxX, hitBoxY, hitBoxW, hitBoxH;
@@ -66,10 +66,12 @@ public class Player extends Actor {
 		numDashes = 0;
 		maxDashes = 1;
 		dashCooldown = 28;
-		dashLength = 6;
+		dashLength = 5;
 		dashCooldownTimer = 0;
 		rightDash = 0;
 		leftDash = 0;
+		
+		
 		
 		coinAmount = 0;
 		
@@ -91,6 +93,8 @@ public class Player extends Actor {
 		
 		hitEnemyLeft = true;
 		hitEnemyRight = true;
+		hitEnemyUp = true;
+		hitEnemyDown = true;
 		
 		//MISC
 		isEnemy = false;
@@ -452,8 +456,9 @@ public class Player extends Actor {
 		}
 		
 		if (rightDash>0) {
-			vx = Game.function.scaleX(26);
+			vx = Game.function.scaleX(32);
 			vy = 0;
+			y = y-Game.function.scaleY(1);
 			isRight = true;
 			isLeft = false;
 			isIdle = false;
@@ -471,8 +476,9 @@ public class Player extends Actor {
 		}
 
 		if (leftDash>0) {
-			vx = Game.function.scaleX(-26);
+			vx = Game.function.scaleX(-32);
 			vy = 0;
+			y = y-Game.function.scaleY(1);
 			isRight = false;
 			isLeft = true;
 			isIdle = false;
@@ -482,7 +488,11 @@ public class Player extends Actor {
 		}
 
 		if (dashCooldownTimer>0) {
-			if ((vx > 13)||(vx < -13)) {
+			
+//			if ((vx > 13)||(vx < -13)) {
+//				vy = 0;
+//			}
+			if (dashCooldownTimer>((2*dashCooldown)/3)) {
 				vy = 0;
 			}
 			dashCooldownTimer--;
@@ -519,7 +529,7 @@ public class Player extends Actor {
 		}
 		
 		//ANIMATION STUFF
-		if (time % 8 == 0) {
+		if (time % 6 == 0) {
 			walkLoop++;
 			
 		}
@@ -529,6 +539,7 @@ public class Player extends Actor {
 		}
 		
 		time++;
+		
 		
 		
 	}
@@ -580,6 +591,9 @@ public class Player extends Actor {
 					Game.jumping = false;
 					canFall = false;
 					
+				}
+				if (p.collidesDown(x, tempY + Game.function.scaleY(16) + 3, w, h)) {
+					onGround = true;
 				}
 			}
 			if (vy < 0) {
@@ -785,7 +799,9 @@ public class Player extends Actor {
 			if (a.getIsEnemy()) {
 				if (hitBoxCheck(a, hitBoxX, hitBoxY, hitBoxW, hitBoxH)) {
 					a.takeDamage(swordDamage, x, y);
-					a.knockback(Direction.LEFT);
+					if (a.y < y) {
+						hitEnemyUp = true;
+					}
 				}
 			}
 		}
@@ -803,9 +819,10 @@ public class Player extends Actor {
 			if (a.getIsEnemy()) {
 				if (hitBoxCheck(a, hitBoxX, hitBoxY, hitBoxW, hitBoxH)) {
 					a.takeDamage(swordDamage, x, y);
-//					if (a.x > x) {
-//						vx = -25;
-//					}
+					
+					if (a.y > y) {
+						hitEnemyDown = true;
+					}
 				}
 			}
 		}
