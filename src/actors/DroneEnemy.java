@@ -28,7 +28,7 @@ public class DroneEnemy extends Enemy {
 	
 	private boolean isRight, isLeft, isJump, isIdle, faceRight, faceLeft;
 	
-	private float ax, vx, ay, vy; //acceleration & velocity
+	
 	
 	//COLOR JUST FOR TESTING
 
@@ -99,17 +99,6 @@ public class DroneEnemy extends Enemy {
 			walkRow = !walkRow;
 		}
 		
-		
-		
-		time++;
-		
-		if (walkRow) {
-			walkRowNum = 1;
-		}
-		if (!walkRow) {
-			walkRowNum = 0;
-		}
-		
 		if (Player.hitEnemyLeft) {
 			knockback(Direction.RIGHT);
 			vy = -5;
@@ -121,6 +110,27 @@ public class DroneEnemy extends Enemy {
 			vy = -5;
 			Player.hitEnemyRight = false;
 		}
+		
+//		if (Player.hitEnemyUp) {
+//			knockback(Direction.UP);
+//			Player.hitEnemyUp = false;
+//		}
+//		
+//		if (Player.hitEnemyDown) {
+//			knockback(Direction.DOWN);
+//			Player.hitEnemyDown = false;
+//		}
+		
+		time++;
+		
+		if (walkRow) {
+			walkRowNum = 1;
+		}
+		if (!walkRow) {
+			walkRowNum = 0;
+		}
+		
+
 		
 //		//COLLISIONS
 		checkCollisions(Game.platforms);
