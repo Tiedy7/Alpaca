@@ -26,8 +26,7 @@ public class Level {
 	
 	public static int minX, minY, maxX, maxY;
 	
-	public static boolean[][] tiles;
-	public static Platform[][] platformArray;
+	public static int[][] tiles, values;
 	
 	public Level(int level) {
 		//Note: platforms are generated at x * Game.function.scaleX(64). Keep that in mind when placing other actors.
@@ -67,7 +66,7 @@ public class Level {
 			basic = 3;
 			curLevel = 100;
 			//climbing out
-			platforms.add(new Platform(0, 40, 32, 16, basic));
+			platforms.add(new Platform(-12, 40, (12+32+35), 16, basic));
 			platforms.add(new Platform(4, 37, 4, 3, basic));
 			platforms.add(new Platform(12, 34, 4, 1, basic));
 			platforms.add(new Platform(17, 31, 4, 1, basic));
@@ -76,22 +75,28 @@ public class Level {
 			platforms.add(new Platform(11, 24, 4, 1, basic));
 			platforms.add(new Platform(17, 23, 4, 1, basic));
 			platforms.add(new Platform(24, 22, 4, 2, basic));
-			platforms.add(new Platform(16, 19, 4, 1, basic));
+			platforms.add(new Platform(18, 19, 2, 1, basic));
 			platforms.add(new Platform(12, 16, 4, 1, basic));
 			platforms.add(new Platform(18, 13, 3, 1, basic));
-			platforms.add(new Platform(21, 10, 7, 4, basic));
+			platforms.add(new Platform(21, 11, 7, 3, basic));
 			pickups.add(new Pickup(24, 6, "heal"));
 			platforms.add(new Platform(4, 10, 12, 1, basic));
 			platforms.add(new Platform(14, 8, 2, 2, basic));
 			platforms.add(new Platform(4, 6, 6, 4, basic));
 			//wall
-			platforms.add(new Platform(0, -10, 4, 50, basic));
-			platforms.add(new Platform(28, -10, 4, 50, basic));
+			platforms.add(new Platform(-12, -10, (4+12), 50, basic));
+			platforms.add(new Platform(28, -10, (4+12), 12, basic));
+			platforms.add(new Platform(28, 6, (4+12), 34, basic));
+			platforms.add(new Platform(44, -10, 20, 12, 5)); //upper grass
+			platforms.add(new Platform(44, 6, 20, 34, 5)); //lower grass
+			platforms.add(new Platform(64, 8, 3, 32, 5)); //far grass
+			//platforms.add(new Platform(28, -10, (4+12), 50, basic)); //solid
+			
 			//ceiling
 			platforms.add(new Platform(4, -10, 2, 12, basic));
 			platforms.add(new Platform(9, -10, 19, 12, basic));
 			//enemy
-			actors.add(new GoombaEnemy((22*function.scaleX(64)), (8*function.scaleY(64)), (21*function.scaleX(64)), (27*function.scaleY(64)), false));	
+			actors.add(new GoombaEnemy((22*function.scaleX(64)), (9*function.scaleY(64)), (21*function.scaleX(64)), (27*function.scaleY(64)), false));	
 			levelW = 7396;
 			levelH = 4160;
 			miniXOffset = 2674;
@@ -119,8 +124,8 @@ public class Level {
 			pickups.add(new Pickup(11, 9, "heal"));
 				
 			//wall
-			platforms.add(new Platform(0, -10, 4, 66, basic));
-			platforms.add(new Platform(28, -10, 4, 66, basic));
+			platforms.add(new Platform(-12, -10, (4+12), 66, basic));
+			platforms.add(new Platform(28, -10, (4+12), 66, basic));
 			//ceiling
 			platforms.add(new Platform(4, -10, 11, 12, basic));
 			platforms.add(new Platform(18, -10, 10, 12, basic));
@@ -154,9 +159,9 @@ public class Level {
 			miniXOffset = 7509 / 2 - 2048 / 2;
 			miniYOffset = 608;
 			break;
-		case 103: //Crash Zone Ship Entrance
+		case 200: //Crash Zone Ship Entrance
 			basic = 6;
-			curLevel = 103;
+			curLevel = 200;
 			platforms.add(new Platform(-16, 40, 77, 16, 5));
 			platforms.add(new Platform(-16, 35, 54, 3, basic));
 			platforms.add(new Platform(40, 37, 3, 3, basic));
@@ -186,9 +191,9 @@ public class Level {
 			miniXOffset = 7509 / 2 - 2048 / 2;
 			miniYOffset = 608;
 			break;
-		case 104: //Ship Main Hall
+		case 201: //Ship Main Hall
 			basic = 6;
-			curLevel = 104;
+			curLevel = 201;
 			//floor roof
 			platforms.add(new Platform(-31, 40, 103, 16, 5));
 			platforms.add(new Platform(-31, 35, 103, 3, basic));
@@ -203,7 +208,7 @@ public class Level {
 			//climb up
 			platforms.add(new Platform(33, 19, 2, 13, basic));
 			platforms.add(new Platform(44, 18, 28, 11, basic));
-			platforms.add(new Platform(44, 5, 13, 13, basic));
+			platforms.add(new Platform(44, -15, 13, 33, basic));
 
 			platforms.add(new Platform(41, 34, 3, 1, basic));
 			platforms.add(new Platform(35, 31, 4, 1, basic));
@@ -234,7 +239,7 @@ public class Level {
 			platforms.add(new Platform(-31, 38, 3, 2, basic));
 
 			//other room
-			platforms.add(new Platform(57, 5, 12, 13, basic));
+			platforms.add(new Platform(57, -15, 12, 33, basic));
 
 			//enemy
 			actors.add(new DroneEnemy((16*function.scaleX(64)), (13*function.scaleY(64))));
@@ -252,9 +257,9 @@ public class Level {
 			miniXOffset = 7509 / 2 - 2048 / 2;
 			miniYOffset = 608;
 			break;
-		case 105: //Ship Final Challenge
+		case 202: //Ship Final Challenge
 			basic = 6;
-			curLevel = 105;
+			curLevel = 202;
 
 			//floor roof
 			platforms.add(new Platform(-30, 35, 102, 15, basic));
@@ -297,8 +302,8 @@ public class Level {
 			actors.add(new ElectricHazard(28, 34, 2, 1));
 
 			//center
-			platforms.add(new Platform(3, 24, 2, 11, basic));
-			platforms.add(new Platform(4, 16, 8, 5, basic));
+			platforms.add(new Platform(3, 23, 2, 12, basic));
+			platforms.add(new Platform(4, 16, 8, 4, basic));
 			actors.add(new ElectricHazard(5, 25, 6, 1));
 			actors.add(new ElectricHazard(5, 26, 6, 1));
 			actors.add(new ElectricHazard(5, 27, 6, 1));
@@ -307,8 +312,8 @@ public class Level {
 			actors.add(new ElectricHazard(5, 30, 6, 1));
 			pickups.add(new Pickup(8, 14, "dash"));
 
-			//left (blocked off for this checkpoint)
-			platforms.add(new Platform(0, 24, 3, 11, basic));
+			//left (blocked off)
+			platforms.add(new Platform(0, 23, 3, 12, basic));
 			pickups.add(new Pickup(2, 22, "heal"));
 			platforms.add(new Platform(-30, 10, 30, 25, basic));
 
@@ -320,11 +325,55 @@ public class Level {
 		case 300: //Waterfall Crash Zone Entrance
 			basic = 5;
 			curLevel = 300;
-			platforms.add(new Platform(-15, 31, 31, 25, basic));
-			platforms.add(new Platform(16, 0, 2, 56, 0));
+			platforms.add(new Platform(-17, 31, 37, 27, basic));
+			platforms.add(new Platform(20, 31, 2, 5, basic));
+			//platforms.add(new Platform(22, 0, 2, 56, 0)); //barrier
+			platforms.add(new Platform(36, 31, 35, 27, basic)); //other side
+			platforms.add(new Platform(34, 31, 2, 5, basic)); //other side
+
+			//lower walls
+			//platforms.add(new Platform(-15, 58, 8, 116, 3)); //original purple
+			//platforms.add(new Platform(-7, 58, 20, 116, basic)); //original grass I think
+
+			platforms.add(new Platform(-17, 58, 10, 96, 3)); //purple ends here at earliest
+			platforms.add(new Platform(-17, 158, 10, 36, 3)); //purple ends here at earliest
+			platforms.add(new Platform(-7, 58, 20, 96, basic)); //left grass starts here at earliest. was 116 height
+			platforms.add(new Platform(-7, 158, 20, 36, basic)); //left grass starts here at earliest
+			platforms.add(new Platform(43, 58, 28, 136, basic)); //right grass
+
+			//chasm floor
+			platforms.add(new Platform(13, 160, 5, 34, basic)); //floor
+			platforms.add(new Platform(18, 162, 10, 32, basic)); //floor
+			platforms.add(new Platform(28, 164, 10, 30, basic)); //floor
+			platforms.add(new Platform(38, 162, 5, 32, basic)); //floor	
+
+			//other room
+			platforms.add(new Platform(61, 29, 4, 2, basic));
 
 			levelW = 7509;
-			levelH = 4224;
+			levelH = 7509;
+			miniXOffset = 7509 / 2 - 2048 / 2;
+			miniYOffset = 608;
+			break;
+		case 301: //Plains Entrance
+			basic = 5;
+			curLevel = 301;
+			platforms.add(new Platform(-17, 31, 110, 27, basic)); //floor
+
+			platforms.add(new Platform(8, 29, 4, 2, basic)); //0 outcrop
+			platforms.add(new Platform(17, 26, 2, 1, basic));
+			platforms.add(new Platform(25, 23, 2, 1, basic));
+			platforms.add(new Platform(32, 20, 4, 11, basic)); //first outcrop
+			platforms.add(new Platform(36, 23, 2, 8, basic));
+			platforms.add(new Platform(38, 26, 2, 5, basic));
+			platforms.add(new Platform(40, 29, 2, 2, basic));
+			platforms.add(new Platform(41, 17, 2, 1, basic)); //second section
+			platforms.add(new Platform(49, 14, 2, 1, basic));
+			platforms.add(new Platform(57, 11, 36, 20, basic)); //second outcrop
+			//platforms.add(new Platform(64, 11, 4, 20, basic)); //second outcrop
+
+			levelW = 7509;
+			levelH = 7509;
 			miniXOffset = 7509 / 2 - 2048 / 2;
 			miniYOffset = 608;
 			break;
@@ -340,14 +389,36 @@ public class Level {
 			maxY = Math.max(p.getTileY() + p.getSizeH(), maxY);
 		}
 
-		tiles = new boolean[maxX - minX + 2][maxY - minY + 2];
-		platformArray = new Platform[maxX - minX + 2][maxY - minY + 2];
+		tiles = new int[maxX - minX + 2][maxY - minY + 2];
+		values = new int[maxX - minX + 2][maxY - minY + 2];
+
+		for (int i = 0; i < maxX - minX + 2; i++) {
+			for (int b = 0; b < maxY - minY + 2; b++) {
+				tiles[i][b] = 0;
+			}
+		}
 
 		for (Platform p : platforms) {
 			for (int i = 0; i < p.getSizeW(); i++) {
 				for (int b = 0; b < p.getSizeH(); b++) {
-					tiles[p.getTileX() + i - minX + 1][p.getTileY() + b - minY + 1] = true;
-					platformArray[p.getTileX() + i - minX + 1][p.getTileY() + b - minY + 1] = p;
+					tiles[p.getTileX() + i - minX + 1][p.getTileY() + b - minY + 1] = (p.getSizeH() == 1 || p.getSizeW() == 1) ? -1 : 1;
+				}
+			}
+		}
+
+		for (int i = 0; i < maxX - minX + 2; i++) {
+			for (int b = 0; b < maxY - minY + 2; b++) {
+				values[i][b] = tiles[i][b];
+				if (values[i][b] != 0) {
+					if (tiles[i][b-1] == 1) values[i][b] *= 2;
+					if (tiles[i+1][b] == 1) values[i][b] *= 3;
+					if (tiles[i][b+1] == 1) values[i][b] *= 5;
+					if (tiles[i-1][b] == 1) values[i][b] *= 7;
+
+					if (tiles[i][b-1] == -1) values[i][b] *= 11;
+					if (tiles[i+1][b] == -1) values[i][b] *= 13;
+					if (tiles[i][b+1] == -1) values[i][b] *= 17;
+					if (tiles[i-1][b] == -1) values[i][b] *= 19;
 				}
 			}
 		}
