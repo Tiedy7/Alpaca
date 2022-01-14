@@ -14,7 +14,7 @@ public class Engine extends StateBasedGame
 {
 	public final static int RESOLUTION_X = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
 	public final static int RESOLUTION_Y = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-	public final static int FRAMES_PER_SECOND = 60;
+	public final static int FRAMES_PER_SECOND = 65;
 	
 
     public static final int introScreen = 0;
@@ -70,6 +70,5 @@ public class Engine extends StateBasedGame
 		{
 			e.printStackTrace();
 		}
-
 	}
 }
