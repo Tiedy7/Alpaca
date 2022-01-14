@@ -26,8 +26,7 @@ public class Level {
 	
 	public static int minX, minY, maxX, maxY;
 	
-	public static boolean[][] tiles;
-	public static Platform[][] platformArray;
+	public static int[][] tiles, values;
 	
 	public Level(int level) {
 		//Note: platforms are generated at x * Game.function.scaleX(64). Keep that in mind when placing other actors.
@@ -340,14 +339,36 @@ public class Level {
 			maxY = Math.max(p.getTileY() + p.getSizeH(), maxY);
 		}
 
-		tiles = new boolean[maxX - minX + 2][maxY - minY + 2];
-		platformArray = new Platform[maxX - minX + 2][maxY - minY + 2];
-
+		tiles = new int[maxX - minX + 2][maxY - minY + 2];
+		values = new int[maxX - minX + 2][maxY - minY + 2];
+		
+		for (int i = 0; i < maxX - minX + 2; i++) {
+			for (int b = 0; b < maxY - minY + 2; b++) {
+				tiles[i][b] = 0;
+			}
+		}
+		
 		for (Platform p : platforms) {
 			for (int i = 0; i < p.getSizeW(); i++) {
 				for (int b = 0; b < p.getSizeH(); b++) {
-					tiles[p.getTileX() + i - minX + 1][p.getTileY() + b - minY + 1] = true;
-					platformArray[p.getTileX() + i - minX + 1][p.getTileY() + b - minY + 1] = p;
+					tiles[p.getTileX() + i - minX + 1][p.getTileY() + b - minY + 1] = (p.getSizeH() == 1 || p.getSizeW() == 1) ? -1 : 1;
+				}
+			}
+		}
+		
+		for (int i = 0; i < maxX - minX + 2; i++) {
+			for (int b = 0; b < maxY - minY + 2; b++) {
+				values[i][b] = tiles[i][b];
+				if (values[i][b] != 0) {
+					if (tiles[i][b-1] == 1) values[i][b] *= 2;
+					if (tiles[i+1][b] == 1) values[i][b] *= 3;
+					if (tiles[i][b+1] == 1) values[i][b] *= 5;
+					if (tiles[i-1][b] == 1) values[i][b] *= 7;
+					
+					if (tiles[i][b-1] == -1) values[i][b] *= 11;
+					if (tiles[i+1][b] == -1) values[i][b] *= 13;
+					if (tiles[i][b+1] == -1) values[i][b] *= 17;
+					if (tiles[i-1][b] == -1) values[i][b] *= 19;
 				}
 			}
 		}
