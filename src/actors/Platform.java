@@ -53,137 +53,234 @@ public class Platform {
 		platform.setFilter(Image.FILTER_NEAREST);
 		platform.startUse();
 		for (int i = 0; i < sizeW; i++) {
-			for (int b = 0; b < sizeH; b++) {	
-				if (sizeH == 1 && sizeW == 1) {
-					platform.getSubImage(4,1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
-				} else
-				if (sizeH == 1) {
-					if (i == 0) {
-						if (Game.level.tiles[tileX - Game.level.minX + i][tileY - Game.level.minY + b + 1]) {
-							platform.getSubImage(3, 0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
-						} else {
-							platform.getSubImage(3, 1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
-						}
-					} else
-					if (i == sizeW - 1) {
-						if (Game.level.tiles[tileX - Game.level.minX + i + 2][tileY - Game.level.minY + b + 1]) {
-							platform.getSubImage(3, 0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
-						} else {
-							platform.getSubImage(5, 1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
-						}
-					} else {
-						platform.getSubImage(3, 0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
-					}
-				} else
-				if (sizeW == 1) {
-					if (i == 0) {
-						if (Game.level.tiles[tileX - Game.level.minX + i + 1][tileY - Game.level.minY + b]) {
-							platform.getSubImage(5, 0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
-						} else {
-							platform.getSubImage(4, 0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
-						}					
-					} else
-					if (i == sizeW - 1) {
-						if (Game.level.tiles[tileX - Game.level.minX + i + 1][tileY - Game.level.minY + b + 2]) {
-							platform.getSubImage(5, 0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
-						} else {
-							platform.getSubImage(4, 0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
-						}					} else {
-						platform.getSubImage(5, 0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
-					}
-				} else
-				if (b == 0) {
-					if (i == 0) {
-						if (Game.level.tiles[tileX - Game.level.minX + i][tileY - Game.level.minY + b + 1]) {
-							if (Game.level.tiles[tileX - Game.level.minX + i + 1][tileY - Game.level.minY + b]) {
-								platform.getSubImage(0, 0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
-							} else {
-								platform.getSubImage(1, 0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
-							}						
-						} else {
-							if (Game.level.tiles[tileX - Game.level.minX + i + 1][tileY - Game.level.minY + b] && Game.level.tiles[tileX - Game.level.minX + i + 1][tileY - Game.level.minY + b + 2]) {
-								platform.getSubImage(0, 1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
-							} else {
-								platform.getSubImage(0, 0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
-							}						}
-					} else
-					if (i == sizeW - 1) {
-						if (Game.level.tiles[tileX - Game.level.minX + i + 2][tileY - Game.level.minY + b + 1]) {
-							if (Game.level.tiles[tileX - Game.level.minX + i + 1][tileY - Game.level.minY + b]) {
-								platform.getSubImage(1, 1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
-							} else {
-								platform.getSubImage(1, 0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
-							}
-						} else {
-							if (Game.level.tiles[tileX - Game.level.minX + i + 1][tileY - Game.level.minY + b] && Game.level.tiles[tileX - Game.level.minX + i + 1][tileY - Game.level.minY + b + 2]) {
-								platform.getSubImage(2, 1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
-							} else {
-								platform.getSubImage(2, 0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
-							}						}
-					} else {
-						if (Game.level.tiles[tileX - Game.level.minX + i + 1][tileY - Game.level.minY + b]) {
-							platform.getSubImage(1, 1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
-						} else  {
-							platform.getSubImage(1, 0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
-						}
-					}
-				} else
-				if (b == sizeH - 1) {
-					if (i == 0) {
-						if (Game.level.tiles[tileX - Game.level.minX + i][tileY - Game.level.minY + b + 1]) {
-							if (Game.level.tiles[tileX - Game.level.minX + i + 1][tileY - Game.level.minY + b + 2]) {
-								platform.getSubImage(1, 1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
-							} else {
-								platform.getSubImage(1, 2).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
-							}
-						} else
-						if (Game.level.tiles[tileX - Game.level.minX + i + 1][tileY - Game.level.minY + b + 2]) {
-							platform.getSubImage(0, 1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
-						} else {
-							platform.getSubImage(0, 2).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
-						}
-					} else
-					if (i == sizeW - 1) {
-						if (Game.level.tiles[tileX - Game.level.minX + i + 2][tileY - Game.level.minY + b + 1]) {
-							if (Game.level.tiles[tileX - Game.level.minX + i + 1][tileY - Game.level.minY + b + 2]) {
-								platform.getSubImage(1, 1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
-							} else {
-							platform.getSubImage(1, 2).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
-							}
-						} else 
-						if (Game.level.tiles[tileX - Game.level.minX + i + 1][tileY - Game.level.minY + b + 2]) {
-							platform.getSubImage(2, 1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
-						} else {
-							platform.getSubImage(2, 2).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+			for (int b = 0; b < sizeH; b++) {
+				switch (Game.level.values[tileX - Game.level.minX + i + 1][tileY - Game.level.minY + b + 1]) {
+				case 14: 
+				case 182: 
+				case 238: 
+				case 3094: platform.getSubImage(2,2).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+				break;
+				case 6: 
+				case 114: 
+				case 102: 
+				case 1938: platform.getSubImage(0,2).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+				break;
+				case 15: 
+				case 285: 
+				case 165: 
+				case 3135: platform.getSubImage(0,0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+				break;
+				case 35: 
+				case 385: 
+				case 455: 
+				case 5005: platform.getSubImage(2,0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+				break;
+				case 30: 
+				case 570: platform.getSubImage(0,1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+				break;
+				case 42: 
+				case 714: platform.getSubImage(1,2).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+				break;
+				case 70: 
+				case 910: platform.getSubImage(2,1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+				break;
+				case 105: 
+				case 1155: platform.getSubImage(1,0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+				break;
+				case 210: platform.getSubImage(1,1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+				//ADD STUFF HERE FOR INTERIOR CORNERS ONCE THE THINGS ARE DRAWN!
+				break;
+				case -19: 
+				case -57: 
+				case -38:
+				case (-19 * 5):
+				case -266: 
+				case -665: platform.getSubImage(5,1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+				break;
+				case -11: 
+				case -55: 
+				case (-11 * 7):
+				case (-11 * 3):
+				case -385: 
+				case -165: platform.getSubImage(4,2).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+				break;
+				case -13: 
+				case -91: 
+				case (-13 * 2):
+				case (-13 * 5):
+				case -182: 
+				case -455: platform.getSubImage(3,1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+				break;
+				case -17: 
+				case -34: 
+				case (-17 * 7):
+				case (-17 * 3):
+				case -102: 
+				case -238: platform.getSubImage(4,0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+				break;
+				case -247: 
+				case -247 * 2: 
+				case -247 * 5: platform.getSubImage(3,0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+				break;
+				case -187: 
+				case -187 * 7: 
+				case -187 * 3: platform.getSubImage(5,0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+				break;
+				case -1001: if (sizeW == 1) platform.getSubImage(3,1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+							if (sizeH == 1) platform.getSubImage(4,2).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+				break;
+				case -2717: if (sizeW == 1) platform.getSubImage(4,2).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+							if (sizeH == 1) platform.getSubImage(3,0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+				break;
+				case -627: 	if (sizeW == 1) platform.getSubImage(4,2).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+							if (sizeH == 1) platform.getSubImage(5,1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+				break;
+				case -221: 	if (sizeW == 1) platform.getSubImage(4,0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+							if (sizeH == 1) platform.getSubImage(3,1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+				break;
+				case -2431: if (sizeW == 1) platform.getSubImage(5,0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+							if (sizeH == 1) platform.getSubImage(3,1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+				break;
+				case -10659:if (sizeW == 1) platform.getSubImage(5,0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+							if (sizeH == 1) platform.getSubImage(5,1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+				break;
+				}
 
-						}
-					} else {
-						if (Game.level.tiles[tileX - Game.level.minX + i + 1][tileY - Game.level.minY + b + 2]) {
-							platform.getSubImage(1, 1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
-						} else {
-							platform.getSubImage(1, 2).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
-						}
-					}
-				} else {
-					if (i == 0) {
-						if (Game.level.tiles[tileX - Game.level.minX + i][tileY - Game.level.minY + b + 1]) {
-							platform.getSubImage(1, 1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
-						} else {
-							platform.getSubImage(0, 1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
-						}
-					} else
-					if (i == sizeW - 1) {
-						if (Game.level.tiles[tileX - Game.level.minX + i + 2][tileY - Game.level.minY + b + 1]) {
-							platform.getSubImage(1, 1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
-						} else {
-							platform.getSubImage(2, 1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
-						}
-					} else {
-						platform.getSubImage(1, 1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
-					}
+//		for (int i = 0; i < sizeW; i++) {
+//			for (int b = 0; b < sizeH; b++) {	
+//				if (sizeH == 1 && sizeW == 1) {
+//					platform.getSubImage(4,1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+//				} else
+//				if (sizeH == 1) {
+//					if (i == 0) {
+//						if (Game.level.tiles[tileX - Game.level.minX + i][tileY - Game.level.minY + b + 1]) {
+//							platform.getSubImage(3, 0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+//						} else {
+//							platform.getSubImage(3, 1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+//						}
+//					} else
+//					if (i == sizeW - 1) {
+//						if (Game.level.tiles[tileX - Game.level.minX + i + 2][tileY - Game.level.minY + b + 1]) {
+//							platform.getSubImage(3, 0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+//						} else {
+//							platform.getSubImage(5, 1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+//						}
+//					} else {
+//						platform.getSubImage(3, 0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+//					}
+//				} else
+//				if (sizeW == 1) {
+//					if (i == 0) {
+//						if (Game.level.tiles[tileX - Game.level.minX + i + 1][tileY - Game.level.minY + b]) {
+//							platform.getSubImage(5, 0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+//						} else {
+//							platform.getSubImage(4, 0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+//						}					
+//					} else
+//					if (i == sizeW - 1) {
+//						if (Game.level.tiles[tileX - Game.level.minX + i + 1][tileY - Game.level.minY + b + 2]) {
+//							platform.getSubImage(5, 0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+//						} else {
+//							platform.getSubImage(4, 0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+//						}					} else {
+//						platform.getSubImage(5, 0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+//					}
+//				} else
+//				if (b == 0) {
+//					if (i == 0) {
+//						if (Game.level.tiles[tileX - Game.level.minX + i][tileY - Game.level.minY + b + 1]) {
+//							if (Game.level.tiles[tileX - Game.level.minX + i + 1][tileY - Game.level.minY + b]) {
+//								platform.getSubImage(0, 0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+//							} else {
+//								platform.getSubImage(1, 0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+//							}						
+//						} else {
+//							if (Game.level.tiles[tileX - Game.level.minX + i + 1][tileY - Game.level.minY + b] && Game.level.tiles[tileX - Game.level.minX + i + 1][tileY - Game.level.minY + b + 2]) {
+//								platform.getSubImage(0, 1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+//							} else {
+//								platform.getSubImage(0, 0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+//							}						}
+//					} else
+//					if (i == sizeW - 1) {
+//						if (Game.level.tiles[tileX - Game.level.minX + i + 2][tileY - Game.level.minY + b + 1]) {
+//							if (Game.level.tiles[tileX - Game.level.minX + i + 1][tileY - Game.level.minY + b]) {
+//								platform.getSubImage(1, 1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+//							} else {
+//								platform.getSubImage(1, 0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+//							}
+//						} else {
+//							if (Game.level.tiles[tileX - Game.level.minX + i + 1][tileY - Game.level.minY + b] && Game.level.tiles[tileX - Game.level.minX + i + 1][tileY - Game.level.minY + b + 2]) {
+//								platform.getSubImage(2, 1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+//							} else {
+//								platform.getSubImage(2, 0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+//							}						}
+//					} else {
+//						if (Game.level.tiles[tileX - Game.level.minX + i + 1][tileY - Game.level.minY + b]) {
+//							platform.getSubImage(1, 1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+//						} else  {
+//							platform.getSubImage(1, 0).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+//						}
+//					}
+//				} else
+//				if (b == sizeH - 1) {
+//					if (i == 0) {
+//						if (Game.level.tiles[tileX - Game.level.minX + i][tileY - Game.level.minY + b + 1]) {
+//							if (Game.level.tiles[tileX - Game.level.minX + i + 1][tileY - Game.level.minY + b + 2]) {
+//								platform.getSubImage(1, 1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+//							} else {
+//								platform.getSubImage(1, 2).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+//							}
+//						} else
+//						if (Game.level.tiles[tileX - Game.level.minX + i + 1][tileY - Game.level.minY + b + 2]) {
+//							platform.getSubImage(0, 1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+//						} else {
+//							platform.getSubImage(0, 2).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+//						}
+//					} else
+//					if (i == sizeW - 1) {
+//						if (Game.level.tiles[tileX - Game.level.minX + i + 2][tileY - Game.level.minY + b + 1]) {
+//							if (Game.level.tiles[tileX - Game.level.minX + i + 1][tileY - Game.level.minY + b + 2]) {
+//								platform.getSubImage(1, 1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+//							} else {
+//							platform.getSubImage(1, 2).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+//							}
+//						} else 
+//						if (Game.level.tiles[tileX - Game.level.minX + i + 1][tileY - Game.level.minY + b + 2]) {
+//							platform.getSubImage(2, 1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+//						} else {
+//							platform.getSubImage(2, 2).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+//
+//						}
+//					} else {
+//						if (Game.level.tiles[tileX - Game.level.minX + i + 1][tileY - Game.level.minY + b + 2]) {
+//							platform.getSubImage(1, 1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+//						} else {
+//							platform.getSubImage(1, 2).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+//						}
+//					}
+//				} else {
+//					if (i == 0) {
+//						if (Game.level.tiles[tileX - Game.level.minX + i][tileY - Game.level.minY + b + 1]) {
+//							platform.getSubImage(1, 1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+//						} else {
+//							platform.getSubImage(0, 1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+//						}
+//					} else
+//					if (i == sizeW - 1) {
+//						if (Game.level.tiles[tileX - Game.level.minX + i + 2][tileY - Game.level.minY + b + 1]) {
+//							platform.getSubImage(1, 1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+//						} else {
+//							platform.getSubImage(2, 1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+//						}
+//					} else {
+//						platform.getSubImage(1, 1).drawEmbedded(this.x + difX + i * Functions.scaleX(64), y + difY + b * Functions.scaleY(64), Functions.scaleX(64), Functions.scaleY(64));
+//					}
+//				}
+//			}
+//		}
 				}
 			}
-		}
+		
 		platform.endUse();
 	}
 	
