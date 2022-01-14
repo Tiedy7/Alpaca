@@ -20,11 +20,13 @@ public class Actor {
 	protected boolean invincible = false;
 	protected float F;
 	
+	
 	protected boolean isPlayer, isProjectile, isEnemy;
 	
 	public Actor() {
 		damageTimer = 0;
 		F = 10;
+		
 	}
 	
 	public void render(Graphics g, float difX, float difY) {
@@ -37,6 +39,8 @@ public class Actor {
 		
 	public void update() {
 		if (damageTimer < 12) damageTimer++;
+	
+	
 	}
 	
 
@@ -78,12 +82,15 @@ public class Actor {
 		
 		if (d == Direction.UP) {
 			
-			vy = -25;
+			vy = -5;
+			
 		}
 		if (d == Direction.DOWN) {
 			
-			vy = 25;
+			vy = 5;
+			
 		}
+		
 		if (d == Direction.RIGHT) {
 			
 			vx  = 25;
