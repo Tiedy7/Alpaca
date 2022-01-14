@@ -330,6 +330,8 @@ public class Game extends BasicGameState
 			
 		}
 		
+		
+		
 		playerX = player.getX();
 		playerY = player.getY();
 		playerW = player.getW();
@@ -430,11 +432,16 @@ public class Game extends BasicGameState
 				player.setX(function.scaleX(64*9));
 				player.setY(function.scaleY(64*38));
 			}
+			if (player.getX()>(51*function.scaleX(64))) {
+				changeLevel(300);
+				player.setX(function.scaleX(64*0));
+				player.setY(function.scaleY(64*152)+player.getY());
+			}
 		}
 		if (Level.getLevel()==101) {
 			if (player.getY()<(1*function.scaleY(64))) {
 				changeLevel(102);
-				//player.setX(function.scaleX(64*9));
+				player.setX(function.scaleX(64*11)); //might not want to set position. Good for speedrunning though.
 				player.setY(function.scaleY(64*38));
 			}
 			if (player.getY()>(41*function.scaleY(64))) {
@@ -450,7 +457,7 @@ public class Game extends BasicGameState
 				player.setY(function.scaleY(64*2));
 			}
 			if (player.getX()<(0*function.scaleX(64))) {
-				changeLevel(103);
+				changeLevel(200);
 				player.setX(function.scaleX(64*49));
 				//player.setY(function.scaleY(64*38));
 			}
@@ -460,33 +467,33 @@ public class Game extends BasicGameState
 				//player.setY(function.scaleY(64*29));
 			}
 		}
-		if (Level.getLevel()==103) {
+		if (Level.getLevel()==200) {
 			if (player.getX()>(50*function.scaleX(64))) {
 				changeLevel(102);
 				player.setX(function.scaleX(64*1));
 				//player.setY(function.scaleY(64*38));
 			}
 			if (player.getX()<(0*function.scaleX(64))) {
-				changeLevel(104);
+				changeLevel(201);
 				player.setX(function.scaleX(64*54));
 				//player.setY(function.scaleY(64*38));
 			}
 		}
-		if (Level.getLevel()==104) {
+		if (Level.getLevel()==201) {
 			if (player.getX()>(55*function.scaleX(64))) {
-				changeLevel(103);
+				changeLevel(200);
 				player.setX(function.scaleX(64*1));
 				//player.setY(function.scaleY(64*38));
 			}
 			if (player.getX()<(-15*function.scaleX(64))) {
-				changeLevel(105);
+				changeLevel(202);
 				player.setX(function.scaleX(64*52));
 				player.setY((function.scaleY(64*20))+player.getY());
 			}
 		}
-		if (Level.getLevel()==105) {
+		if (Level.getLevel()==202) {
 			if (player.getX()>(52*function.scaleX(64))) {
-				changeLevel(104);
+				changeLevel(201);
 				player.setX(function.scaleX(64*-15));
 				player.setY(-(function.scaleY(64*20))+player.getY());
 			}
@@ -494,9 +501,27 @@ public class Game extends BasicGameState
 		
 		if (Level.getLevel()==300) {
 			if (player.getX()<(0*function.scaleX(64))) {
-				changeLevel(102);
-				player.setX(function.scaleX(64*47));
-				//player.setY(function.scaleY(64*29));
+				if (player.getY()>(100*function.scaleY(64))) {
+					changeLevel(100);
+					player.setX(function.scaleX(64*51));
+					player.setY(-(function.scaleY(64*152))+player.getY());
+				} else {
+					changeLevel(102);
+					player.setX(function.scaleX(64*47));
+					//player.setY(function.scaleY(64*29));
+				}
+			}
+			if (player.getX()>(53*function.scaleX(64))) {
+				changeLevel(301);
+				player.setX(function.scaleX(64*0));
+				//player.setY(-(function.scaleY(64*152))+player.getY());
+			}
+		}
+		if (Level.getLevel()==301) {
+			if (player.getX()<(0*function.scaleX(64))) {
+				changeLevel(300);
+				player.setX(function.scaleX(64*53));
+				//player.setY(-(function.scaleY(64*152))+player.getY());	
 			}
 		}
 		
@@ -546,7 +571,8 @@ public class Game extends BasicGameState
 		
 		if (key == Input.KEY_7) {
 			if (Level.getLevel()==0) {
-				changeLevel(105);
+				changeLevel(300);
+				player.setX(function.scaleY(64*40));
 			}
 		}
 	}
