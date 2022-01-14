@@ -129,13 +129,23 @@ public class GoombaEnemy extends Enemy {
 			Player.hitEnemyRight = false;
 		}
 		
+//		if (Player.hitEnemyUp) {
+//			knockback(Direction.UP);
+//			Player.hitEnemyUp = false;
+//		}
+//		
+//		if (Player.hitEnemyDown) {
+//			knockback(Direction.DOWN);
+//			Player.hitEnemyDown = false;
+//		}
+		
 		if (walkRow) {
 			walkRowNum = 1;
 		}
 		if (!walkRow) {
 			walkRowNum = 0;
 		}
-		
+		                                                                                                                                                                                                                                                                                                                          
 		//COLLISIONS
 		checkCollisions(Game.platforms);
 		contactDamage(Game.player, x, y, w, h);
