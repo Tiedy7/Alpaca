@@ -72,6 +72,7 @@ public class Game extends BasicGameState
 	private Image sDown = null;
 	private Image spaceJump = null;
 	private Image wUp = null;
+	private Image alpacaTitle = null;
 	
 //	private Image aMove = res/Tutorial Instructions (1)/aToLeft.png;
 	
@@ -159,9 +160,11 @@ public class Game extends BasicGameState
 		sDown.setFilter(Image.FILTER_NEAREST);
 		spaceJump = new Image("res/Tutorial Instructions (1)/spaceToJump.png");
 		spaceJump.setFilter(Image.FILTER_NEAREST);
+		alpacaTitle = new Image("res/Other Sprites/alpacaTitle.png");
+		alpacaTitle.setFilter(Image.FILTER_NEAREST);
 		healthBar = new Image("res/HealthBar.png");
 		healthBar.setFilter(Image.FILTER_NEAREST);
-		healthContainer = new Image("res/Health Case Update (1).png");
+		healthContainer = new Image("res/healthContainer.png");
 		healthContainer.setFilter(Image.FILTER_NEAREST);
 		
 		
@@ -235,10 +238,10 @@ public class Game extends BasicGameState
 		}
 		
 //		g.setColor(new Color(105,0,0));
-//		g.fillRect(function.scaleX(30),function.scaleY(30), (function.scaleX(64) * 6), function.scaleY(16) * 2);
+//		g.fillRect(Functions.scaleX(30),Functions.scaleY(30), (Functions.scaleX(64) * 6), Functions.scaleY(16) * 2);
 		
-		healthBar.draw(function.scaleX(30), function.scaleY(30), (float) ((function.scaleX(64)*6) - (function.scaleX(player.getPlayerMaxHealth()-player.getPlayerHealth()) * function.scaleX((384/player.getMaxHealth())))), function.scaleY(16)*2);
-		healthContainer.draw(function.scaleX(30), function.scaleY(30), function.scaleX(64)*6, function.scaleY(16)*2);
+		healthBar.draw(Functions.scaleX(30), Functions.scaleY(30), (float) ((Functions.scaleX(64)*6) - (Functions.scaleX(player.getPlayerMaxHealth()-player.getPlayerHealth()) * Functions.scaleX((384/player.getMaxHealth())))), Functions.scaleY(16)*2);
+		healthContainer.draw(Functions.scaleX(30), Functions.scaleY(30), Functions.scaleX(64)*6, Functions.scaleY(16)*2);
 
 		if (renderMinimap) level.minimapRender(g);
 		
@@ -251,6 +254,10 @@ public class Game extends BasicGameState
 			wUp.draw(Functions.scaleX((Game.gc.getWidth()/2)-(oTree.getWidth()/6)),Functions.scaleY((Game.gc.getHeight()/15)*6),Functions.scaleX(wUp.getWidth()/3),Functions.scaleY(wUp.getHeight()/3));
 			sDown.draw(Functions.scaleX((Game.gc.getWidth()/2)-(sDown.getWidth()/6)),Functions.scaleY((Game.gc.getHeight()/15)*7),Functions.scaleX(sDown.getWidth()/3),Functions.scaleY(sDown.getHeight()/3));
 			spaceJump.draw(Functions.scaleX((Game.gc.getWidth()/2)-(spaceJump.getWidth()/6)),Functions.scaleY((Game.gc.getHeight()/15)*8),Functions.scaleX(spaceJump.getWidth()/3),Functions.scaleY(spaceJump.getHeight()/3));
+		}
+		
+		if (Level.getLevel() == 400) {
+			alpacaTitle.draw(((Game.gc.getWidth()/2)-(alpacaTitle.getWidth()/2)),Functions.scaleY((Game.gc.getHeight()/15)*8),alpacaTitle.getWidth(),Functions.scaleY(alpacaTitle.getHeight()/1));
 		}
 	}
 
@@ -330,8 +337,6 @@ public class Game extends BasicGameState
 			
 		}
 		
-		
-		
 		playerX = player.getX();
 		playerY = player.getY();
 		playerW = player.getW();
@@ -370,9 +375,6 @@ public class Game extends BasicGameState
 			
 			
 			forward = false;
-			
-			Player.hitEnemyRight = false;
-			Player.hitEnemyLeft = false;
 			
 			jumping = false;
 			
@@ -421,110 +423,133 @@ public class Game extends BasicGameState
 	
 	
 	public void levelTransitions() {
-		if ((Level.getLevel()==000)&&(player.getX()>(42*function.scaleX(64)))) {
+		if ((Level.getLevel()==000)&&(player.getX()>(42*Functions.scaleX(64)))) {
 			changeLevel(100);
-			player.setX(function.scaleX(64*12));
-			player.setY(function.scaleY(64*38));
+			player.setX(Functions.scaleX(64*12));
+			player.setY(Functions.scaleY(64*38));
 		}
 		if (Level.getLevel()==100) {
-			if (player.getY()<(1*function.scaleY(64))) {
+			if (player.getY()<(1*Functions.scaleY(64))) {
 				changeLevel(101);
-				player.setX(function.scaleX(64*9));
-				player.setY(function.scaleY(64*38));
+				player.setX(Functions.scaleX(64*9));
+				player.setY(Functions.scaleY(64*38));
 			}
-			if (player.getX()>(51*function.scaleX(64))) {
+			if (player.getX()>(51*Functions.scaleX(64))) {
 				changeLevel(300);
-				player.setX(function.scaleX(64*0));
-				player.setY(function.scaleY(64*152)+player.getY());
+				player.setX(Functions.scaleX(64*0));
+				player.setY(Functions.scaleY(64*152)+player.getY());
 			}
 		}
 		if (Level.getLevel()==101) {
-			if (player.getY()<(1*function.scaleY(64))) {
+			if (player.getY()<(1*Functions.scaleY(64))) {
 				changeLevel(102);
-				player.setX(function.scaleX(64*11)); //might not want to set position. Good for speedrunning though.
-				player.setY(function.scaleY(64*38));
+				player.setX(Functions.scaleX(64*11)); //might not want to set position. Good for speedrunning though.
+				player.setY(Functions.scaleY(64*38));
 			}
-			if (player.getY()>(41*function.scaleY(64))) {
+			if (player.getY()>(41*Functions.scaleY(64))) {
 				changeLevel(100);
-				//player.setX(function.scaleX(64*8));
-				player.setY(function.scaleY(64*2));
+				//player.setX(Functions.scaleX(64*8));
+				player.setY(Functions.scaleY(64*2));
 			}
 		}
 		if (Level.getLevel()==102) {
-			if (player.getY()>(42*function.scaleY(64))) {
+			if (player.getY()>(42*Functions.scaleY(64))) {
 				changeLevel(101);
-				player.setX((function.scaleX(64*3))+player.getX());
-				player.setY(function.scaleY(64*2));
+				player.setX((Functions.scaleX(64*3))+player.getX());
+				player.setY(Functions.scaleY(64*2));
 			}
-			if (player.getX()<(0*function.scaleX(64))) {
+			if (player.getX()<(0*Functions.scaleX(64))) {
 				changeLevel(200);
-				player.setX(function.scaleX(64*49));
-				//player.setY(function.scaleY(64*38));
+				player.setX(Functions.scaleX(64*49));
+				//player.setY(Functions.scaleY(64*38));
 			}
-			if (player.getX()>(50*function.scaleX(64))) {
+			if (player.getX()>(50*Functions.scaleX(64))) {
 				changeLevel(300);
-				player.setX(function.scaleX(64*1));
-				//player.setY(function.scaleY(64*29));
+				player.setX(Functions.scaleX(64*1));
+				//player.setY(Functions.scaleY(64*29));
 			}
 		}
 		if (Level.getLevel()==200) {
-			if (player.getX()>(50*function.scaleX(64))) {
+			if (player.getX()>(50*Functions.scaleX(64))) {
 				changeLevel(102);
-				player.setX(function.scaleX(64*1));
-				//player.setY(function.scaleY(64*38));
+				player.setX(Functions.scaleX(64*1));
+				//player.setY(Functions.scaleY(64*38));
 			}
-			if (player.getX()<(0*function.scaleX(64))) {
+			if (player.getX()<(0*Functions.scaleX(64))) {
 				changeLevel(201);
-				player.setX(function.scaleX(64*54));
-				//player.setY(function.scaleY(64*38));
+				player.setX(Functions.scaleX(64*54));
+				//player.setY(Functions.scaleY(64*38));
 			}
 		}
 		if (Level.getLevel()==201) {
-			if (player.getX()>(55*function.scaleX(64))) {
+			if (player.getX()>(55*Functions.scaleX(64))) {
 				changeLevel(200);
-				player.setX(function.scaleX(64*1));
-				//player.setY(function.scaleY(64*38));
+				player.setX(Functions.scaleX(64*1));
+				//player.setY(Functions.scaleY(64*38));
 			}
-			if (player.getX()<(-15*function.scaleX(64))) {
+			if (player.getX()<(-15*Functions.scaleX(64))) {
 				changeLevel(202);
-				player.setX(function.scaleX(64*52));
-				player.setY((function.scaleY(64*20))+player.getY());
+				player.setX(Functions.scaleX(64*52));
+				player.setY((Functions.scaleY(64*20))+player.getY());
 			}
 		}
 		if (Level.getLevel()==202) {
-			if (player.getX()>(52*function.scaleX(64))) {
+			if (player.getX()>(52*Functions.scaleX(64))) {
 				changeLevel(201);
-				player.setX(function.scaleX(64*-15));
-				player.setY(-(function.scaleY(64*20))+player.getY());
+				player.setX(Functions.scaleX(64*-15));
+				player.setY(-(Functions.scaleY(64*20))+player.getY());
 			}
 		}
-		
 		if (Level.getLevel()==300) {
-			if (player.getX()<(0*function.scaleX(64))) {
-				if (player.getY()>(100*function.scaleY(64))) {
+			if (player.getX()<(0*Functions.scaleX(64))) {
+				if (player.getY()>(100*Functions.scaleY(64))) {
 					changeLevel(100);
-					player.setX(function.scaleX(64*51));
-					player.setY(-(function.scaleY(64*152))+player.getY());
+					player.setX(Functions.scaleX(64*51));
+					player.setY(-(Functions.scaleY(64*152))+player.getY());
 				} else {
 					changeLevel(102);
-					player.setX(function.scaleX(64*47));
-					//player.setY(function.scaleY(64*29));
+					player.setX(Functions.scaleX(64*47));
+					//player.setY(Functions.scaleY(64*29));
 				}
 			}
-			if (player.getX()>(53*function.scaleX(64))) {
+			if (player.getX()>(53*Functions.scaleX(64))) {
 				changeLevel(301);
-				player.setX(function.scaleX(64*0));
-				//player.setY(-(function.scaleY(64*152))+player.getY());
+				player.setX(Functions.scaleX(64*0));
+				//player.setY(-(Functions.scaleY(64*152))+player.getY());
 			}
 		}
 		if (Level.getLevel()==301) {
-			if (player.getX()<(0*function.scaleX(64))) {
+			if (player.getX()<(0*Functions.scaleX(64))) {
 				changeLevel(300);
-				player.setX(function.scaleX(64*53));
-				//player.setY(-(function.scaleY(64*152))+player.getY());	
+				player.setX(Functions.scaleX(64*53));
+				//player.setY(-(Functions.scaleY(64*152))+player.getY());	
+			}
+			if (player.getX()>(75*Functions.scaleX(64))) {
+				changeLevel(302);
+				player.setX(Functions.scaleX(64*0));
+				//player.setY(-(Functions.scaleY(64*152))+player.getY());	
 			}
 		}
-		
+		if (Level.getLevel()==302) {
+			if (player.getX()<(0*Functions.scaleX(64))) {
+				changeLevel(301);
+				player.setX(Functions.scaleX(64*75));
+				//player.setY(-(Functions.scaleY(64*152))+player.getY());	
+			}
+			if (player.getY()>(80*Functions.scaleY(64))) {
+				changeLevel(400);
+				player.setX(Functions.scaleX(64*17));
+				player.setY(Functions.scaleY(64*-10));	
+			}
+		}
+		if (Level.getLevel()==400) {
+			if (player.getY()<(-15*Functions.scaleY(64))) {
+				changeLevel(101);
+				player.setX(Functions.scaleX(64*0));
+				player.setY(Functions.scaleY(64*0));
+				Menu.superDwayne=true;
+			}
+		}
 	}
 
 	public void changeLevel(int newLevel) {
@@ -569,16 +594,17 @@ public class Game extends BasicGameState
 			}
 		}
 		
-		if (key == Input.KEY_7) {
-			if (Level.getLevel()==0) {
-				changeLevel(300);
-				player.setX(function.scaleY(64*40));
-			}
-		}
+//		if (key == Input.KEY_7) {
+//			if (Level.getLevel()==0) {
+//				changeLevel(302);
+//				player.setX(Functions.scaleX(64*70));
+//				player.setY(Functions.scaleY(64*30));
+//			}
+//		}
 	}
 	
 	public static void spawnFireball(float dx, float dy) {
-		fireball = new Fireball(player.getX()+function.scaleX(8), player.getY()+function.scaleY(16), (dx+function.scaleX(8)), (dy+function.scaleY(16)));
+		fireball = new Fireball(player.getX()+Functions.scaleX(8), player.getY()+Functions.scaleY(16), (dx+Functions.scaleX(8)), (dy+Functions.scaleY(16)));
 		// (dFireball!=null) {
 			projectiles.add(fireball);
 		//}
