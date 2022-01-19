@@ -198,7 +198,11 @@ public class Level {
 			platforms.add(new Platform(-31, 40, 103, 16, 5));
 			platforms.add(new Platform(-31, 35, 103, 3, basic));
 			platforms.add(new Platform(-31, -15, 75, 25, basic));
-
+			
+			
+			
+			
+			
 			//floor bumps
 			platforms.add(new Platform(7, 34, 2, 1, basic));
 			platforms.add(new Platform(14, 34, 2, 1, basic));
@@ -244,6 +248,8 @@ public class Level {
 			//enemy
 			actors.add(new DroneEnemy((16*function.scaleX(64)), (13*function.scaleY(64))));
 			actors.add(new DroneEnemy((30*function.scaleX(64)), (13*function.scaleY(64))));
+			actors.add(new DroneEnemy((34*function.scaleX(64)), (13*function.scaleY(64))));
+			actors.add(new DroneEnemy((40*function.scaleX(64)), (13*function.scaleY(64))));
 //			actors.add(new DroneEnemy((16*function.scaleX(64)), (30*function.scaleY(64))));
 
 			//hazard
@@ -369,9 +375,61 @@ public class Level {
 			platforms.add(new Platform(40, 29, 2, 2, basic));
 			platforms.add(new Platform(41, 17, 2, 1, basic)); //second section
 			platforms.add(new Platform(49, 14, 2, 1, basic));
+			actors.add(new GroundEnemy((42*function.scaleX(64)), (29*function.scaleY(64))));
 			platforms.add(new Platform(57, 11, 36, 20, basic)); //second outcrop
-			//platforms.add(new Platform(64, 11, 4, 20, basic)); //second outcrop
+			levelW = 7509;
+			levelH = 7509;
+			miniXOffset = 7509 / 2 - 2048 / 2;
+			miniYOffset = 608;
+			break;
+		case 302: //Plains Challenge
+			basic = 5;
+			curLevel = 302;
+			platforms.add(new Platform(-17, 11, 35, 21, basic)); //entrance
+			platforms.add(new Platform(-17, 32, 87, 45, basic)); //floor
+			platforms.add(new Platform(18, 14, 2, 18, basic)); //steps
+			platforms.add(new Platform(20, 17, 2, 15, basic)); //steps
+			platforms.add(new Platform(22, 20, 2, 12, basic)); //steps
+			platforms.add(new Platform(24, 23, 2, 9, basic)); //steps
+			platforms.add(new Platform(26, 26, 2, 6, basic)); //steps
+			platforms.add(new Platform(28, 29, 2, 3, basic)); //steps
 
+			actors.add(new GroundEnemy((30*function.scaleX(64)), (30*function.scaleY(64))));
+
+			platforms.add(new Platform(25, 11, 4, 1, basic)); //jumping
+			platforms.add(new Platform(35, 8, 4, 1, basic)); //jumping
+			platforms.add(new Platform(45, 5, 4, 27, basic)); //jumping
+			platforms.add(new Platform(33, 2, 4, 1, basic)); //jumping
+			platforms.add(new Platform(47, -1, 2, 2, basic)); //jumping
+			platforms.add(new Platform(49, -1, 21, 33, basic)); //jumping
+			platforms.add(new Platform(75, -1, 15, 78, basic)); //far wall
+			platforms.add(new Platform(-17, 77, 87, 30, 3)); //left floor
+			platforms.add(new Platform(75, 77, 15, 30, 3)); //far wall
+			platforms.add(new Platform(90, -41, 20, 148, basic)); //farthest wall
+
+
+			levelW = 7509;
+			levelH = 7509;
+			miniXOffset = 7509 / 2 - 2048 / 2;
+			miniYOffset = 608;
+			break;
+		case 400: //Last Cave
+			basic = 3;
+			curLevel = 400;
+			platforms.add(new Platform(-15, 30, 30, 30, basic)); //floor
+			platforms.add(new Platform(15, 29, 5, 31, 6)); //pedestal
+			platforms.add(new Platform(20, 30, 30, 30, basic)); //floor
+
+			platforms.add(new Platform(-15, 0, 25, 30, basic)); //wall
+			platforms.add(new Platform(25, 0, 25, 30, basic)); //wall
+
+			platforms.add(new Platform(-15, -40, 30, 40, basic)); //ceiling
+			platforms.add(new Platform(10, 0, 3, 3, basic)); //ceiling
+			platforms.add(new Platform(20, -40, 30, 40, basic)); //ceiling
+			platforms.add(new Platform(22, 0, 3, 3, basic)); //ceiling
+
+			pickups.add(new Pickup(12, 25, "wallJump"));
+			pickups.add(new Pickup(23, 25, "doubleJump"));
 			levelW = 7509;
 			levelH = 7509;
 			miniXOffset = 7509 / 2 - 2048 / 2;
