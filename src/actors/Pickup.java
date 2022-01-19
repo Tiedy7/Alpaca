@@ -14,6 +14,8 @@ public class Pickup {
 	protected int time;
 	protected Color color;
 	Image image = null;
+	Image kForDash = null;
+	Image oForTree = null;
 	
 	protected String type;
 	
@@ -40,11 +42,32 @@ public class Pickup {
 							break;
 		case "coin": 		setImage("res/coin.png");
 		}
+		
+		try {
+			oForTree = new Image("res/Tutorial Instructions (1)/oForTree.png");
+		} catch(SlickException e) {
+			System.out.println("Image not found! Pickup.java");
+		}
+		oForTree.setFilter(Image.FILTER_NEAREST);
+		
+		try {
+			kForDash = new Image("res/Tutorial Instructions (1)/kForDash.png");
+		} catch(SlickException e) {
+			System.out.println("Image not found! Pickup.java");
+		}
+		kForDash.setFilter(Image.FILTER_NEAREST);
 	}
 	
 	public void render(Graphics g, float px, float py) {
-		//THIS CAN BE REPLACED LATER WITH ACTUAL IMAGES TO LOOK BETTER
 		image.draw(x + px, y + py, w, h);
+		
+		if (type.equals("coin")) {
+			oForTree.draw(x + px + w / 2 - oForTree.getWidth() / 6, y + py - oForTree.getHeight() / 3, oForTree.getWidth() / 3, oForTree.getHeight() / 3);
+		}
+		
+		if (type.equals("dash")) {
+			kForDash.draw(x + px + w / 2 - kForDash.getWidth() / 6, y + py - kForDash.getHeight() / 3, kForDash.getWidth() / 3, kForDash.getHeight() / 3);
+		}
 	}
 	
 	public void update() {
