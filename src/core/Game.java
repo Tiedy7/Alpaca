@@ -44,7 +44,7 @@ public class Game extends BasicGameState
 	
 	public static ArrayList<Projectile> projectiles;
 	
-	
+	private Image alpacaTitle = null;
 	public static ArrayList<Pickup> pickups;
 	
 	public static boolean jumping;
@@ -116,7 +116,8 @@ public class Game extends BasicGameState
 		back = false;
 		
 		
-		
+		alpacaTitle = new Image("res/Other Sprites/alpacaTitle.png");
+		alpacaTitle.setFilter(Image.FILTER_NEAREST);
 		
 		
 		attackTimer = 0;
@@ -161,7 +162,7 @@ public class Game extends BasicGameState
 		spaceJump.setFilter(Image.FILTER_NEAREST);
 		healthBar = new Image("res/HealthBar.png");
 		healthBar.setFilter(Image.FILTER_NEAREST);
-		healthContainer = new Image("res/Health Case Update (1).png");
+		healthContainer = new Image("res/healthContainer.png");
 		healthContainer.setFilter(Image.FILTER_NEAREST);
 		
 		
@@ -237,10 +238,14 @@ public class Game extends BasicGameState
 //		g.setColor(new Color(105,0,0));
 //		g.fillRect(function.scaleX(30),function.scaleY(30), (function.scaleX(64) * 6), function.scaleY(16) * 2);
 		
-		healthBar.draw(function.scaleX(30), function.scaleY(30), (float) ((function.scaleX(64)*6) - (function.scaleX(player.getPlayerMaxHealth()-player.getPlayerHealth()) * function.scaleX((384/player.getMaxHealth())))), function.scaleY(16)*2);
-		healthContainer.draw(function.scaleX(30), function.scaleY(30), function.scaleX(64)*6, function.scaleY(16)*2);
-
+		healthBar.draw(Functions.scaleX(30), Functions.scaleY(30), (float) ((Functions.scaleX(64)*6) - (Functions.scaleX(player.getPlayerMaxHealth()-player.getPlayerHealth()) * Functions.scaleX((384/player.getMaxHealth())))), Functions.scaleY(16)*2);
+		healthContainer.draw(Functions.scaleX(30), Functions.scaleY(30), Functions.scaleX(64)*6, Functions.scaleY(16)*2);
+		
 		if (renderMinimap) level.minimapRender(g);
+		
+		if (Level.getLevel() == 400) {
+			alpacaTitle.draw(((Game.gc.getWidth()/2)-(alpacaTitle.getWidth()/2)),Functions.scaleY((Game.gc.getHeight()/15)*8),alpacaTitle.getWidth(),Functions.scaleY(alpacaTitle.getHeight()/1));
+		}
 		
 		if (Level.getLevel() == 0) {
 			aMove.draw(Functions.scaleX((Game.gc.getWidth()/2)-(aMove.getWidth()/6)),Functions.scaleY(Game.gc.getHeight()/15),Functions.scaleX(aMove.getWidth()/3),Functions.scaleY(aMove.getHeight()/3));
@@ -271,7 +276,7 @@ public class Game extends BasicGameState
 		
 		
 		if (player.getPlayerHealth() <= 0) {
-			sbg.enterState(6);;
+			sbg.enterState(6);
 		}
 		
 		if (forward) {
@@ -371,8 +376,8 @@ public class Game extends BasicGameState
 			
 			forward = false;
 			
-			Player.hitEnemyRight = false;
-			Player.hitEnemyLeft = false;
+			player.hitEnemyRight = false;
+			player.hitEnemyLeft = false;
 			
 			jumping = false;
 			
@@ -520,8 +525,33 @@ public class Game extends BasicGameState
 		if (Level.getLevel()==301) {
 			if (player.getX()<(0*function.scaleX(64))) {
 				changeLevel(300);
-				player.setX(function.scaleX(64*53));
-				//player.setY(-(function.scaleY(64*152))+player.getY());	
+				player.setX(Functions.scaleX(64*53));
+				//player.setY(-(Functions.scaleY(64*152))+player.getY());	
+			}
+			if (player.getX()>(75*Functions.scaleX(64))) {
+				changeLevel(302);
+				player.setX(Functions.scaleX(64*0));
+				//player.setY(-(Functions.scaleY(64*152))+player.getY());	
+			}
+		}
+		if (Level.getLevel()==302) {
+			if (player.getX()<(0*Functions.scaleX(64))) {
+				changeLevel(301);
+				player.setX(Functions.scaleX(64*75));
+				//player.setY(-(Functions.scaleY(64*152))+player.getY());	
+			}
+			if (player.getY()>(80*Functions.scaleY(64))) {
+				changeLevel(400);
+				player.setX(Functions.scaleX(64*17));
+				player.setY(Functions.scaleY(64*-10));	
+			}
+		}
+		if (Level.getLevel()==400) {
+			if (player.getY()<(-15*Functions.scaleY(64))) {
+				changeLevel(101);
+				player.setX(Functions.scaleX(64*0));
+				player.setY(Functions.scaleY(64*0));
+				Menu.superDwayne=true;
 			}
 		}
 		
@@ -569,16 +599,16 @@ public class Game extends BasicGameState
 			}
 		}
 		
-		if (key == Input.KEY_7) {
-			if (Level.getLevel()==0) {
-				changeLevel(300);
-				player.setX(function.scaleY(64*40));
-			}
-		}
+//		if (key == Input.KEY_7) {
+//			if (Level.getLevel()==0) {
+//				changeLevel(300);
+//				player.setX(function.scaleY(64*40));
+//			}
+//		}
 	}
 	
 	public static void spawnFireball(float dx, float dy) {
-		fireball = new Fireball(player.getX()+function.scaleX(8), player.getY()+function.scaleY(16), (dx+function.scaleX(8)), (dy+function.scaleY(16)));
+		fireball = new Fireball(player.getX()+Functions.scaleX(8), player.getY()+Functions.scaleY(16), (dx+Functions.scaleX(8)), (dy+Functions.scaleY(16)));
 		// (dFireball!=null) {
 			projectiles.add(fireball);
 		//}
