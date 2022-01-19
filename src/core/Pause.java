@@ -90,6 +90,7 @@ public class Pause extends BasicGameState
 		}
 		
 		if (restart) {
+			Game.levelsVisited.clear();
 			sbg.enterState(0);
 			restart = false;
 		}
