@@ -21,18 +21,32 @@ public class Level {
 	private static ArrayList<Pickup> pickups;
 	private Functions function = Game.function;
 	
+	private boolean visitedBefore;
+	
 	static int curLevel;
 	private float levelW, levelH, miniXOffset, miniYOffset;
+	
+	public int level;
 	
 	public static int minX, minY, maxX, maxY;
 	
 	public static int[][] tiles, values;
 	
 	public Level(int level) {
+		this.level = level;
+		
+		if (!Game.levelsVisited.contains(level)) {
+			Game.levelsVisited.add(level);
+			visitedBefore = false;
+		} else {
+			visitedBefore = true;
+		}
+		
 		//Note: platforms are generated at x * Game.function.scaleX(64). Keep that in mind when placing other actors.
 		platforms = new ArrayList<Platform>();
 		actors = new ArrayList<Actor>();
 		pickups = new ArrayList<Pickup>();
+		Game.checkpoint = level;
 		int basic;
 		switch (level) {
 		case 000:	//TUTORIAL LEVEL ??
@@ -41,8 +55,6 @@ public class Level {
 			//floor
 			platforms.add(new Platform(10, 12, 51, 30, basic));
 			platforms.add(new Platform(26, 10, 6, 2, basic));
-			pickups.add(new Pickup(28, 8, "heal"));
-			pickups.add(new Pickup(29, 8, "heal"));
 			//wall
 			platforms.add(new Platform(0, -10, 10, 52, basic));
 			platforms.add(new Platform(36, -10, 25, 18, basic));
@@ -79,7 +91,9 @@ public class Level {
 			platforms.add(new Platform(12, 16, 4, 1, basic));
 			platforms.add(new Platform(18, 13, 3, 1, basic));
 			platforms.add(new Platform(21, 11, 7, 3, basic));
-			pickups.add(new Pickup(24, 6, "heal"));
+			if (!visitedBefore) {
+				pickups.add(new Pickup(24, 6, "heal"));
+			}
 			platforms.add(new Platform(4, 10, 12, 1, basic));
 			platforms.add(new Platform(14, 8, 2, 2, basic));
 			platforms.add(new Platform(4, 6, 6, 4, basic));
@@ -121,8 +135,9 @@ public class Level {
 			platforms.add(new Platform(10, 10, 14, 1, basic));
 			platforms.add(new Platform(13, 8, 8, 2, basic));
 			platforms.add(new Platform(15, 6, 4, 2, basic));
-			pickups.add(new Pickup(11, 9, "heal"));
-				
+			if (!visitedBefore) {
+				pickups.add(new Pickup(11, 9, "heal"));
+			}
 			//wall
 			platforms.add(new Platform(-12, -10, (4+12), 66, basic));
 			platforms.add(new Platform(28, -10, (4+12), 66, basic));
@@ -198,11 +213,7 @@ public class Level {
 			platforms.add(new Platform(-31, 40, 103, 16, 5));
 			platforms.add(new Platform(-31, 35, 103, 3, basic));
 			platforms.add(new Platform(-31, -15, 75, 25, basic));
-			
-			
-			
-			
-			
+
 			//floor bumps
 			platforms.add(new Platform(7, 34, 2, 1, basic));
 			platforms.add(new Platform(14, 34, 2, 1, basic));
@@ -225,7 +236,9 @@ public class Level {
 			platforms.add(new Platform(26, 20, 3, 1, basic));
 			platforms.add(new Platform(20, 25, 3, 1, basic));
 			platforms.add(new Platform(12, 25, 3, 1, basic));
-			pickups.add(new Pickup(13, 23, "heal"));
+			if (!visitedBefore) {
+				pickups.add(new Pickup(13, 23, "heal"));
+			}
 			platforms.add(new Platform(7, 22, 3, 1, basic));
 			platforms.add(new Platform(12, 19, 3, 1, basic));
 			platforms.add(new Platform(2, 17, 4, 1, basic));
@@ -248,8 +261,6 @@ public class Level {
 			//enemy
 			actors.add(new DroneEnemy((16*function.scaleX(64)), (13*function.scaleY(64))));
 			actors.add(new DroneEnemy((30*function.scaleX(64)), (13*function.scaleY(64))));
-			actors.add(new DroneEnemy((34*function.scaleX(64)), (13*function.scaleY(64))));
-			actors.add(new DroneEnemy((40*function.scaleX(64)), (13*function.scaleY(64))));
 //			actors.add(new DroneEnemy((16*function.scaleX(64)), (30*function.scaleY(64))));
 
 			//hazard
@@ -285,7 +296,10 @@ public class Level {
 			platforms.add(new Platform(11, 24, 2, 7, basic));
 
 			platforms.add(new Platform(19, 23, 3, 1, basic));
-			pickups.add(new Pickup(20, 21, "heal"));
+			if (!visitedBefore) {
+				pickups.add(new Pickup(20, 21, "heal"));
+				pickups.add(new Pickup(7, 32, "heal"));
+			}
 			actors.add(new ElectricHazard(22, 23, 4, 1));
 			platforms.add(new Platform(26, 23, 2, 1, basic));
 			actors.add(new ElectricHazard(28, 23, 4, 1));
@@ -300,7 +314,7 @@ public class Level {
 
 			//fail
 			platforms.add(new Platform(5, 34, 6, 1, basic));
-			pickups.add(new Pickup(7, 32, "heal"));
+			
 			actors.add(new ElectricHazard(11, 34, 2, 1));
 			platforms.add(new Platform(13, 34, 7, 1, basic));
 			actors.add(new ElectricHazard(20, 34, 2, 1));
@@ -315,12 +329,13 @@ public class Level {
 			actors.add(new ElectricHazard(5, 27, 6, 1));
 			actors.add(new ElectricHazard(5, 28, 6, 1));
 			actors.add(new ElectricHazard(5, 29, 6, 1));
-			actors.add(new ElectricHazard(5, 30, 6, 1));
+			actors.add(new ElectricHazard(5, 30, 6, 1));				
 			pickups.add(new Pickup(8, 14, "dash"));
-
+			if (!visitedBefore) {
+				pickups.add(new Pickup(2, 22, "heal"));
+			}
 			//left (blocked off)
 			platforms.add(new Platform(0, 23, 3, 12, basic));
-			pickups.add(new Pickup(2, 22, "heal"));
 			platforms.add(new Platform(-30, 10, 30, 25, basic));
 
 			levelW = 7509;
@@ -375,61 +390,9 @@ public class Level {
 			platforms.add(new Platform(40, 29, 2, 2, basic));
 			platforms.add(new Platform(41, 17, 2, 1, basic)); //second section
 			platforms.add(new Platform(49, 14, 2, 1, basic));
-			actors.add(new GroundEnemy((42*function.scaleX(64)), (29*function.scaleY(64))));
 			platforms.add(new Platform(57, 11, 36, 20, basic)); //second outcrop
-			levelW = 7509;
-			levelH = 7509;
-			miniXOffset = 7509 / 2 - 2048 / 2;
-			miniYOffset = 608;
-			break;
-		case 302: //Plains Challenge
-			basic = 5;
-			curLevel = 302;
-			platforms.add(new Platform(-17, 11, 35, 21, basic)); //entrance
-			platforms.add(new Platform(-17, 32, 87, 45, basic)); //floor
-			platforms.add(new Platform(18, 14, 2, 18, basic)); //steps
-			platforms.add(new Platform(20, 17, 2, 15, basic)); //steps
-			platforms.add(new Platform(22, 20, 2, 12, basic)); //steps
-			platforms.add(new Platform(24, 23, 2, 9, basic)); //steps
-			platforms.add(new Platform(26, 26, 2, 6, basic)); //steps
-			platforms.add(new Platform(28, 29, 2, 3, basic)); //steps
+			//platforms.add(new Platform(64, 11, 4, 20, basic)); //second outcrop
 
-			actors.add(new GroundEnemy((30*function.scaleX(64)), (30*function.scaleY(64))));
-
-			platforms.add(new Platform(25, 11, 4, 1, basic)); //jumping
-			platforms.add(new Platform(35, 8, 4, 1, basic)); //jumping
-			platforms.add(new Platform(45, 5, 4, 27, basic)); //jumping
-			platforms.add(new Platform(33, 2, 4, 1, basic)); //jumping
-			platforms.add(new Platform(47, -1, 2, 2, basic)); //jumping
-			platforms.add(new Platform(49, -1, 21, 33, basic)); //jumping
-			platforms.add(new Platform(75, -1, 15, 78, basic)); //far wall
-			platforms.add(new Platform(-17, 77, 87, 30, 3)); //left floor
-			platforms.add(new Platform(75, 77, 15, 30, 3)); //far wall
-			platforms.add(new Platform(90, -41, 20, 148, basic)); //farthest wall
-
-
-			levelW = 7509;
-			levelH = 7509;
-			miniXOffset = 7509 / 2 - 2048 / 2;
-			miniYOffset = 608;
-			break;
-		case 400: //Last Cave
-			basic = 3;
-			curLevel = 400;
-			platforms.add(new Platform(-15, 30, 30, 30, basic)); //floor
-			platforms.add(new Platform(15, 29, 5, 31, 6)); //pedestal
-			platforms.add(new Platform(20, 30, 30, 30, basic)); //floor
-
-			platforms.add(new Platform(-15, 0, 25, 30, basic)); //wall
-			platforms.add(new Platform(25, 0, 25, 30, basic)); //wall
-
-			platforms.add(new Platform(-15, -40, 30, 40, basic)); //ceiling
-			platforms.add(new Platform(10, 0, 3, 3, basic)); //ceiling
-			platforms.add(new Platform(20, -40, 30, 40, basic)); //ceiling
-			platforms.add(new Platform(22, 0, 3, 3, basic)); //ceiling
-
-			pickups.add(new Pickup(12, 25, "wallJump"));
-			pickups.add(new Pickup(23, 25, "doubleJump"));
 			levelW = 7509;
 			levelH = 7509;
 			miniXOffset = 7509 / 2 - 2048 / 2;
@@ -483,6 +446,7 @@ public class Level {
 	}
 	
 	public void minimapRender(Graphics g) {
+		
 		//MINIMAP BACKGROUDN
 		g.setColor(new Color(0,0,0,150));
 		g.fillRect(Game.function.scaleX(1920 - 414), Game.function.scaleY(30), Game.function.scaleX(384), Game.function.scaleY(216));
